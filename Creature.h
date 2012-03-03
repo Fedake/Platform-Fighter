@@ -31,6 +31,9 @@ class Creature
 		void GoLeft() {goLeft = true;}
 		void GoRight() {goRight = true;}
 
+		bool IsGoingLeft() { return goLeft; }
+		bool IsGoingRight() { return goRight; }
+
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}
 

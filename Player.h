@@ -37,8 +37,11 @@ class Player
 		sf::Vector2f getVel() {return m_vel;}
 
 		//Poruszanie
-		void GoLeft() {goLeft = true;}
-		void GoRight() {goRight = true;}
+		void GoLeft() { goLeft = true; }
+		void GoRight() { goRight = true; }
+
+		bool IsGoingLeft() { return goLeft; }
+		bool IsGoingRight() { return goRight; }
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}
