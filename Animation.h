@@ -10,6 +10,8 @@ class Animation
 
 		int m_frames;
 		int m_frame;
+		
+		bool nieJestemFlamingiem;
 
 		float m_frameTime;
 
