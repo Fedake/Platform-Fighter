@@ -14,9 +14,6 @@ class Animation
 		float m_frameTime;
 
 		bool m_animate;
-		bool m_test;
-
-		bool witam;
 	public:
 		Animation(sf::Texture* nTex, int nFrames, float nFTime);
 		void Update();
