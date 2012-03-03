@@ -11,7 +11,7 @@ class Animation
 		int m_frames;
 		int m_frame;
 		
-		bool nieJestemFlamingiem;
+		bool jestemFlamingiem;
 
 		float m_frameTime;
 
