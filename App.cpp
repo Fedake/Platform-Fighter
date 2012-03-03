@@ -15,7 +15,6 @@ bool App::Init()
 
 	for (int i = 0; i < CREATURE_COUNT; ++i)
 	{
-		m_creature[i] = new Creature(sf::Vector2f(260 - i * 10, 32));
 		m_mob1[i] = new Mob1(sf::Vector2f(240 - i * 10, 32));
 	}
 
@@ -68,7 +67,6 @@ void App::Draw()
 
 	for (int i = 0; i < CREATURE_COUNT; ++i)
 	{
-		m_window.Draw(m_creature[i]->GetShape());
 		m_window.Draw(m_mob1[i] -> GetShape());
 	}
 
@@ -134,7 +132,6 @@ void App::Update(sf::Time dt)
 	m_player->Update(dt.AsMilliseconds());
 	for (int i = 0; i < CREATURE_COUNT; ++i)
 	{
-		m_creature[i]->Update(dt.AsMilliseconds());
 		m_mob1[i]->Update(dt.AsMilliseconds());
 	}
 
@@ -151,13 +148,13 @@ void App::Update(sf::Time dt)
 				
 				for (int current = 0; current < CREATURE_COUNT; ++current)
 				{
-					if(CheckCollision(m_creature[current]->GetBox(), m_map->getBox(i, j)))
-					{
-						m_creature[current]->SolidCollision(m_map->getBox(i, j));
-					}
-					if(CheckCollision(m_mob1[current]->GetBox(), m_map->getBox(i, j)))
+					if (CheckCollision(m_mob1[current]->GetBox(), m_map->getBox(i, j)))
 					{
 						m_mob1[current]->SolidCollision(m_map->getBox(i, j));
+					}
+					if (CheckCollision(m_mob1[current]->GetBox(), m_player->GetBox()))
+					{
+						m_player->CreatureCollision(m_mob1[current]);
 					}
 				}
 				

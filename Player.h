@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include "Animation.h"
+#include "Creature.h"
 #include <iostream>
 
 class Player
@@ -48,4 +49,5 @@ class Player
 		void LockJump()				   {canJump = false;}
 
 		void SolidCollision(sf::FloatRect A);
+		void CreatureCollision(Creature* creature);
 };

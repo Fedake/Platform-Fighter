@@ -156,6 +156,10 @@ void Player::SolidCollision(sf::FloatRect A)
 	UpdateShape();
 }
 
+void Player::CreatureCollision(Creature* creature)
+{
+	
+}
 
 void Player::Jump()
 {
