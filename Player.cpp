@@ -8,6 +8,8 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex) : m_vel(0, 0), canJump(false
 	box.Width = 16;
 	box.Height = 16;
 
+	HP = 10;
+
 	m_tex = nTex;
 	m_anim = new Animation(m_tex, 3, 100);
 }

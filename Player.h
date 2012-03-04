@@ -20,6 +20,8 @@ class Player
 		//Predkosc
 		sf::Vector2f m_vel;
 
+		int HP;
+
 		bool canJump;
 		bool goLeft, goRight;
 
@@ -42,6 +44,8 @@ class Player
 
 		bool IsGoingLeft() { return goLeft; }
 		bool IsGoingRight() { return goRight; }
+
+		int GetHP() { return HP; }
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}
