@@ -38,7 +38,11 @@ class Creature
 		bool IsGoingLeft() { return goLeft; }
 		bool IsGoingRight() { return goRight; }
 
+		bool IsDead() { return isDead; }
+
 		int GetType() { return m_type; }
+
+		int GetHP() { return HP; }
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}
@@ -49,6 +53,6 @@ class Creature
 		void SolidCollision(sf::FloatRect A);
 		void HalfSolidCollision(sf::FloatRect A);
 
-		void Hurt() { HP -= 10; }
+		void Hurt();
 		void Die() { isDead = true; }
 };
