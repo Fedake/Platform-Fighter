@@ -29,6 +29,11 @@ bool App::Init()
 	}
 	std::cout << "po" << std::endl;
 
+	for (unsigned i = 0; i < creature.size(); ++i)
+	{
+		std::cout << "Creature " << i << " type is: " << creature[i]->GetType() << std::endl; 
+	}
+
 	m_gun = new Gun();
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 
