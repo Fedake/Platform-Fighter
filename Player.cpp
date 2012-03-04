@@ -180,7 +180,7 @@ void Player::CreatureCollision(Creature* creature)
 			break;
 		}
 		if (HP <= 0)
-			std::cout << "Player padl";
+			std::cout << "Player padl" << std::endl;
 	}
 }
 

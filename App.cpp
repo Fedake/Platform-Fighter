@@ -197,7 +197,7 @@ void App::Update(sf::Time dt)
 	}
 	m_gun->Update(dt.AsMilliseconds());
 
-	m_hud->Update(10);
+	m_hud->Update(m_player->GetHP());
 	
 	m_cam->Set(m_player->GetBox());
 }
