@@ -4,7 +4,7 @@
 
 class Creature
 {
-	protected:
+	private:
 		//Pozycja
 		sf::FloatRect box;
 		sf::RectangleShape shape;
@@ -13,6 +13,7 @@ class Creature
 		sf::Vector2f m_vel;
 
 		int m_type;
+		int HP;
 
 		bool canJump;
 		bool goLeft, goRight;

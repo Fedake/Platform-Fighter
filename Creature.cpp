@@ -30,13 +30,16 @@ Creature::Creature(sf::Vector2f pos, int type) : m_vel(0, 0), canJump(false), go
 	switch(m_type)
 	{
 		case 1:
-			shape.SetFillColor(sf::Color::Red);
+			shape.SetFillColor(sf::Color::Green);
+			HP = 10;
 			break;
 		case 2:
-			shape.SetFillColor(sf::Color::Green);
+			shape.SetFillColor(sf::Color::Blue);
+			HP = 20;
 			break;
 		case 3:
-			shape.SetFillColor(sf::Color::Blue);
+			shape.SetFillColor(sf::Color::Red);
+			HP = 30;
 			break;
 		default:
 			shape.SetFillColor(sf::Color::Black);;

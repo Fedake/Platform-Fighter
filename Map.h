@@ -1,7 +1,6 @@
 #pragma once
 #include "Tile.h"
 #include "ResourceManager.h"
-#include "Mob1.h"
 
 #include <string>
 #include <fstream>
