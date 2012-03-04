@@ -12,12 +12,23 @@ bool App::Init()
 	if(!m_map->LoadNextLevel("data/maps/1.map")) return false;
 
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture());
-
-	for (int i = 0; i < CREATURE_COUNT; ++i)
-	{
-		m_mob1[i] = new Mob1(sf::Vector2f(240 - i * 10, 32));
-	}
-
+	std::cout << "przed" << std::endl;
+	int k = 0;
+		for(int j = 0; j < m_map->getMapWidth(); j++)
+		{
+			for(int i = 0; i < m_map->getMapHeight(); i++)
+			{
+				if (m_map->getEntity(i, j) == 1)
+				{
+					std::cout << "Mob created." << std::endl;
+					std::cout << "x: " << i*16 << std::endl;
+					std::cout << "y: " << j*16 << std::endl;
+					m_mob1[k] = new Mob1(sf::Vector2f(i*16, j*16));
+					++k;
+				}
+			}
+		}
+	std::cout << "po" << std::endl;
 	m_gun = new Gun();
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 
@@ -67,7 +78,7 @@ void App::Draw()
 
 	for (int i = 0; i < CREATURE_COUNT; ++i)
 	{
-		m_window.Draw(m_mob1[i] -> GetShape());
+		m_window.Draw(m_mob1[i]->GetShape());
 	}
 
 	//Render mapy

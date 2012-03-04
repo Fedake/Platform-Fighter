@@ -15,7 +15,7 @@
 #include <SFML/Graphics.hpp>
 
 const int TILE_COUNT = 1024;
-const int CREATURE_COUNT = 1;
+const int CREATURE_COUNT = 3;
 
 class App
 {
@@ -31,10 +31,10 @@ class App
 		std::string m_textInput;
 
 		sf::Vector2f m_mPos;
+		
+		Mob1* m_mob1[CREATURE_COUNT];
 
 		Player* m_player;
-		Creature* m_creature[CREATURE_COUNT];
-		Mob1* m_mob1[2];
 		Gun* m_gun;
 		Map* m_map;
 		Camera* m_cam;

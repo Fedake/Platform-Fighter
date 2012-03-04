@@ -12,6 +12,8 @@ Mob1::Mob1(sf::Vector2f pos)
 	box.Width = 8;
 	box.Height = 8;
 
+	type = 1;
+
 	shape.SetFillColor(sf::Color::Green);	
 }
 

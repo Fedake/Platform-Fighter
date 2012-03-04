@@ -12,6 +12,8 @@ Creature::Creature()
 	box.Top = 0;
 	box.Width = 16;
 	box.Height = 16;
+
+	type = 20;
 	
 	shape.SetFillColor(sf::Color::Red);
 }

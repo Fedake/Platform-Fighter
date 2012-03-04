@@ -12,6 +12,8 @@ class Creature
 		//Predkosc
 		sf::Vector2f m_vel;
 
+		int type;
+
 		bool canJump;
 		bool goLeft, goRight;
 
@@ -33,6 +35,8 @@ class Creature
 
 		bool IsGoingLeft() { return goLeft; }
 		bool IsGoingRight() { return goRight; }
+
+		int GetType() { return type; }
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}

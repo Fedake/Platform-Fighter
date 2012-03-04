@@ -39,6 +39,16 @@ bool Map::LoadNextLevel(std::string name)
 			m_solidMap[i][j] = buffer;
 		}
 	}
+
+	for(int j = 0; j < m_mapHeight; j++)
+	{
+		for(int i = 0; i < m_mapWidth; i++)
+		{
+			int buffer;
+			map >> buffer;
+			m_entities[i][j] = buffer;
+		}
+	}
 	std::cout << "Map initialized successfully" <<  std::endl;
 	return true;
 }
