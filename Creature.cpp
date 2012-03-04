@@ -14,8 +14,8 @@ Creature::Creature()
 	box.Height = 16;
 
 	m_type = 20;
-	
-	shape.SetFillColor(sf::Color::Red);
+
+	shape.SetFillColor(sf::Color::Black);
 }
 
 Creature::Creature(sf::Vector2f pos, int type) : m_vel(0, 0), canJump(false), goLeft(true), goRight(false)
@@ -27,7 +27,20 @@ Creature::Creature(sf::Vector2f pos, int type) : m_vel(0, 0), canJump(false), go
 
 	m_type = type;
 
-	shape.SetFillColor(sf::Color::Red);
+	switch(m_type)
+	{
+		case 1:
+			shape.SetFillColor(sf::Color::Red);
+			break;
+		case 2:
+			shape.SetFillColor(sf::Color::Green);
+			break;
+		case 3:
+			shape.SetFillColor(sf::Color::Blue);
+			break;
+		default:
+			shape.SetFillColor(sf::Color::Black);;
+	}
 }
 
 void Creature::UpdateShape()
