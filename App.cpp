@@ -6,7 +6,7 @@ bool App::Init()
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
 
-	m_resMgr = new ResourceManager("sheet.png", "player.png", "entSheet.png");
+	m_resMgr = new ResourceManager("data/gfx/sheet.png", "data/gfx/player.png", "data/gfx/entSheet.png");
 
 	m_map = new Map(m_resMgr);
 	if(!m_map->LoadNextLevel("data/maps/1.map")) return false;
