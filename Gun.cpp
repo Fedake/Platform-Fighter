@@ -3,10 +3,6 @@
 
 Gun::Gun() : m_currentBull(0), m_bulletShooted(0)
 {
-	for(int i = 0; i < BULLET_ARRAY_SIZE; i++)
-	{
-		m_bulletArr[i] = new Bullet();
-	}
 }
 
 void Gun::Shoot(sf::Vector2f mPos, sf::Vector2f pPos)
@@ -16,21 +12,15 @@ void Gun::Shoot(sf::Vector2f mPos, sf::Vector2f pPos)
 	//Normalizacja
 	sf::Vector2f posN((mPos.x/L)*1000, (mPos.y/L)*1000);
 
-	m_bulletArr[m_currentBull]->Reset(pPos, posN.x, posN.y);
+	m_bulletVec.push_back(new Bullet(pPos, posN.x, posN.y));
 
-	m_currentBull++;
 	m_bulletShooted++;
-
-	if(m_currentBull >= BULLET_ARRAY_SIZE) m_currentBull = 0;
 }
 
 void Gun::Update(int dt)
 {
-	for(int i = 0; i < BULLET_ARRAY_SIZE; i++)
+	for(unsigned i = 0; i < m_bulletVec.size(); i++)
 	{
-		if(m_bulletArr[i]->isAlive())
-		{
-			m_bulletArr[i]->Update(dt);
-		}
+		m_bulletVec[i]->Update(dt);
 	}
 }

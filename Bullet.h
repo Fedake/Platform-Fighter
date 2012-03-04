@@ -13,7 +13,7 @@ class Bullet
 		bool				m_isAlive;
 
 	public:
-		Bullet() : m_pos(0, 0), m_vel(0, 0), m_isAlive(false){}
+		Bullet(sf::Vector2f pos, float velX, float velY) : m_pos(pos), m_vel(velX, velY), m_isAlive(false){}
 
 		void Reset(sf::Vector2f pos, float velX, float velY);
 		void Update(int dt);
