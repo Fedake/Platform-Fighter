@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-    App app(600, 400, false);
+    App app(800, 600, false);
     app.Run();
 
     return 0;
