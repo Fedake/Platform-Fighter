@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include "Animation.h"
 #include <iostream>
 
 class Creature
@@ -7,7 +8,8 @@ class Creature
 	private:
 		//Pozycja
 		sf::FloatRect box;
-		sf::RectangleShape shape;
+		Animation* m_anim;
+		sf::Sprite m_sprite;
 
 		//Predkosc
 		sf::Vector2f m_vel;
@@ -21,12 +23,12 @@ class Creature
 
 	public:
 		Creature();
-		Creature(sf::Vector2f pos, int type);
+		Creature(sf::Vector2f pos, int type, sf::Texture* nTex);
 		
 		//Aktualizacja danych
 		void Update(sf::Int32 dt);
 		void UpdateShape();
-		sf::RectangleShape GetShape() {return shape;}
+		sf::Sprite GetSprite() {return m_sprite;}
 
 		sf::FloatRect GetBox(){return box;}
 		sf::Vector2f getVel() {return m_vel;}

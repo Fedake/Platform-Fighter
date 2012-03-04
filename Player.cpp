@@ -8,8 +8,8 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex) : m_vel(0, 0), canJump(false
 	box.Width = 16;
 	box.Height = 16;
 
-	m_tex = nTex;
-	m_anim = new Animation(m_tex, 3, 100);
+	//m_tex = nTex;
+	m_anim = new Animation(nTex, 3, 100);
 }
 
 void Player::UpdateShape()
@@ -23,26 +23,21 @@ void Player::Update(int dt)
 	if(goLeft && goRight)
 	{
 		m_vel.x = 0;
-		m_frame = 0;
-
 		m_anim->Stop();
 	}
 	else if(goLeft)
 	{
 		m_vel.x = -150;
-
 		m_anim->Play();
 	}
 	else if(goRight)
 	{
 		m_vel.x = 150;
-
 		m_anim->Play();
 	}
 	else
 	{
 		m_vel.x = 0;
-		m_frame = 0;
 		m_anim->Stop();
 	}
 
