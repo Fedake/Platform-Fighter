@@ -69,6 +69,8 @@ void Creature::Update(int dt)
 	if(m_vel.y > 500) m_vel.y = 500;
 	//Warunek spadania by Dani hehe
 	if(m_vel.y > 10) LockJump();
+	//SMIERC
+	if (HP <= 0) Die();
 
 	UpdateShape();
 

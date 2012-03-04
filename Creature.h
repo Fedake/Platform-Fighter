@@ -17,6 +17,7 @@ class Creature
 
 		bool canJump;
 		bool goLeft, goRight;
+		bool isDead;
 
 	public:
 		Creature();
@@ -47,4 +48,7 @@ class Creature
 
 		void SolidCollision(sf::FloatRect A);
 		void HalfSolidCollision(sf::FloatRect A);
+
+		void Hurt() { HP -= 10; }
+		void Die() { isDead = true; }
 };
