@@ -75,10 +75,11 @@ void App::Draw()
 	
 	m_window.Clear(sf::Color(255, 255, 255));
 
-	//for(int i = 0; i < BULLET_ARRAY_SIZE; i++)
-	//{
-		//if(m_gun->getBulletAlive(i)) m_window.Draw(m_gun->getBulletShape(i));
-	//}
+	for(int i = 0; i < m_gun->GetBullets(); i++)
+	{
+		m_window.Draw(m_gun->getBulletShape(i));
+	}
+
 	m_window.Draw(m_player->GetShape());
 
 	for (unsigned i = 0; i < creature.size(); ++i)
@@ -175,17 +176,17 @@ void App::Update(sf::Time dt)
 					}
 				}
 				
-				/*for(int b = 0; b < BULLET_ARRAY_SIZE; b++)
+				for(int b = 0; b < m_gun->GetBullets(); b++)
 				{
 					if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 					{
 						m_gun->KillBullet(b);
 					}
-				}*/
+				}
 			}
 		}
 	}
-	//m_gun->Update(dt.AsMilliseconds());
+	m_gun->Update(dt.AsMilliseconds());
 
 	m_cam->Set(m_player->GetBox());
 }
