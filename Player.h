@@ -20,6 +20,8 @@ class Player
 		//Predkosc
 		sf::Vector2f m_vel;
 
+		sf::Clock hitTime;
+
 		int HP;
 
 		bool canJump;
@@ -46,6 +48,8 @@ class Player
 		bool IsGoingRight() { return goRight; }
 
 		int GetHP() { return HP; }
+
+		void Hurt(int value) { HP -= value; }
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}

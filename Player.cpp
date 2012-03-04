@@ -10,6 +10,8 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex) : m_vel(0, 0), canJump(false
 
 	HP = 10;
 
+	hitTime.Restart();
+
 	m_tex = nTex;
 	m_anim = new Animation(m_tex, 3, 100);
 }
@@ -155,7 +157,31 @@ void Player::SolidCollision(sf::FloatRect A)
 
 void Player::CreatureCollision(Creature* creature)
 {
-
+	if (hitTime.GetElapsedTime().AsSeconds() > 3)
+	{
+		switch(creature->GetType())
+		{
+		case 1:
+			Hurt(1);
+			std::cout << "Player stracil 1 serduszko" << std::endl;
+			hitTime.Restart();
+			break;
+		case 2:
+			Hurt(2);
+			std::cout << "Player stracil 2 serduszka" << std::endl;
+			hitTime.Restart();
+			break;
+		case 3:
+			Hurt(3);
+			std::cout << "Player stracil 3 serduszka" << std::endl;
+			hitTime.Restart();
+			break;
+		default: 
+			break;
+		}
+		if (HP <= 0)
+			std::cout << "Player padl";
+	}
 }
 
 void Player::Jump()
