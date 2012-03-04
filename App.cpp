@@ -181,20 +181,24 @@ void App::Update(sf::Time dt)
 				{
 					if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 					{
-						std::cout << "Kill bullet" << std::endl;
 						m_gun->KillBullet(b);
-						std::cout << "After kill" << std::endl;
 					}
-					/*
+				}
+				for (int b = 0; b < m_gun->GetBullets(); b++)
+				{
 					for (unsigned current = 0; current < creature.size(); ++current)
 					{
 						if (CheckCollision(m_gun->getBulletBox(b), creature[current]->GetBox()))
 						{
+							std::cout << "Kill bullet" << std::endl;
 							m_gun->KillBullet(b);
+							std::cout << "Bullet killed" << std::endl;
+							std::cout << "Hurt creature" << std::endl;
 							creature[current]->Hurt();
+							std::cout << "Creature hurt" << std::endl;
+							break;
 						}
 					}
-					*/
 				}
 			}
 		}
