@@ -23,7 +23,7 @@ bool App::Init()
 					std::cout << "Mob created." << std::endl;
 					std::cout << "x: " << i*16 << std::endl;
 					std::cout << "y: " << j*16 << std::endl;
-					m_mob1[k] = new Mob1(sf::Vector2f(i*16, j*16));
+					m_mob1[k] = new Mob1(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)));
 					++k;
 				}
 			}
@@ -33,7 +33,7 @@ bool App::Init()
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 
 	m_pauseShape.SetFillColor(sf::Color(0, 0, 0, 192));
-	m_pauseShape.SetSize(sf::Vector2f(m_screenWidth, m_screenHeight));
+	m_pauseShape.SetSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
 	return true;
 }
 
@@ -111,14 +111,15 @@ void App::ProcessEvents()
 
 		else if(Event.Type == sf::Event::MouseMoved)
 		{
-			m_mPos = sf::Vector2f(Event.MouseMove.X, Event.MouseMove.Y);
+			m_mPos = sf::Vector2f(static_cast<float>(Event.MouseMove.X), static_cast<float>(Event.MouseMove.Y));
 		}
 
 		else if(Event.Type == sf::Event::MouseButtonPressed)
 		{
 			if(Event.Key.Code == sf::Mouse::Left)
 			{
-				m_gun->Shoot(m_window.ConvertCoords(m_mPos.x, m_mPos.y, m_cam->GetView()), sf::Vector2f(m_player->GetBox().Left + 8, m_player->GetBox().Top + 8));
+				m_gun->Shoot(m_window.ConvertCoords(static_cast<unsigned int>(m_mPos.x), static_cast<unsigned int>(m_mPos.y), 
+							 m_cam->GetView()), sf::Vector2f(m_player->GetBox().Left + 8, m_player->GetBox().Top + 8));
 			}
 		}
 		else if(Event.Type == sf::Event::KeyPressed)
@@ -152,16 +153,16 @@ void App::Update(sf::Time dt)
 		{
 			if(m_map->isSolid(i, j))
 			{
-				if(CheckCollision(m_player->GetBox(), m_map->getBox(i, j)))
+				if(CheckCollision(m_player->GetBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 				{
-					m_player->SolidCollision(m_map->getBox(i, j));
+					m_player->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
 				}
 				
 				for (int current = 0; current < CREATURE_COUNT; ++current)
 				{
-					if (CheckCollision(m_mob1[current]->GetBox(), m_map->getBox(i, j)))
+					if (CheckCollision(m_mob1[current]->GetBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 					{
-						m_mob1[current]->SolidCollision(m_map->getBox(i, j));
+						m_mob1[current]->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
 					}
 					if (CheckCollision(m_mob1[current]->GetBox(), m_player->GetBox()))
 					{
@@ -171,7 +172,7 @@ void App::Update(sf::Time dt)
 				
 				for(int b = 0; b < BULLET_ARRAY_SIZE; b++)
 				{
-					if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(i, j)))
+					if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 					{
 						m_gun->KillBullet(b);
 					}
