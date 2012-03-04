@@ -12,23 +12,23 @@ bool App::Init()
 	if(!m_map->LoadNextLevel("data/maps/1.map")) return false;
 
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture());
+
 	std::cout << "przed" << std::endl;
-	int k = 0;
-		for(int j = 0; j < m_map->getMapWidth(); j++)
+	for(int j = 0; j < m_map->getMapWidth(); j++)
+	{
+		for(int i = 0; i < m_map->getMapHeight(); i++)
 		{
-			for(int i = 0; i < m_map->getMapHeight(); i++)
+			if (m_map->getEntity(i, j) != 0)
 			{
-				if (m_map->getEntity(i, j) == 1)
-				{
-					std::cout << "Mob created." << std::endl;
-					std::cout << "x: " << i*16 << std::endl;
-					std::cout << "y: " << j*16 << std::endl;
-					m_mob1[k] = new Mob1(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)));
-					++k;
-				}
+				std::cout << "Mob created." << std::endl;
+				std::cout << "x: " << i*16 << std::endl;
+				std::cout << "y: " << j*16 << std::endl;
+				creature.push_back(new Creature(sf::Vector2f(i*16, j*16), m_map->getEntity(i, j)));
 			}
 		}
+	}
 	std::cout << "po" << std::endl;
+
 	m_gun = new Gun();
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 
@@ -76,9 +76,9 @@ void App::Draw()
 	}
 	m_window.Draw(m_player->GetShape());
 
-	for (int i = 0; i < CREATURE_COUNT; ++i)
+	for (unsigned i = 0; i < creature.size(); ++i)
 	{
-		m_window.Draw(m_mob1[i]->GetShape());
+		m_window.Draw(creature[i]->GetShape());
 	}
 
 	//Render mapy
@@ -142,9 +142,9 @@ void App::ProcessEvents()
 void App::Update(sf::Time dt)
 {
 	m_player->Update(dt.AsMilliseconds());
-	for (int i = 0; i < CREATURE_COUNT; ++i)
+	for (unsigned i = 0; i < creature.size(); ++i)
 	{
-		m_mob1[i]->Update(dt.AsMilliseconds());
+		creature[i]->Update(dt.AsMilliseconds());
 	}
 
 	for(int j = 0; j < m_map->getMapHeight(); j++)
@@ -158,15 +158,15 @@ void App::Update(sf::Time dt)
 					m_player->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
 				}
 				
-				for (int current = 0; current < CREATURE_COUNT; ++current)
+				for (unsigned current = 0; current < creature.size(); ++current)
 				{
-					if (CheckCollision(m_mob1[current]->GetBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
+					if (CheckCollision(creature[current]->GetBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 					{
-						m_mob1[current]->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
+						creature[current]->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
 					}
-					if (CheckCollision(m_mob1[current]->GetBox(), m_player->GetBox()))
+					if (CheckCollision(creature[current]->GetBox(), m_player->GetBox()))
 					{
-						m_player->CreatureCollision(m_mob1[current]);
+						m_player->CreatureCollision(creature[current]);
 					}
 				}
 				

@@ -12,14 +12,14 @@ class Creature
 		//Predkosc
 		sf::Vector2f m_vel;
 
-		int type;
+		int m_type;
 
 		bool canJump;
 		bool goLeft, goRight;
 
 	public:
 		Creature();
-		Creature(sf::Vector2f pos);
+		Creature(sf::Vector2f pos, int type);
 		
 		//Aktualizacja danych
 		void Update(sf::Int32 dt);
@@ -36,7 +36,7 @@ class Creature
 		bool IsGoingLeft() { return goLeft; }
 		bool IsGoingRight() { return goRight; }
 
-		int GetType() { return type; }
+		int GetType() { return m_type; }
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}

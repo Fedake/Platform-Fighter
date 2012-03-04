@@ -6,7 +6,7 @@
 #include "Log.h"
 #include "ResourceManager.h"
 
-#include "Mob1.h"
+#include "Creature.h"
 
 #include <sstream>
 #include <fstream>
@@ -15,7 +15,7 @@
 #include <SFML/Graphics.hpp>
 
 const int TILE_COUNT = 1024;
-const int CREATURE_COUNT = 3;
+const int CREATURE_COUNT = 10;
 
 class App
 {
@@ -31,8 +31,8 @@ class App
 		std::string m_textInput;
 
 		sf::Vector2f m_mPos;
-		
-		Mob1* m_mob1[CREATURE_COUNT];
+
+		std::vector<Creature*> creature;
 
 		Player* m_player;
 		Gun* m_gun;
@@ -49,7 +49,7 @@ class App
 				m_paused(false) { };
  
 		void Run();
- 
+
 	private:
 		bool Init();
 		void Draw();                // rysowanie 

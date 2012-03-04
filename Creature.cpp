@@ -13,17 +13,19 @@ Creature::Creature()
 	box.Width = 16;
 	box.Height = 16;
 
-	type = 20;
+	m_type = 20;
 	
 	shape.SetFillColor(sf::Color::Red);
 }
 
-Creature::Creature(sf::Vector2f pos) : m_vel(0, 0), canJump(false), goLeft(true), goRight(false)
+Creature::Creature(sf::Vector2f pos, int type) : m_vel(0, 0), canJump(false), goLeft(true), goRight(false)
 {
 	box.Left = pos.x;
 	box.Top = pos.y;
 	box.Width = 16;
 	box.Height = 16;
+
+	m_type = type;
 
 	shape.SetFillColor(sf::Color::Red);
 }

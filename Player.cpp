@@ -30,13 +30,13 @@ void Player::Update(int dt)
 	else if(goLeft)
 	{
 		m_vel.x = -150;
-		
+
 		m_anim->Play();
 	}
 	else if(goRight)
 	{
 		m_vel.x = 150;
-		
+
 		m_anim->Play();
 	}
 	else
@@ -158,7 +158,7 @@ void Player::SolidCollision(sf::FloatRect A)
 
 void Player::CreatureCollision(Creature* creature)
 {
-	
+
 }
 
 void Player::Jump()
