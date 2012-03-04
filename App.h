@@ -5,6 +5,7 @@
 #include "Gun.h"
 #include "Log.h"
 #include "ResourceManager.h"
+#include "HUD.h"
 
 #include "Creature.h"
 
@@ -40,6 +41,8 @@ class App
 		Camera* m_cam;
 		Log* m_log;
 		ResourceManager* m_resMgr;
+		HUD* m_hud;
+
 
 		sf::RectangleShape m_pauseShape;
 	public:

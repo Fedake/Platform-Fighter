@@ -1,6 +1,6 @@
 #include "ResourceManager.h"
 
-ResourceManager::ResourceManager(std::string tileSheet, std::string playerSheet, std::string entitySheet)
+ResourceManager::ResourceManager(std::string tileSheet, std::string playerSheet, std::string entitySheet, std::string hudSheet)
 {
 	sf::Image sheet;
 	sheet.LoadFromFile(tileSheet);
@@ -31,4 +31,8 @@ ResourceManager::ResourceManager(std::string tileSheet, std::string playerSheet,
 		m_entTex[i] = new sf::Texture();
 		m_entTex[i]->LoadFromImage(sheet, sf::IntRect(0, (i-1)*16, sheet.GetWidth(), 16));
 	}
+
+	sheet.LoadFromFile(hudSheet);
+	m_hudTex = new sf::Texture();
+	m_hudTex->LoadFromImage(sheet);
 }

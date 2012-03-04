@@ -1,12 +1,14 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.4.0");
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.4.1");
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
 
-	m_resMgr = new ResourceManager("data/gfx/sheet.png", "data/gfx/player.png", "data/gfx/entSheet.png");
+	m_resMgr = new ResourceManager("data/gfx/sheet.png", "data/gfx/player.png", "data/gfx/entSheet.png", "data/gfx/hudSheet.png");
+
+	m_hud = new HUD(m_resMgr->getHudTexture());
 
 	m_map = new Map(m_resMgr);
 	if(!m_map->LoadNextLevel("data/maps/1.map")) return false;
@@ -83,7 +85,7 @@ void App::Draw()
 
 	//RYSOWANIE STALYCH ELEMENTOW EKRANU
 	m_window.SetView(m_window.GetDefaultView());
-
+	m_hud->Draw(&m_window);
 
 	if(m_paused) m_window.Draw(m_pauseShape);
 	m_window.Display();
@@ -195,6 +197,8 @@ void App::Update(sf::Time dt)
 	}
 	m_gun->Update(dt.AsMilliseconds());
 
+	m_hud->Update(10);
+	
 	m_cam->Set(m_player->GetBox());
 }
 
