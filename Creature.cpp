@@ -15,10 +15,10 @@ Creature::Creature()
 
 	m_type = 20;
 
-	shape.SetFillColor(sf::Color::Black);
+	//shape.SetFillColor(sf::Color::Black);
 }
 
-Creature::Creature(sf::Vector2f pos, int type) : m_vel(0, 0), canJump(false), goLeft(true), goRight(false), isDead(false)
+Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex) : m_vel(0, 0), canJump(false), goLeft(true), goRight(false), isDead(false)
 {
 	box.Left = pos.x;
 	box.Top = pos.y;
@@ -27,37 +27,52 @@ Creature::Creature(sf::Vector2f pos, int type) : m_vel(0, 0), canJump(false), go
 
 	m_type = type;
 
+	m_anim = new Animation(nTex, 3, 100);
+
+
 	switch(m_type)
 	{
 		case 1:
-			shape.SetFillColor(sf::Color::Green);
 			HP = 10;
 			break;
 		case 2:
-			shape.SetFillColor(sf::Color::Blue);
 			HP = 20;
 			break;
 		case 3:
-			shape.SetFillColor(sf::Color::Red);
 			HP = 30;
 			break;
-		default:
-			shape.SetFillColor(sf::Color::Black);;
 	}
 }
 
 void Creature::UpdateShape()
 {
-	shape.SetPosition(box.Left, box.Top);
-	shape.SetSize(sf::Vector2f(box.Width, box.Height));
+	m_sprite = m_anim->GetSprite();
+	m_sprite.SetPosition(box.Left, box.Top);
 }
 
 void Creature::Update(int dt)
 {
-	if(goLeft && goRight)  m_vel.x = 0;
-	else if(goLeft) m_vel.x = -150;
-	else if(goRight) m_vel.x = 150;
-	else m_vel.x = 0;
+	if(goLeft && goRight)
+	{
+		m_vel.x = 0;
+		m_anim->Stop();
+	}
+	else if(goLeft)
+	{
+		m_vel.x = -150;
+
+		m_anim->Play();
+	}
+	else if(goRight)
+	{
+		m_vel.x = 150;
+		m_anim->Play();
+	}
+	else
+	{
+		m_vel.x = 0;
+		m_anim->Stop();
+	}
 
 	//Update pozycji
 	box.Left += m_vel.x*(dt/1000.f);
@@ -71,6 +86,7 @@ void Creature::Update(int dt)
 	if(m_vel.y > 10) LockJump();
 
 
+	m_anim->Update();
 
 	UpdateShape();
 

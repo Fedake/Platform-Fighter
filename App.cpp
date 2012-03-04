@@ -1,12 +1,12 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.3.0");
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.4.0");
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
 
-	m_resMgr = new ResourceManager("sheet.png", "player.png");
+	m_resMgr = new ResourceManager("data/gfx/sheet.png", "data/gfx/player.png", "data/gfx/entSheet.png");
 
 	m_map = new Map(m_resMgr);
 	if(!m_map->LoadNextLevel("data/maps/1.map")) return false;
@@ -17,9 +17,10 @@ bool App::Init()
 	{
 		for(int i = 0; i < m_map->getMapHeight(); i++)
 		{
-			if (m_map->getEntity(i, j) != 0)
+			int type = m_map->getEntity(i, j);
+			if (type != 0)
 			{
-				creature.push_back(new Creature(sf::Vector2f(i*16, j*16), m_map->getEntity(i, j)));
+				creature.push_back(new Creature(sf::Vector2f(i*16, j*16), type, m_resMgr->GetEntityTexture(type)));
 			}
 		}
 	}
@@ -74,7 +75,7 @@ void App::Draw()
 
 	for (unsigned i = 0; i < creature.size(); ++i)
 	{
-		m_window.Draw(creature[i]->GetShape());
+		m_window.Draw(creature[i]->GetSprite());
 	}
 
 	//Render mapy
