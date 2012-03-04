@@ -13,25 +13,15 @@ bool App::Init()
 
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture());
 
-	std::cout << "przed" << std::endl;
 	for(int j = 0; j < m_map->getMapWidth(); j++)
 	{
 		for(int i = 0; i < m_map->getMapHeight(); i++)
 		{
 			if (m_map->getEntity(i, j) != 0)
 			{
-				std::cout << "Mob created." << std::endl;
-				std::cout << "x: " << i*16 << std::endl;
-				std::cout << "y: " << j*16 << std::endl;
 				creature.push_back(new Creature(sf::Vector2f(i*16, j*16), m_map->getEntity(i, j)));
 			}
 		}
-	}
-	std::cout << "po" << std::endl;
-
-	for (unsigned i = 0; i < creature.size(); ++i)
-	{
-		std::cout << "Creature " << i << " type is: " << creature[i]->GetType() << std::endl; 
 	}
 
 	m_gun = new Gun();
@@ -124,7 +114,6 @@ void App::ProcessEvents()
 		{
 			if(Event.Key.Code == sf::Mouse::Left)
 			{
-				std::cout << "Shoot" << std::endl;
 				m_gun->Shoot(m_window.ConvertCoords(static_cast<unsigned int>(m_mPos.x), static_cast<unsigned int>(m_mPos.y), 
 							 m_cam->GetView()), sf::Vector2f(m_player->GetBox().Left + 8, m_player->GetBox().Top + 8));
 			}
@@ -190,12 +179,12 @@ void App::Update(sf::Time dt)
 					{
 						if (CheckCollision(m_gun->getBulletBox(b), creature[current]->GetBox()))
 						{
-							std::cout << "Kill bullet" << std::endl;
 							m_gun->KillBullet(b);
-							std::cout << "Bullet killed" << std::endl;
-							std::cout << "Hurt creature" << std::endl;
+							std::cout << "\nHP before: " << creature[current]->GetHP() << std::endl;
 							creature[current]->Hurt();
-							std::cout << "Creature hurt" << std::endl;
+							std::cout << "HP after: " << creature[current]->GetHP() << std::endl;
+							if (creature[current]->IsDead())
+								creature.erase(creature.begin() + current);
 							break;
 						}
 					}

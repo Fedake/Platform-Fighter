@@ -18,7 +18,7 @@ Creature::Creature()
 	shape.SetFillColor(sf::Color::Black);
 }
 
-Creature::Creature(sf::Vector2f pos, int type) : m_vel(0, 0), canJump(false), goLeft(true), goRight(false)
+Creature::Creature(sf::Vector2f pos, int type) : m_vel(0, 0), canJump(false), goLeft(true), goRight(false), isDead(false)
 {
 	box.Left = pos.x;
 	box.Top = pos.y;
@@ -69,8 +69,6 @@ void Creature::Update(int dt)
 	if(m_vel.y > 500) m_vel.y = 500;
 	//Warunek spadania by Dani hehe
 	if(m_vel.y > 10) LockJump();
-	//SMIERC
-	if (HP <= 0) Die();
 
 	UpdateShape();
 
@@ -212,4 +210,12 @@ void Creature::Jump()
 		m_vel.y = -150;
 		LockJump();
 	}
+}
+
+void Creature::Hurt()
+{
+	HP -= 10;
+	//SMIERC
+	if (HP <= 0) 
+		Die();
 }
