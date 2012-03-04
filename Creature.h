@@ -4,7 +4,7 @@
 
 class Creature
 {
-	protected:
+	private:
 		//Pozycja
 		sf::FloatRect box;
 		sf::RectangleShape shape;
@@ -13,9 +13,11 @@ class Creature
 		sf::Vector2f m_vel;
 
 		int m_type;
+		int HP;
 
 		bool canJump;
 		bool goLeft, goRight;
+		bool isDead;
 
 	public:
 		Creature();
@@ -46,4 +48,7 @@ class Creature
 
 		void SolidCollision(sf::FloatRect A);
 		void HalfSolidCollision(sf::FloatRect A);
+
+		void Hurt() { HP -= 10; }
+		void Die() { isDead = true; }
 };

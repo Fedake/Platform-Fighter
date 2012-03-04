@@ -123,6 +123,7 @@ void App::ProcessEvents()
 		{
 			if(Event.Key.Code == sf::Mouse::Left)
 			{
+				std::cout << "Shoot" << std::endl;
 				m_gun->Shoot(m_window.ConvertCoords(static_cast<unsigned int>(m_mPos.x), static_cast<unsigned int>(m_mPos.y), 
 							 m_cam->GetView()), sf::Vector2f(m_player->GetBox().Left + 8, m_player->GetBox().Top + 8));
 			}
@@ -180,6 +181,15 @@ void App::Update(sf::Time dt)
 					if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 					{
 						m_gun->KillBullet(b);
+					}
+
+					for (unsigned current = 0; current < creature.size(); ++current)
+					{
+						if (CheckCollision(m_gun->getBulletBox(b), creature[current]->GetBox())
+						{
+							m_gun->KillBullet(b);
+							creature[current]->Hurt();
+						}
 					}
 				}*/
 			}
