@@ -130,7 +130,7 @@ void Player::SolidCollision(sf::FloatRect A)
 				float xD = A.Left + A.Width - box.Left;
 				float yD = box.Top + box.Height - A.Top;
 
-				if(xD > yD+3)
+				if(xD+3 > yD)
 				{
 					//Resetowanie pozycji do stycznej od gory
 					box.Top = A.Top - box.Height;
@@ -144,7 +144,7 @@ void Player::SolidCollision(sf::FloatRect A)
 				float xD = A.Left + A.Width - box.Left;
 				float yD = A.Top + A.Height - box.Top;
 
-				if(xD > yD+5)
+				if(xD+3 > yD)
 				{
 					box.Top = A.Top + A.Height;
 					m_vel.y = 0;
