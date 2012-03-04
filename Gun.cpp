@@ -14,6 +14,8 @@ void Gun::Shoot(sf::Vector2f mPos, sf::Vector2f pPos)
 
 	m_bulletVec.push_back(new Bullet(pPos, posN.x, posN.y));
 
+	std::cout << "Bullets alive: " << m_bulletVec.size() << std::endl;
+
 	m_bulletShooted++;
 }
 
