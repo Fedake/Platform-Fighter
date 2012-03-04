@@ -70,6 +70,8 @@ void Creature::Update(int dt)
 	//Warunek spadania by Dani hehe
 	if(m_vel.y > 10) LockJump();
 
+
+
 	UpdateShape();
 
 	// std::cout << m_vel.y << std::endl;
