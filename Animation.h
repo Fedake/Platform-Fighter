@@ -14,13 +14,14 @@ class Animation
 
 		float m_frameTime;
 
-		bool m_animate;
+		int m_state;
 	public:
 		Animation(sf::Texture* nTex, int nFrames, float nFTime);
 		void Update();
 
 		sf::Sprite GetSprite(){return m_sprite;}
 
-		void Stop(){m_animate = false;}
-		void Play(){m_animate = true;}
+		void Stop(){m_state = 0;}
+		void PlayLeft(){m_state = 1;}
+		void PlayRight(){m_state = 2;}
 };

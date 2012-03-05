@@ -12,11 +12,10 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex) : m_vel(0, 0), canJump(false
 
 	hitTime.Restart();
 
-	m_tex = nTex;
-	m_anim = new Animation(m_tex, 3, 100);
+	m_anim = new Animation(nTex, 2, 100);
 }
 
-void Player::UpdateShape()
+void Player::UpdateSprite()
 {	
 	m_sprite = m_anim->GetSprite();
 	m_sprite.SetPosition(box.Left, box.Top);
@@ -32,12 +31,12 @@ void Player::Update(int dt)
 	else if(goLeft)
 	{
 		m_vel.x = -150;
-		m_anim->Play();
+		m_anim->PlayLeft();
 	}
 	else if(goRight)
 	{
 		m_vel.x = 150;
-		m_anim->Play();
+		m_anim->PlayRight();
 	}
 	else
 	{
@@ -58,7 +57,7 @@ void Player::Update(int dt)
 	if(m_vel.y > 10) LockJump();
 
 	m_anim->Update();
-	UpdateShape();
+	UpdateSprite();
 }
 
 void Player::SolidCollision(sf::FloatRect A)
@@ -152,7 +151,7 @@ void Player::SolidCollision(sf::FloatRect A)
 			}
 		}
 	}
-	UpdateShape();
+	UpdateSprite();
 }
 
 void Player::CreatureCollision(Creature* creature)

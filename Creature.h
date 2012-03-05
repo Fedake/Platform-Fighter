@@ -27,7 +27,7 @@ class Creature
 		
 		//Aktualizacja danych
 		void Update(sf::Int32 dt);
-		void UpdateShape();
+		void UpdateSprite();
 		sf::Sprite GetSprite() {return m_sprite;}
 
 		sf::FloatRect GetBox(){return box;}

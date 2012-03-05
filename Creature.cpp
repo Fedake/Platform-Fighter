@@ -14,8 +14,6 @@ Creature::Creature()
 	box.Height = 16;
 
 	m_type = 20;
-
-	//shape.SetFillColor(sf::Color::Black);
 }
 
 Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex) : m_vel(0, 0), canJump(false), goLeft(true), goRight(false), isDead(false)
@@ -27,7 +25,7 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex) : m_vel(0, 0),
 
 	m_type = type;
 
-	m_anim = new Animation(nTex, 3, 100);
+	m_anim = new Animation(nTex, 2, 100);
 
 
 	switch(m_type)
@@ -44,7 +42,7 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex) : m_vel(0, 0),
 	}
 }
 
-void Creature::UpdateShape()
+void Creature::UpdateSprite()
 {
 	m_sprite = m_anim->GetSprite();
 	m_sprite.SetPosition(box.Left, box.Top);
@@ -61,12 +59,12 @@ void Creature::Update(int dt)
 	{
 		m_vel.x = -150;
 
-		m_anim->Play();
+		m_anim->PlayLeft();
 	}
 	else if(goRight)
 	{
 		m_vel.x = 150;
-		m_anim->Play();
+		m_anim->PlayRight();
 	}
 	else
 	{
@@ -85,13 +83,9 @@ void Creature::Update(int dt)
 	//Warunek spadania by Dani hehe
 	if(m_vel.y > 10) LockJump();
 
-
 	m_anim->Update();
 
-	UpdateShape();
-
-	// std::cout << m_vel.y << std::endl;
-	// std::cout << m_vel.y << " ----- " << m_vel.x <<  std::endl;
+	UpdateSprite();
 }
 
 void Creature::SolidCollision(sf::FloatRect A)
@@ -217,7 +211,7 @@ void Creature::SolidCollision(sf::FloatRect A)
 			}
 		}
 	}
-	UpdateShape();
+	UpdateSprite();
 }
 
 

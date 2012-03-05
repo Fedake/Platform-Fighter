@@ -9,9 +9,7 @@ class Player
 	private:
 		//Pozycja
 		sf::FloatRect box;
-		sf::RectangleShape shape;
 
-		sf::Texture* m_tex;
 		sf::Sprite m_sprite;
 		Animation* m_anim;
 
@@ -34,8 +32,8 @@ class Player
 		
 		//Aktualizacja danych
 		void Update(sf::Int32 dt);
-		void UpdateShape();
-		sf::Sprite GetShape() {return m_sprite;}
+		void UpdateSprite();
+		sf::Sprite GetSprite() {return m_sprite;}
 
 		sf::FloatRect GetBox(){return box;}
 		sf::Vector2f getVel() {return m_vel;}
@@ -49,7 +47,7 @@ class Player
 
 		int GetHP() { return HP; }
 
-		void Hurt(int value) { HP -= value; }
+		void Hurt(int value) { HP -= value;}
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}

@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.4.3");
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.4.5");
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
@@ -22,7 +22,7 @@ bool App::Init()
 			int type = m_map->getEntity(i, j);
 			if (type != 0)
 			{
-				creature.push_back(new Creature(sf::Vector2f(i*16, j*16), type, m_resMgr->GetEntityTexture(type)));
+				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(type)));
 			}
 		}
 	}
@@ -73,7 +73,7 @@ void App::Draw()
 		m_window.Draw(m_gun->getBulletShape(i));
 	}
 
-	m_window.Draw(m_player->GetShape());
+	m_window.Draw(m_player->GetSprite());
 
 	for (unsigned i = 0; i < creature.size(); ++i)
 	{
