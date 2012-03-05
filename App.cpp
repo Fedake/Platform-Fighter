@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.4.1");
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.4.3");
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
@@ -145,18 +145,19 @@ void App::Update(sf::Time dt)
 	{
 		creature[i]->Update(dt.AsMilliseconds());
 	}
-
+	// WSZYSTKIE KOLIZJI DOTYCZ¥CE MAPY
 	for(int j = 0; j < m_map->getMapHeight(); j++)
 	{
 		for(int i = 0; i < m_map->getMapWidth(); i++)
 		{
 			if(m_map->isSolid(i, j))
 			{
+				// MAP PLAYER
 				if(CheckCollision(m_player->GetBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 				{
 					m_player->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
 				}
-				
+				// MAP MOB
 				for (unsigned current = 0; current < creature.size(); ++current)
 				{
 					if (CheckCollision(creature[current]->GetBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
@@ -164,7 +165,7 @@ void App::Update(sf::Time dt)
 						creature[current]->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
 					}
 				}
-				
+				// MAP BULLET
 				for(int b = 0; b < m_gun->GetBullets(); b++)
 				{
 					if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
@@ -175,7 +176,7 @@ void App::Update(sf::Time dt)
 			}
 		}
 	}
-
+	// MOB GRACZ
 	for (unsigned current = 0; current < creature.size(); ++current)
 	{
 		if (CheckCollision(creature[current]->GetBox(), m_player->GetBox()))
@@ -183,7 +184,7 @@ void App::Update(sf::Time dt)
 			m_player->CreatureCollision(creature[current]);
 		}
 	}
-
+	// MOB BULLET
 	for (int b = 0; b < m_gun->GetBullets(); b++)
 	{
 		for (unsigned current = 0; current < creature.size(); ++current)
