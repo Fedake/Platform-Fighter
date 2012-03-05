@@ -172,20 +172,6 @@ void App::Update(sf::Time dt)
 						m_gun->KillBullet(b);
 					}
 				}
-				for (int b = 0; b < m_gun->GetBullets(); b++)
-				{
-					for (unsigned current = 0; current < creature.size(); ++current)
-					{
-						if (CheckCollision(m_gun->getBulletBox(b), creature[current]->GetBox()))
-						{
-							m_gun->KillBullet(b);
-							creature[current]->Hurt();
-							if (creature[current]->IsDead())
-								creature.erase(creature.begin() + current);
-							break;
-						}
-					}
-				}
 			}
 		}
 	}
@@ -195,6 +181,21 @@ void App::Update(sf::Time dt)
 		if (CheckCollision(creature[current]->GetBox(), m_player->GetBox()))
 		{
 			m_player->CreatureCollision(creature[current]);
+		}
+	}
+
+	for (int b = 0; b < m_gun->GetBullets(); b++)
+	{
+		for (unsigned current = 0; current < creature.size(); ++current)
+		{
+			if (CheckCollision(m_gun->getBulletBox(b), creature[current]->GetBox()))
+			{
+				m_gun->KillBullet(b);
+				creature[current]->Hurt();
+				if (creature[current]->IsDead())
+					creature.erase(creature.begin() + current);
+				break;
+			}
 		}
 	}
 
