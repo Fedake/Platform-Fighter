@@ -163,10 +163,6 @@ void App::Update(sf::Time dt)
 					{
 						creature[current]->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
 					}
-					if (CheckCollision(creature[current]->GetBox(), m_player->GetBox()))
-					{
-						m_player->CreatureCollision(creature[current]);
-					}
 				}
 				
 				for(int b = 0; b < m_gun->GetBullets(); b++)
@@ -183,9 +179,7 @@ void App::Update(sf::Time dt)
 						if (CheckCollision(m_gun->getBulletBox(b), creature[current]->GetBox()))
 						{
 							m_gun->KillBullet(b);
-							std::cout << "\nHP before: " << creature[current]->GetHP() << std::endl;
 							creature[current]->Hurt();
-							std::cout << "HP after: " << creature[current]->GetHP() << std::endl;
 							if (creature[current]->IsDead())
 								creature.erase(creature.begin() + current);
 							break;
@@ -195,6 +189,15 @@ void App::Update(sf::Time dt)
 			}
 		}
 	}
+
+	for (unsigned current = 0; current < creature.size(); ++current)
+	{
+		if (CheckCollision(creature[current]->GetBox(), m_player->GetBox()))
+		{
+			m_player->CreatureCollision(creature[current]);
+		}
+	}
+
 	m_gun->Update(dt.AsMilliseconds());
 
 	m_hud->Update(m_player->GetHP());
