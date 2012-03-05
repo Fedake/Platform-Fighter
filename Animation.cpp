@@ -10,14 +10,15 @@ Animation::Animation(sf::Texture* nTex, int nFrames, float nFTime) : m_tex(nTex)
 	m_clock.Restart();
 
 	m_state = 0;
+	m_prevState = 0;
 }
 void Animation::Update()
 {
 	if(m_state == 0) m_sprite.SetTextureRect(sf::IntRect(0, 0, 16, 16));
 
-	else if(m_clock.GetElapsedTime().AsMilliseconds() > m_frameTime)
+	else if(m_clock.GetElapsedTime().AsMilliseconds() > m_frameTime || m_state != m_prevState)
 	{
-		m_frame++;
+		if(m_state == m_prevState) m_frame++;
 		if(m_frame > m_frames) m_frame = 1;
 
 		if(m_state == 1)

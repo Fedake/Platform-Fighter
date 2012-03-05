@@ -25,7 +25,7 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex) : m_vel(0, 0),
 
 	m_type = type;
 
-	m_anim = new Animation(nTex, 2, 100);
+	m_anim = new Animation(nTex, 2, 300);
 
 
 	switch(m_type)
@@ -57,13 +57,12 @@ void Creature::Update(int dt)
 	}
 	else if(goLeft)
 	{
-		m_vel.x = -150;
-
+		m_vel.x = -50;
 		m_anim->PlayLeft();
 	}
 	else if(goRight)
 	{
-		m_vel.x = 150;
+		m_vel.x = 50;
 		m_anim->PlayRight();
 	}
 	else

@@ -176,6 +176,7 @@ void App::Update(sf::Time dt)
 			}
 		}
 	}
+
 	// MOB GRACZ
 	for (unsigned current = 0; current < creature.size(); ++current)
 	{
