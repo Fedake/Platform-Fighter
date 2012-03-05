@@ -55,9 +55,9 @@ bool Map::LoadNextLevel(std::string name)
 
 void Map::Draw(sf::RenderWindow* win)
 {
-	for(int j = 0; j < m_mapWidth; j++)
+	for(int j = 0; j < m_mapHeight; j++)
 	{
-		for(int i = 0; i < m_mapHeight; i++)
+		for(int i = 0; i < m_mapWidth; i++)
 		{
 			m_tiles[i][j]->Render(win);
 		}
