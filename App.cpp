@@ -15,9 +15,9 @@ bool App::Init()
 
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture());
 
-	for(int j = 0; j < m_map->getMapWidth(); j++)
+	for(int j = 0; j < m_map->getMapHeight(); j++)
 	{
-		for(int i = 0; i < m_map->getMapHeight(); i++)
+		for(int i = 0; i < m_map->getMapWidth(); i++)
 		{
 			int type = m_map->getEntity(i, j);
 			if (type != 0)
