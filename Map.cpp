@@ -36,7 +36,9 @@ bool Map::LoadNextLevel(std::string name)
 		{
 			int buffer;
 			map >> buffer;
-			m_solidMap[i][j] = buffer;
+			if(buffer == 0) m_solidMap[i][j] = false;
+			else if(buffer == 1) m_solidMap[i][j] = true;
+			else return false;
 		}
 	}
 
