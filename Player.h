@@ -23,9 +23,9 @@ class Player
 		int HP;
 
 		bool canJump;
-		bool goLeft, goRight;
+		bool goLeft, goRight, goDown, goUp;
 
-		bool noclip;
+		bool m_ghost;
 
 	public:
 		Player(sf::Vector2f pos, sf::Texture* nTex);
@@ -41,6 +41,7 @@ class Player
 		//Poruszanie
 		void GoLeft() { goLeft = true; }
 		void GoRight() { goRight = true; }
+		void GoDown() { goDown = true; }
 
 		bool IsGoingLeft() { return goLeft; }
 		bool IsGoingRight() { return goRight; }
@@ -51,8 +52,10 @@ class Player
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}
+		void StopDown() { goDown = false; }
+		void StopUp() { goUp = false; }
 
-		void ToggleNoclip() {noclip = !noclip;}
+		void ToggleNoclip() {m_ghost = !m_ghost;}
 
 		void Jump();
 		void LockJump()				   {canJump = false;}

@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(sf::Vector2f pos, sf::Texture* nTex) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), noclip(false)
+Player::Player(sf::Vector2f pos, sf::Texture* nTex) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false), goDown(false), m_ghost(false)
 {
 	box.Left = pos.x;
 	box.Top = pos.y;
@@ -26,22 +26,30 @@ void Player::Update(int dt)
 	if(goLeft && goRight)
 	{
 		m_vel.x = 0;
-		m_anim->Stop();
+		if(!m_ghost) m_anim->Stop();
 	}
 	else if(goLeft)
 	{
 		m_vel.x = -150;
-		m_anim->PlayLeft();
+		if(!m_ghost) m_anim->PlayLeft();
 	}
 	else if(goRight)
 	{
 		m_vel.x = 150;
-		m_anim->PlayRight();
+		if(!m_ghost) m_anim->PlayRight();
 	}
 	else
 	{
 		m_vel.x = 0;
-		m_anim->Stop();
+		if(!m_ghost) m_anim->Stop();
+	}
+
+	if(m_ghost)
+	{
+		if(goUp && goDown) m_vel.y = 0;
+		else if(goUp) m_vel.y = -150;
+		else if(goDown) m_vel.y = 150;
+		else m_vel.y = 0;
 	}
 
 	//Update pozycji
@@ -49,7 +57,7 @@ void Player::Update(int dt)
 	box.Top += m_vel.y*(dt/1000.f);
 
 	//Nalozenie grawitejszyn
-	if(!noclip)
+	if(!m_ghost)
 		m_vel.y += 800*(dt/1000.f);
 	//Predkosc graniczna 300pix/s
 	if(m_vel.y > 500) m_vel.y = 500;
@@ -142,7 +150,7 @@ void Player::SolidCollision(sf::FloatRect A)
 				float xD = A.Left + A.Width - box.Left;
 				float yD = A.Top + A.Height - box.Top;
 
-				if(xD+3 > yD)
+				if(xD > yD+5)
 				{
 					box.Top = A.Top + A.Height;
 					m_vel.y = 0;
@@ -190,4 +198,6 @@ void Player::Jump()
 		m_vel.y = -350;
 		LockJump();
 	}
+
+	goUp = true;
 }

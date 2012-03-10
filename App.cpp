@@ -130,12 +130,16 @@ void App::ProcessEvents()
 	}
 
 	if(sf::Keyboard::IsKeyPressed(sf::Keyboard::W) || sf::Keyboard::IsKeyPressed(sf::Keyboard::Up)) m_player->Jump();
-	
+	else m_player->StopUp();
+
 	if(sf::Keyboard::IsKeyPressed(sf::Keyboard::A) || sf::Keyboard::IsKeyPressed(sf::Keyboard::Left)) m_player->GoLeft();
 	else m_player->StopLeft();
 
 	if(sf::Keyboard::IsKeyPressed(sf::Keyboard::D) || sf::Keyboard::IsKeyPressed(sf::Keyboard::Right)) m_player->GoRight();
 	else m_player->StopRight();
+
+	if(sf::Keyboard::IsKeyPressed(sf::Keyboard::S) || sf::Keyboard::IsKeyPressed(sf::Keyboard::Down)) m_player->GoDown();
+	else m_player->StopDown();
 }
 
 void App::Update(sf::Time dt)
