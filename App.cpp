@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.4.6");
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.4.6", sf::Style::Titlebar);
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
@@ -102,13 +102,7 @@ void App::ProcessEvents()
 	sf::Event Event;
 	while (m_window.PollEvent(Event))
 	{
-		if (Event.Type == sf::Event::Closed)
-		{   // zamkniêcie okna
-			m_done = true;
-			return;
-		}
-
-		else if(Event.Type == sf::Event::MouseMoved)
+		if(Event.Type == sf::Event::MouseMoved)
 		{
 			m_mPos = sf::Vector2f(static_cast<float>(Event.MouseMove.X), static_cast<float>(Event.MouseMove.Y));
 		}
@@ -124,6 +118,12 @@ void App::ProcessEvents()
 		else if(Event.Type == sf::Event::KeyPressed)
 		{
 			if(Event.Key.Code == sf::Keyboard::N) m_player->ToggleNoclip();
+
+			else if(Event.Key.Code == sf::Keyboard::Escape)
+			{   // zamkniêcie okna
+				m_done = true;
+				return;
+			}
 		}
 		else if(Event.Type == sf::Event::LostFocus) m_paused = true;
 		else if(Event.Type == sf::Event::GainedFocus) m_paused = false;
