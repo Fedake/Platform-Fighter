@@ -55,7 +55,7 @@ class Player
 		void StopDown() { goDown = false; }
 		void StopUp() { goUp = false; }
 
-		void ToggleNoclip() {m_ghost = !m_ghost;}
+		void ToggleGhost();
 
 		void Jump();
 		void LockJump()				   {canJump = false;}

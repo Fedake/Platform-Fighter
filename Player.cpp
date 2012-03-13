@@ -191,6 +191,15 @@ void Player::CreatureCollision(Creature* creature)
 	}
 }
 
+void Player::ToggleGhost()
+{
+	m_ghost = !m_ghost;
+	
+	std::cout << "Ghost mode ";
+	if(m_ghost) std::cout << "enabled\n";
+	else		std::cout << "disabled\n";
+}
+
 void Player::Jump()
 {
 	if(canJump)

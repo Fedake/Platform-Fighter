@@ -102,7 +102,17 @@ void App::ProcessEvents()
 	sf::Event Event;
 	while (m_window.PollEvent(Event))
 	{
-		if(Event.Type == sf::Event::MouseMoved)
+		if(Event.Type == sf::Event::TextEntered)
+		{
+			m_textInput += Event.Text.Unicode;
+
+			if(m_textInput.find("ghost") != std::string::npos)
+			{
+				m_textInput.clear();
+				m_player->ToggleGhost();
+			}
+		}
+		else if(Event.Type == sf::Event::MouseMoved)
 		{
 			m_mPos = sf::Vector2f(static_cast<float>(Event.MouseMove.X), static_cast<float>(Event.MouseMove.Y));
 		}
@@ -117,9 +127,9 @@ void App::ProcessEvents()
 		}
 		else if(Event.Type == sf::Event::KeyPressed)
 		{
-			if(Event.Key.Code == sf::Keyboard::N) m_player->ToggleNoclip();
+			//if(Event.Key.Code == sf::Keyboard::N) m_player->ToggleNoclip();
 
-			else if(Event.Key.Code == sf::Keyboard::Escape)
+			if(Event.Key.Code == sf::Keyboard::Escape)
 			{   // zamkniêcie okna
 				m_done = true;
 				return;

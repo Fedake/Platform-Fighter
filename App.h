@@ -43,7 +43,6 @@ class App
 		ResourceManager* m_resMgr;
 		HUD* m_hud;
 
-
 		sf::RectangleShape m_pauseShape;
 	public:
 		App(size_t win_width, size_t win_height, bool fullscreen_mode) 
