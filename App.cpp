@@ -10,8 +10,10 @@ bool App::Init()
 
 	m_hud = new HUD(m_resMgr->getHudTexture());
 
+	m_currentLevel = 1;
+
 	m_map = new Map(m_resMgr);
-	if(!m_map->LoadNextLevel("data/maps/1.map")) return false;
+	if(!m_map->LoadNextLevel("data/maps/new.map")) return false;
 
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture());
 

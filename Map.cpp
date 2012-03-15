@@ -7,7 +7,7 @@ Map::Map(ResourceManager* resMgr) : m_mapWidth(0), m_mapHeight(0), m_startPos(32
 
 bool Map::LoadNextLevel(std::string name)
 {
-	std::ifstream map("data/maps/new.map");
+	std::ifstream map(name);
 	if(map == NULL) return false;
 
 	std::cout << "Map loaded successfully\n";

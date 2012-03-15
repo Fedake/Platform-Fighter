@@ -37,6 +37,8 @@ class App
 		std::vector<Creature*> creature;
 		std::vector<Entity*> entity;
 
+		int m_currentLevel;
+
 		Player* m_player;
 		Gun* m_gun;
 		Map* m_map;
