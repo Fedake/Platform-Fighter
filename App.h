@@ -63,6 +63,7 @@ class App
 
 	private:
 		bool Init();
+		bool LoadLevel();
 		void Draw();                // rysowanie 
 		void Update(sf::Time dt);	// aktualizacja
 		void ProcessEvents();       // przetwarzanie zdarzeñ, które przysz³y	

@@ -18,7 +18,7 @@ int Menu::Update()
 			if(m_clicked)
 			{
 				m_clicked = false;
-				if(i == 0) return 1;
+				if(i == 0) return 3;
 				if(i == 2) return -1;
 			}
 		}

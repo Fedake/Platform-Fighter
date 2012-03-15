@@ -13,8 +13,30 @@ bool App::Init()
 	m_currentLevel = 1;
 
 	m_map = new Map(m_resMgr);
-	if(!m_map->LoadNextLevel("data/maps/new.map")) return false;
 
+
+	m_menu = new Menu(m_resMgr->GetGuiTexture());
+	m_gun = new Gun();
+	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+
+	m_pauseShape.SetFillColor(sf::Color(0, 0, 0, 192));
+	m_pauseShape.SetSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
+	return true;
+}
+
+bool App::LoadLevel()
+{
+	creature.clear();
+	entity.clear();
+
+	std::stringstream level;
+	level << "data/maps/" << m_currentLevel << ".map";
+	if(!m_map->LoadNextLevel(level.str())) 
+	{
+		std::cout << "Level: " << level << std::endl;
+		std::cout << "No such level";
+		return false;
+	}
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture());
 
 	for(int j = 0; j < m_map->getMapHeight(); j++)
@@ -32,13 +54,6 @@ bool App::Init()
 			}
 		}
 	}
-
-	m_menu = new Menu(m_resMgr->GetGuiTexture());
-	m_gun = new Gun();
-	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
-
-	m_pauseShape.SetFillColor(sf::Color(0, 0, 0, 192));
-	m_pauseShape.SetSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
 	return true;
 }
 
@@ -259,7 +274,12 @@ void App::Update(sf::Time dt)
 	}
 	else m_state = m_menu->Update();
 
-	if(m_state == -1) m_done = true;
+	if (m_state == 3) 
+	{
+		LoadLevel();
+		m_state = 1;
+	}
+	if (m_state == -1) m_done = true;
 }
 
 bool App::CheckCollision(sf::FloatRect A, sf::FloatRect B)
