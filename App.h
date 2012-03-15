@@ -6,6 +6,7 @@
 #include "Log.h"
 #include "ResourceManager.h"
 #include "HUD.h"
+#include "Menu.h"
 
 #include "Creature.h"
 
@@ -42,6 +43,7 @@ class App
 		Log* m_log;
 		ResourceManager* m_resMgr;
 		HUD* m_hud;
+		Menu* m_menu;
 
 		sf::RectangleShape m_pauseShape;
 	public:

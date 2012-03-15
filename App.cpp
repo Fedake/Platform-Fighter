@@ -6,7 +6,7 @@ bool App::Init()
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
 
-	m_resMgr = new ResourceManager("data/gfx/sheet.png", "data/gfx/player.png", "data/gfx/entSheet.png", "data/gfx/hudSheet.png");
+	m_resMgr = new ResourceManager("data/gfx/sheet.png", "data/gfx/player.png", "data/gfx/entSheet.png", "data/gfx/hudSheet.png", "data/gfx/guiSheet.png");
 
 	m_hud = new HUD(m_resMgr->getHudTexture());
 
@@ -27,6 +27,7 @@ bool App::Init()
 		}
 	}
 
+	m_menu = new Menu(m_resMgr->GetGuiTexture());
 	m_gun = new Gun();
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 
@@ -86,6 +87,7 @@ void App::Draw()
 	//RYSOWANIE STALYCH ELEMENTOW EKRANU
 	m_window.SetView(m_window.GetDefaultView());
 	m_hud->Draw(&m_window);
+	m_menu->Draw(&m_window);
 
 	if(m_paused) m_window.Draw(m_pauseShape);
 	m_window.Display();
