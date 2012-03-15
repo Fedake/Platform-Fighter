@@ -208,6 +208,9 @@ int Player::EntityCollision(Entity* entity)
 				return 0;
 			}
 			else return 1;
+		case 15:
+			std::cout << "Nastepny level." << std::endl;
+			return 2;
 		default: 
 			return 1;
 	}

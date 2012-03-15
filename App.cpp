@@ -160,6 +160,11 @@ void App::ProcessEvents()
 				else m_menu->Click();
 			}
 		}
+
+		else if (Event.Type == sf::Event::MouseButtonReleased)
+		{
+			m_menu->Unclick();
+		}
 		else if(Event.Type == sf::Event::KeyPressed)
 		{
 			if(Event.Key.Code == sf::Keyboard::Escape)
@@ -240,6 +245,11 @@ void App::Update(sf::Time dt)
 			{
 				if (m_player->EntityCollision(entity[current]) == 0)
 					entity.erase(entity.begin() + current);
+				else if (m_player->EntityCollision(entity[current]) == 2)
+				{
+					m_currentLevel += 1;
+					LoadLevel();
+				}
 			}
 		}
 		// MOB GRACZ
