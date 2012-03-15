@@ -9,6 +9,7 @@
 #include "Menu.h"
 
 #include "Creature.h"
+#include "Entity.h"
 
 #include <sstream>
 #include <fstream>
@@ -35,6 +36,7 @@ class App
 		sf::Vector2f m_mPos;
 
 		std::vector<Creature*> creature;
+		std::vector<Entity*> entity;
 
 		Player* m_player;
 		Gun* m_gun;
