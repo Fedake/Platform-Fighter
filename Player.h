@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include "Animation.h"
 #include "Creature.h"
+#include "Entity.h"
 #include <iostream>
 
 class Player
@@ -21,6 +22,7 @@ class Player
 		sf::Clock hitTime;
 
 		int HP;
+		int coins;
 
 		bool canJump;
 		bool goLeft, goRight, goDown, goUp;
@@ -48,7 +50,8 @@ class Player
 
 		int GetHP() { return HP; }
 
-		void Hurt(int value) { HP -= value;}
+		void Hurt(int value) { HP -= value; }
+		void Heal(int value) { HP += value; }
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}
@@ -62,4 +65,5 @@ class Player
 
 		void SolidCollision(sf::FloatRect A);
 		void CreatureCollision(Creature* creature);
+		int EntityCollision(Entity* entity);
 };

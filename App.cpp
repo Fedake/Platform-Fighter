@@ -20,9 +20,13 @@ bool App::Init()
 		for(int i = 0; i < m_map->getMapWidth(); i++)
 		{
 			int type = m_map->getEntity(i, j);
-			if (type != 0)
+			if (type > 0 && type < 10)
 			{
 				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(type)));
+			}
+			else if (type >= 10 && type < 16)
+			{
+				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(1)));
 			}
 		}
 	}
@@ -78,6 +82,11 @@ void App::Draw()
 	for (unsigned i = 0; i < creature.size(); ++i)
 	{
 		m_window.Draw(creature[i]->GetSprite());
+	}
+
+	for (unsigned i = 0; i < entity.size(); ++i)
+	{
+		m_window.Draw(entity[i]->GetSprite());
 	}
 
 	//Render mapy
@@ -159,6 +168,11 @@ void App::Update(sf::Time dt)
 	{
 		creature[i]->Update(dt.AsMilliseconds());
 	}
+	for (unsigned i = 0; i < entity.size(); ++i)
+	{
+		entity[i]->UpdateSprite();
+	}
+
 	// WSZYSTKIE KOLIZJI DOTYCZ¥CE MAPY
 	for(int j = 0; j < m_map->getMapHeight(); j++)
 	{
@@ -191,6 +205,15 @@ void App::Update(sf::Time dt)
 		}
 	}
 
+	// ENTITY GRACZ
+	for (unsigned current = 0; current < entity.size(); ++current)
+	{
+		if (CheckCollision(entity[current]->GetBox(), m_player->GetBox()))
+		{
+			if (m_player->EntityCollision(entity[current]) == 0)
+				entity.erase(entity.begin() + current);
+		}
+	}
 	// MOB GRACZ
 	for (unsigned current = 0; current < creature.size(); ++current)
 	{

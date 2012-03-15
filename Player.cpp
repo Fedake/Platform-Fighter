@@ -9,6 +9,7 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex) : m_vel(0, 0), canJump(false
 	box.Height = 16;
 
 	HP = 10;
+	coins = 0;
 
 	hitTime.Restart();
 
@@ -191,6 +192,26 @@ void Player::CreatureCollision(Creature* creature)
 	}
 }
 
+int Player::EntityCollision(Entity* entity)
+{
+	switch(entity->GetType())
+	{
+		case 10:
+			std::cout << "Player zdobyl pienionszka" << std::endl;
+			++coins;
+			return 0;
+		case 11:
+			if (!(GetHP() >= 10))
+			{
+				std::cout << "Player zdobyl serduszko" << std::endl;
+				Heal(1);
+				return 0;
+			}
+			else return 1;
+		default: 
+			return 1;
+	}
+}
 void Player::ToggleGhost()
 {
 	m_ghost = !m_ghost;
