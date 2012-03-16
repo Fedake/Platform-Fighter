@@ -28,7 +28,6 @@ class App
 
 		bool m_fullscreen;
 		bool m_done;
-		bool m_paused;
 
 		int m_state;
 
@@ -51,13 +50,11 @@ class App
 		ResourceManager* m_resMgr;
 		HUD* m_hud;
 		Menu* m_menu;
-
-		sf::RectangleShape m_pauseShape;
 	public:
 		App(size_t win_width, size_t win_height, bool fullscreen_mode) 
 				: m_screenWidth(win_width), m_screenHeight(win_height),
 				m_fullscreen(fullscreen_mode), m_player(0), m_cam(0), 
-				m_paused(false), m_state(0) { };
+				m_state(0) { };
  
 		void Run();
 

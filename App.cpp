@@ -1,12 +1,12 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.0", sf::Style::Titlebar);
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.2", sf::Style::Titlebar);
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
 
-	m_resMgr = new ResourceManager("data/gfx/sheet.png", "data/gfx/player.png", "data/gfx/entSheet.png", "data/gfx/hudSheet.png", "data/gfx/guiSheet.png");
+	m_resMgr = new ResourceManager();
 
 	m_hud = new HUD(m_resMgr->getHudTexture());
 
@@ -14,13 +14,9 @@ bool App::Init()
 
 	m_map = new Map(m_resMgr);
 
-
-	m_menu = new Menu(m_resMgr->GetGuiTexture());
+	m_menu = new Menu(m_window.GetWidth(), m_window.GetHeight(), m_resMgr->GetTitleTexture(), m_resMgr->GetGuiTexture());
 	m_gun = new Gun();
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
-
-	m_pauseShape.SetFillColor(sf::Color(0, 0, 0, 192));
-	m_pauseShape.SetSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
 	return true;
 }
 
@@ -38,6 +34,7 @@ bool App::LoadLevel()
 		return false;
 	}
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture());
+	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 
 	for(int j = 0; j < m_map->getMapHeight(); j++)
 	{
@@ -67,18 +64,13 @@ void App::Run()
 	m_done = false;
 	while (!m_done)
 	{
-		if (m_paused) ProcessEvents();
-		else
-		{
-
-			ProcessEvents();
-			if(dt.GetElapsedTime().AsSeconds() < 0.1f)
-				Update(dt.GetElapsedTime());
+		ProcessEvents();
+		if(dt.GetElapsedTime().AsSeconds() < 0.1f)
+			Update(dt.GetElapsedTime());
 		
-			dt.Restart();
+		dt.Restart();
 		
-			Draw();
-		}
+		Draw();
 	}
 	m_window.Close();
 }
@@ -89,7 +81,7 @@ void App::Draw()
 	m_window.SetView(m_cam->GetView());
 	m_window.Clear(sf::Color(255, 255, 255));
 
-	if(m_state > 0)
+	if(!m_menu->IsActive() || m_menu->GetType() == 1)
 	{
 		for(int i = 0; i < m_gun->GetBullets(); i++)
 		{
@@ -114,13 +106,11 @@ void App::Draw()
 
 	//RYSOWANIE STALYCH ELEMENTOW EKRANU
 	m_window.SetView(m_window.GetDefaultView());
-	if(m_state > 0)
+	if(!m_menu->IsActive() || m_menu->GetType() == 1)
 	{
 		m_hud->Draw(&m_window);
 	}
-	else m_menu->Draw(&m_window);
-
-	if(m_paused) m_window.Draw(m_pauseShape);
+	if(m_menu->IsActive()) m_menu->Draw(&m_window);
 	m_window.Display();
 }
 
@@ -135,7 +125,7 @@ void App::ProcessEvents()
 	sf::Event Event;
 	while (m_window.PollEvent(Event))
 	{
-		if(Event.Type == sf::Event::TextEntered && m_state > 0)
+		if(Event.Type == sf::Event::TextEntered && !m_menu->IsActive())
 		{
 			m_textInput += Event.Text.Unicode;
 
@@ -155,28 +145,27 @@ void App::ProcessEvents()
 		{
 			if(Event.Key.Code == sf::Mouse::Left)
 			{
-				if(m_state > 0)	m_gun->Shoot(m_window.ConvertCoords(static_cast<unsigned int>(m_mPos.x), static_cast<unsigned int>(m_mPos.y), 
-											 m_cam->GetView()), sf::Vector2f(m_player->GetBox().Left + 8, m_player->GetBox().Top + 8));
+				if(!m_menu->IsActive())	m_gun->Shoot(m_window.ConvertCoords(static_cast<unsigned int>(m_mPos.x), static_cast<unsigned int>(m_mPos.y), 
+													 m_cam->GetView()), sf::Vector2f(m_player->GetBox().Left + 8, m_player->GetBox().Top + 8));
 				else m_menu->Click();
 			}
 		}
 
 		else if (Event.Type == sf::Event::MouseButtonReleased)
 		{
-			m_menu->Unclick();
+			if(Event.Key.Code == sf::Mouse::Left) m_menu->Unclick();
 		}
 		else if(Event.Type == sf::Event::KeyPressed)
 		{
 			if(Event.Key.Code == sf::Keyboard::Escape)
 			{   // zamkniêcie okna
-				m_state = 0;
+				m_menu->Toggle();
 			}
 		}
-		else if(Event.Type == sf::Event::LostFocus) m_paused = true;
-		else if(Event.Type == sf::Event::GainedFocus) m_paused = false;
+		else if(Event.Type == sf::Event::LostFocus) m_menu->OpenMenu();
 	}
 
-	if(m_state > 0)
+	if(!m_menu->IsActive())
 	{
 		if(sf::Keyboard::IsKeyPressed(sf::Keyboard::W) || sf::Keyboard::IsKeyPressed(sf::Keyboard::Up)) m_player->Jump();
 		else m_player->StopUp();
@@ -194,7 +183,15 @@ void App::ProcessEvents()
 
 void App::Update(sf::Time dt)
 {
-	if(m_state > 0)
+	std::cout << m_state << std::endl;
+	if(m_menu->IsActive())
+	{
+		m_menu->Update(m_done, m_state);
+	}
+
+	if(m_state == 1) LoadLevel(); m_state = 0;
+
+	if(!m_menu->IsActive())
 	{
 		m_player->Update(dt.AsMilliseconds());
 		for (unsigned i = 0; i < creature.size(); ++i)
@@ -283,14 +280,6 @@ void App::Update(sf::Time dt)
 	
 		m_cam->Set(m_player->GetBox());
 	}
-	else m_state = m_menu->Update();
-
-	if (m_state == 3) 
-	{
-		LoadLevel();
-		m_state = 1;
-	}
-	if (m_state == -1) m_done = true;
 }
 
 bool App::CheckCollision(sf::FloatRect A, sf::FloatRect B)

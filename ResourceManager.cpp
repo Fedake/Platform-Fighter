@@ -1,9 +1,9 @@
 #include "ResourceManager.h"
 
-ResourceManager::ResourceManager(std::string tileSheet, std::string playerSheet, std::string entitySheet, std::string hudSheet, std::string guiSheet)
+ResourceManager::ResourceManager()
 {
 	sf::Image sheet;
-	sheet.LoadFromFile(tileSheet);
+	sheet.LoadFromFile("data/gfx/sheet.png");
 
 	int x = 0, y = 0;
 	for(int i = 0; i < TOTAL_SPRITES; i++)
@@ -20,11 +20,11 @@ ResourceManager::ResourceManager(std::string tileSheet, std::string playerSheet,
 		}
 	}
 
-	sheet.LoadFromFile(playerSheet);
+	sheet.LoadFromFile("data/gfx/player.png");
 	m_playerTex = new sf::Texture();
 	m_playerTex->LoadFromImage(sheet);
 
-	sheet.LoadFromFile(entitySheet);
+	sheet.LoadFromFile("data/gfx/entSheet.png");
 
 	for(int i = 1; i < TOTAL_ENTITIES; i++)
 	{
@@ -32,11 +32,15 @@ ResourceManager::ResourceManager(std::string tileSheet, std::string playerSheet,
 		m_entTex[i]->LoadFromImage(sheet, sf::IntRect(0, (i-1)*16, sheet.GetWidth(), 16));
 	}
 
-	sheet.LoadFromFile(hudSheet);
+	sheet.LoadFromFile("data/gfx/hudSheet.png");
 	m_hudTex = new sf::Texture();
 	m_hudTex->LoadFromImage(sheet);
 
-	sheet.LoadFromFile(guiSheet);
+	sheet.LoadFromFile("data/gfx/guiSheet.png");
 	m_guiTex = new sf::Texture();
 	m_guiTex->LoadFromImage(sheet);
+
+	sheet.LoadFromFile("data/gfx/title.png");
+	m_titleTex = new sf::Texture();
+	m_titleTex->LoadFromImage(sheet);
 }
