@@ -50,7 +50,7 @@ bool App::LoadLevel()
 			}
 			else if (type >= 10 && type < 16)
 			{
-				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(1)));
+				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(2)));
 			}
 		}
 	}
@@ -200,6 +200,7 @@ void App::Update(sf::Time dt)
 		for (unsigned i = 0; i < creature.size(); ++i)
 		{
 			creature[i]->Update(dt.AsMilliseconds());
+			m_player->CheckCreaturesAround(creature[i]);
 		}
 		for (unsigned i = 0; i < entity.size(); ++i)
 		{

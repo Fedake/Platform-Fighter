@@ -69,6 +69,24 @@ void Player::Update(int dt)
 	UpdateSprite();
 }
 
+void Player::CheckCreaturesAround(Creature* creature)
+{
+	if ((creature->GetBox().Top < box.Top+box.Height+10) && (creature->GetBox().Top+creature->GetBox().Height > box.Top-10))
+	{
+		if (creature->GetBox().Left < box.Left && creature->GetBox().Left+creature->GetBox().Width+64 > box.Left)
+		{
+			creature->StopLeft();
+			creature->GoRight();
+		}
+		if (creature->GetBox().Left > box.Left && creature->GetBox().Left < box.Left+box.Width+64)
+		{
+			creature->StopRight();
+			creature->GoLeft();
+		}
+	}
+	
+}
+
 void Player::SolidCollision(sf::FloatRect A)
 {
 	//Jesli predkosc pionowa jest zerowa

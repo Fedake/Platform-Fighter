@@ -63,6 +63,8 @@ class Player
 		void Jump();
 		void LockJump()				   {canJump = false;}
 
+		void CheckCreaturesAround(Creature* creature);
+
 		void SolidCollision(sf::FloatRect A);
 		void CreatureCollision(Creature* creature);
 		int EntityCollision(Entity* entity);
