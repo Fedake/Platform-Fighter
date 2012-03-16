@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.0", sf::Style::Titlebar);
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.2", sf::Style::Titlebar);
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
@@ -14,12 +14,9 @@ bool App::Init()
 
 	m_map = new Map(m_resMgr);
 
-	m_menu = new Menu(m_resMgr->GetTitleTexture(), m_resMgr->GetGuiTexture());
+	m_menu = new Menu(m_window.GetWidth(), m_window.GetHeight(), m_resMgr->GetTitleTexture(), m_resMgr->GetGuiTexture());
 	m_gun = new Gun();
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
-
-	m_pauseShape.SetFillColor(sf::Color(0, 0, 0, 192));
-	m_pauseShape.SetSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
 	return true;
 }
 
@@ -67,18 +64,13 @@ void App::Run()
 	m_done = false;
 	while (!m_done)
 	{
-		if (m_paused) ProcessEvents();
-		else
-		{
-
-			ProcessEvents();
-			if(dt.GetElapsedTime().AsSeconds() < 0.1f)
-				Update(dt.GetElapsedTime());
+		ProcessEvents();
+		if(dt.GetElapsedTime().AsSeconds() < 0.1f)
+			Update(dt.GetElapsedTime());
 		
-			dt.Restart();
+		dt.Restart();
 		
-			Draw();
-		}
+		Draw();
 	}
 	m_window.Close();
 }
@@ -89,7 +81,7 @@ void App::Draw()
 	m_window.SetView(m_cam->GetView());
 	m_window.Clear(sf::Color(255, 255, 255));
 
-	if(!m_menu->IsActive())
+	if(!m_menu->IsActive() || m_menu->GetType() == 1)
 	{
 		for(int i = 0; i < m_gun->GetBullets(); i++)
 		{
@@ -114,13 +106,11 @@ void App::Draw()
 
 	//RYSOWANIE STALYCH ELEMENTOW EKRANU
 	m_window.SetView(m_window.GetDefaultView());
-	if(!m_menu->IsActive())
+	if(!m_menu->IsActive() || m_menu->GetType() == 1)
 	{
 		m_hud->Draw(&m_window);
 	}
-	else m_menu->Draw(&m_window);
-
-	if(m_paused) m_window.Draw(m_pauseShape);
+	if(m_menu->IsActive()) m_menu->Draw(&m_window);
 	m_window.Display();
 }
 
@@ -172,8 +162,7 @@ void App::ProcessEvents()
 				m_menu->Toggle();
 			}
 		}
-		else if(Event.Type == sf::Event::LostFocus) m_paused = true;
-		else if(Event.Type == sf::Event::GainedFocus) m_paused = false;
+		else if(Event.Type == sf::Event::LostFocus) m_menu->OpenMenu();
 	}
 
 	if(!m_menu->IsActive())

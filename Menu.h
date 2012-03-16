@@ -6,21 +6,28 @@ class Menu
 {
 	private:
 		sf::Sprite m_title;
-		Button* m_buttons[3];
+		Button* m_buttons[5];
+		sf::RectangleShape m_pauseShape;
+
 		sf::Vector2f m_mPos;
 
 		bool m_clicked;
 		bool m_active;
 
+		int m_type;
+
+		int m_screenWidth, m_screenHeight;
 	public:
-		Menu(sf::Texture* nTitleTex, sf::Texture* nGuiTex);
+		Menu(int winW, int winH, sf::Texture* nTitleTex, sf::Texture* nGuiTex);
 
 		void SetMousePosition(sf::Vector2f nPos){m_mPos = nPos;}
 		void Click() { m_clicked = true; }
 		void Unclick() { m_clicked = false; }
-		void Toggle() {m_active = !m_active;}
+		void Toggle() {if(m_type > 0)m_active = !m_active;}
+		void OpenMenu() {if(m_type > 0)m_active = true;}
 
 		bool IsActive(){return m_active;}
+		int GetType(){return m_type;}
 
 		void Update(bool& quit, int& state);
 		void Draw(sf::RenderWindow* win);
