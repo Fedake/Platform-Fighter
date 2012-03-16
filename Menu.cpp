@@ -1,14 +1,16 @@
 #include "Menu.h"
 
-Menu::Menu(sf::Texture* nTex) : m_clicked(false)
+Menu::Menu(sf::Texture* nTitleTex, sf::Texture* nTex) : m_clicked(false), m_active(true)
 {
+	m_title.SetTexture(*nTitleTex);
+
 	for(int i = 0; i < 3; i++)
 	{
-		m_buttons[i] = new Button(i, nTex, sf::Vector2f(280, i*75), sf::Vector2f(220, 70));
+		m_buttons[i] = new Button(i, nTex, sf::Vector2f(280, 200+i*150), sf::Vector2f(220, 70));
 	}
 }
 
-int Menu::Update()
+void Menu::Update(bool& quit, int& state)
 {
 	for(int i = 0; i < 3; i++)
 	{
@@ -18,18 +20,18 @@ int Menu::Update()
 			if(m_clicked)
 			{
 				m_clicked = false;
-				if(i == 0) return 3;
-				if(i == 2) return -1;
+				if(i == 0) state = 1; m_active = false;
+				if(i == 2) quit = true;
 			}
 		}
 		else m_buttons[i]->SetState(0);
 	}
-
-	return 0;
 }
 
 void Menu::Draw(sf::RenderWindow* win)
 {
+	win->Draw(m_title);
+
 	for(int i = 0; i < 3; i++)
 	{
 		win->Draw(m_buttons[i]->GetSprite());

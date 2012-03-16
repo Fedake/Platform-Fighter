@@ -12,13 +12,15 @@ class ResourceManager
 		sf::Texture* m_entTex[TOTAL_ENTITIES];
 		sf::Texture* m_hudTex;
 		sf::Texture* m_guiTex;
+		sf::Texture* m_titleTex;
 
 	public:
-		ResourceManager(std::string tileSheet, std::string playerSheet, std::string entitySheet, std::string hudSheet, std::string guiSheet);
+		ResourceManager();
 
 		sf::Texture& getTexture(int nr){return *m_tileTex[nr];}
 		sf::Texture* getPlayerTexture(){return m_playerTex;}
 		sf::Texture* GetEntityTexture(int nr){return m_entTex[nr];} 
 		sf::Texture* getHudTexture(){return m_hudTex;}
 		sf::Texture* GetGuiTexture(){return m_guiTex;}
+		sf::Texture* GetTitleTexture(){return m_titleTex;}
 };

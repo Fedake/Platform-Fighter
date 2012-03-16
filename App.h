@@ -31,6 +31,7 @@ class App
 		bool m_paused;
 
 		int m_state;
+		bool m_isMenu;
 
 		sf::RenderWindow m_window;
 
@@ -57,7 +58,7 @@ class App
 		App(size_t win_width, size_t win_height, bool fullscreen_mode) 
 				: m_screenWidth(win_width), m_screenHeight(win_height),
 				m_fullscreen(fullscreen_mode), m_player(0), m_cam(0), 
-				m_paused(false), m_state(0) { };
+				m_paused(false), m_state(0), m_isMenu(true) { };
  
 		void Run();
 
