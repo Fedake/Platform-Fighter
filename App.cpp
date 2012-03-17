@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.2", sf::Style::Titlebar);
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.3", sf::Style::Titlebar);
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
@@ -147,13 +147,10 @@ void App::ProcessEvents()
 			{
 				if(!m_menu->IsActive())	m_gun->Shoot(m_window.ConvertCoords(static_cast<unsigned int>(m_mPos.x), static_cast<unsigned int>(m_mPos.y), 
 													 m_cam->GetView()), sf::Vector2f(m_player->GetBox().Left + 8, m_player->GetBox().Top + 8));
-				else m_menu->Click();
-			}
-		}
+				else m_menu->Click(m_done, m_state);
 
-		else if (Event.Type == sf::Event::MouseButtonReleased)
-		{
-			if(Event.Key.Code == sf::Mouse::Left) m_menu->Unclick();
+				if(m_state == 1) LoadLevel(); m_state = 0;
+			}
 		}
 		else if(Event.Type == sf::Event::KeyPressed)
 		{
@@ -183,13 +180,10 @@ void App::ProcessEvents()
 
 void App::Update(sf::Time dt)
 {
-	std::cout << m_state << std::endl;
 	if(m_menu->IsActive())
 	{
-		m_menu->Update(m_done, m_state);
+		m_menu->Update();
 	}
-
-	if(m_state == 1) LoadLevel(); m_state = 0;
 
 	if(!m_menu->IsActive())
 	{
