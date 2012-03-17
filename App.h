@@ -67,7 +67,14 @@ class App
 		void Update(sf::Time dt);	// aktualizacja
 		void ProcessEvents();       // przetwarzanie zdarzeñ, które przysz³y	
 		void CleanUp();
+		void SaveGame();
 
 		bool CheckCollision(sf::FloatRect A, sf::FloatRect B);
 
+};
+
+struct Save
+{
+	int level, hp;
+	float posX, posY;
 };

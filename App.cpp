@@ -52,6 +52,7 @@ bool App::LoadLevel()
 			}
 		}
 	}
+	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_clean = false;
 	return true;
 }
@@ -61,6 +62,7 @@ void App::CleanUp()
 	if (!m_clean)
 	{
 		std::cout << "CleanUp() started" << std::endl;
+		SaveGame();
 		if (m_player != NULL)
 		{
 			std::cout << std::endl;
@@ -338,3 +340,19 @@ bool App::CheckCollision(sf::FloatRect A, sf::FloatRect B)
 	else return false;
 }
 
+void App::SaveGame()
+{
+	Save* save = new Save();
+	
+	save->level = m_currentLevel;
+	save->hp = m_player->GetHP();
+
+	save->posX = m_player->GetBox().Left;
+	save->posY = m_player->GetBox().Top;
+
+	std::ofstream file("save.dat", std::ios::binary);
+	file.write((char*)(save), sizeof(Save));
+	file.close();
+
+	delete save;
+}
