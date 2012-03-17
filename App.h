@@ -68,6 +68,8 @@ class App
 		void ProcessEvents();       // przetwarzanie zdarzeñ, które przysz³y	
 		void CleanUp();
 		void SaveGame();
+		bool LoadGame();
+		bool SaveExist();
 
 		bool CheckCollision(sf::FloatRect A, sf::FloatRect B);
 

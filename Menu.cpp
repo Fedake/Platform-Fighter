@@ -1,7 +1,8 @@
 #include "Menu.h"
+#include <iostream>
 
-Menu::Menu(int winW, int winH, sf::Texture* nTitleTex, sf::Texture* nTex) : m_active(true), m_type(0), m_screenWidth(winW),
-																			m_screenHeight(winH)
+Menu::Menu(int winW, int winH, sf::Texture* nTitleTex, sf::Texture* nTex, bool nContinue) : m_active(true), m_type(0), m_screenWidth(winW),
+																									m_screenHeight(winH), m_continue(nContinue)
 {
 	m_title.SetTexture(*nTitleTex);
 
@@ -27,13 +28,14 @@ void Menu::Click(bool& quit, int& state)
 		{
 			if(m_buttons[i]->Contains(m_mPos)) 
 			{
-				if(i == 0) {state = 1; m_type = 1; m_active = false;}
+				if(i == 0) {m_type = 1; m_active = false; state = 1;}
+				if(i == 1 && m_continue) {m_type = 1; m_active = false; state = 2;}
 				if(i == 2) quit = true;
 			}
 		}
 	}
 
-	if(m_type == 1)
+	else if(m_type == 1)
 	{
 		for(int i = 3; i < 5; i++)
 		{
@@ -48,6 +50,7 @@ void Menu::Click(bool& quit, int& state)
 
 void Menu::Update()
 {
+	std::cout << m_type << std::endl;
 	if(m_type == 0)
 	{
 		for(int i = 0; i < 3; i++)
@@ -55,6 +58,7 @@ void Menu::Update()
 			if(m_buttons[i]->Contains(m_mPos)) 
 			{
 				if(i != 1) m_buttons[i]->SetState(1);
+				else if(m_continue) m_buttons[i]->SetState(1);
 			}
 			else m_buttons[i]->SetState(0);
 		}

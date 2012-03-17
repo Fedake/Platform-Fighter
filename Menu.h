@@ -11,17 +11,19 @@ class Menu
 
 		sf::Vector2f m_mPos;
 		bool m_active;
+		bool m_continue;
 
 		int m_type;
 
 		int m_screenWidth, m_screenHeight;
 	public:
-		Menu(int winW, int winH, sf::Texture* nTitleTex, sf::Texture* nGuiTex);
+		Menu(int winW, int winH, sf::Texture* nTitleTex, sf::Texture* nGuiTex, bool nContinue);
 
 		void SetMousePosition(sf::Vector2f nPos){m_mPos = nPos;}
 		void Click(bool& quit, int& state);
 		void Toggle() {if(m_type > 0)m_active = !m_active;}
 		void OpenMenu() {if(m_type > 0)m_active = true;}
+		void SetContinue(bool n){m_continue = n;}
 
 		bool IsActive(){return m_active;}
 		int GetType(){return m_type;}

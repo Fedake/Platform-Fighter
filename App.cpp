@@ -15,7 +15,7 @@ bool App::Init()
 	m_currentLevel = 1;
 	m_clean = true;
 
-	m_menu = new Menu(m_window.GetWidth(), m_window.GetHeight(), m_resMgr->GetTitleTexture(), m_resMgr->GetGuiTexture());
+	m_menu = new Menu(m_window.GetWidth(), m_window.GetHeight(), m_resMgr->GetTitleTexture(), m_resMgr->GetGuiTexture(), SaveExist());
 
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	return true;
@@ -205,13 +205,16 @@ void App::ProcessEvents()
 													 m_cam->GetView()), sf::Vector2f(m_player->GetBox().Left + 8, m_player->GetBox().Top + 8));
 				else m_menu->Click(m_done, m_state);
 
-				if(m_state == 1) LoadLevel(); m_state = 0;
+				if(m_state == 1) LoadLevel();
+				if(m_state == 2) LoadGame();
+
+				 m_state = 0;
 			}
 		}
 		else if(Event.Type == sf::Event::KeyPressed)
 		{
 			if(Event.Key.Code == sf::Keyboard::Escape)
-			{   // zamkniêcie okna
+			{
 				m_menu->Toggle();
 			}
 		}
@@ -239,7 +242,10 @@ void App::Update(sf::Time dt)
 	if(m_menu->IsActive())
 	{
 		if (m_menu->GetType() == 0)
+		{
+			m_menu->SetContinue(SaveExist());
 			CleanUp();
+		}
 		m_menu->Update();
 	}
 
@@ -355,4 +361,59 @@ void App::SaveGame()
 	file.close();
 
 	delete save;
+}
+
+bool App::LoadGame()
+{
+	std::ifstream file("save.dat", std::ios::binary);
+
+	char* temp = new char[sizeof(Save)];
+	file.read(temp, sizeof(Save));
+	Save* save = (Save*)(temp);
+
+	creature.clear();
+	entity.clear();
+
+	std::stringstream level;
+	level << "data/maps/" << save->level << ".map";
+	if(!m_map->LoadNextLevel(level.str())) 
+	{
+		std::cout << "Level: " << level << std::endl;
+		std::cout << "No such level";
+		return false;
+	}
+	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp);
+	m_gun = new Gun();
+
+	for(int j = 0; j < m_map->getMapHeight(); j++)
+	{
+		for(int i = 0; i < m_map->getMapWidth(); i++)
+		{
+			int type = m_map->getEntity(i, j);
+			if (type > 0 && type < 10)
+			{
+				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(type)));
+			}
+			else if (type >= 10 && type < 16)
+			{
+				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(2)));
+			}
+		}
+	}
+	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+	m_clean = false;
+	return true;
+}
+
+bool App::SaveExist()
+{
+        FILE* plik;
+        plik = fopen("save.dat", "r");
+        if ( plik )
+        {
+            fclose(plik);
+            return true;
+        }
+        //fclose(plik);
+        return false;
 }

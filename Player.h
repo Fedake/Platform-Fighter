@@ -30,7 +30,7 @@ class Player
 		bool m_ghost;
 
 	public:
-		Player(sf::Vector2f pos, sf::Texture* nTex);
+		Player(sf::Vector2f pos, sf::Texture* nTex, int hp = 10);
 		
 		//Aktualizacja danych
 		void Update(sf::Int32 dt);

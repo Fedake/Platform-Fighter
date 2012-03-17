@@ -1,14 +1,15 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(sf::Vector2f pos, sf::Texture* nTex) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false), goDown(false), m_ghost(false)
+Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false),
+															  goDown(false), m_ghost(false)
 {
 	box.Left = pos.x;
 	box.Top = pos.y;
 	box.Width = 16;
 	box.Height = 16;
 
-	HP = 10;
+	HP = hp;
 	coins = 0;
 
 	hitTime.Restart();
