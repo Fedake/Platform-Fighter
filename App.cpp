@@ -10,12 +10,13 @@ bool App::Init()
 
 	m_hud = new HUD(m_resMgr->getHudTexture());
 
-	m_currentLevel = 1;
-
 	m_map = new Map(m_resMgr);
 
+	m_currentLevel = 1;
+	m_clean = true;
+
 	m_menu = new Menu(m_window.GetWidth(), m_window.GetHeight(), m_resMgr->GetTitleTexture(), m_resMgr->GetGuiTexture());
-	m_gun = new Gun();
+
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	return true;
 }
@@ -34,7 +35,7 @@ bool App::LoadLevel()
 		return false;
 	}
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture());
-	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+	m_gun = new Gun();
 
 	for(int j = 0; j < m_map->getMapHeight(); j++)
 	{
@@ -51,7 +52,60 @@ bool App::LoadLevel()
 			}
 		}
 	}
+	m_clean = false;
 	return true;
+}
+
+void App::CleanUp()
+{
+	if (!m_clean)
+	{
+		std::cout << "CleanUp() started" << std::endl;
+		if (m_player != NULL)
+		{
+			std::cout << std::endl;
+			delete m_player;
+			m_player = NULL;
+			std::cout << "m_player deleted" << std::endl;
+			std::cout << std::endl;
+		}
+
+		if (m_gun != NULL)
+		{
+			std::cout << std::endl;
+			delete m_gun;
+			m_gun = NULL;
+			std::cout << "m_gun deleted" << std::endl;
+			std::cout << std::endl;
+		}
+
+		std::cout << std::endl;
+		while (creature.size() != 0)
+		{
+			if (creature[0] != NULL)
+			{
+				delete creature[0];
+				creature.erase(creature.begin());
+				std::cout << "creature" << 0 << " deleted" << std::endl;
+			}
+		}
+		std::cout << std::endl;
+
+		std::cout << std::endl;
+		while (entity.size() != 0)
+		{
+			if (entity[0] != NULL)
+			{
+				delete entity[0];
+				entity.erase(entity.begin());
+				std::cout << "entity" << 0 << " deleted" << std::endl;
+			}
+		}
+		std::cout << std::endl;
+
+		m_clean = true;
+		std::cout << "CleanUp() ended" << std::endl;
+	}
 }
 
 void App::Run()
@@ -183,14 +237,20 @@ void App::ProcessEvents()
 
 void App::Update(sf::Time dt)
 {
-	std::cout << m_state << std::endl;
 	if(m_menu->IsActive())
 	{
+		if (m_menu->GetType() == 0)
+			CleanUp();
 		m_menu->Update(m_done, m_state);
 	}
 
-	if(m_state == 1) LoadLevel(); m_state = 0;
-
+	if(m_state == 1) 
+	{
+		m_currentLevel = 1;
+		LoadLevel();
+	}
+	m_state = 0;
+	
 	if(!m_menu->IsActive())
 	{
 		m_player->Update(dt.AsMilliseconds());

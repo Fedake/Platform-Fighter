@@ -29,6 +29,8 @@ class App
 		bool m_fullscreen;
 		bool m_done;
 
+		bool m_clean;
+
 		int m_state;
 
 		sf::RenderWindow m_window;
@@ -64,6 +66,7 @@ class App
 		void Draw();                // rysowanie 
 		void Update(sf::Time dt);	// aktualizacja
 		void ProcessEvents();       // przetwarzanie zdarzeñ, które przysz³y	
+		void CleanUp();
 
 		bool CheckCollision(sf::FloatRect A, sf::FloatRect B);
 
