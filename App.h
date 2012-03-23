@@ -14,6 +14,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <stack>
 
 #include <SFML/Graphics.hpp>
 
@@ -79,4 +80,8 @@ struct Save
 {
 	int level, hp;
 	float posX, posY;
+
+	std::stack<Creature> creature;
+	std::stack<Entity> entity;
+	std::vector<int> vals;
 };

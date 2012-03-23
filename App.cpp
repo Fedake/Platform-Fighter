@@ -356,6 +356,12 @@ void App::SaveGame()
 	save->posX = m_player->GetBox().Left;
 	save->posY = m_player->GetBox().Top;
 
+	for (int i = 0; i < 10; ++i)
+	{
+		save->vals.push_back(i);
+		std::cout << "val: " << save->vals[i] << std::endl;
+	}
+
 	std::ofstream file("save.dat", std::ios::binary);
 	file.write((char*)(save), sizeof(Save));
 	file.close();
@@ -384,6 +390,11 @@ bool App::LoadGame()
 	}
 	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp);
 	m_gun = new Gun();
+
+	for (unsigned i = 0; i < save->vals.size(); ++i)
+	{
+		std::cout << "val" << i << ": " << save->vals[i] << std::endl;
+	}
 
 	for(int j = 0; j < m_map->getMapHeight(); j++)
 	{

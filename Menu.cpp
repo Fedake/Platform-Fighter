@@ -50,7 +50,6 @@ void Menu::Click(bool& quit, int& state)
 
 void Menu::Update()
 {
-	std::cout << m_type << std::endl;
 	if(m_type == 0)
 	{
 		for(int i = 0; i < 3; i++)
