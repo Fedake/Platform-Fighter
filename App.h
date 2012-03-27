@@ -14,12 +14,13 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-#include <stack>
+#include <queue>
+#include <Windows.h>
 
 #include <SFML/Graphics.hpp>
 
 const int TILE_COUNT = 1024;
-const int CREATURE_COUNT = 10;
+const int ENT_MAX_SIZE = 32;
 
 class App
 {
@@ -76,12 +77,17 @@ class App
 
 };
 
+struct EntData
+{
+	float x, y;
+	int type;
+};
+
 struct Save
 {
 	int level, hp;
 	float posX, posY;
 
-	std::stack<Creature> creature;
-	std::stack<Entity> entity;
-	std::vector<int> vals;
+	EntData creatureData[ENT_MAX_SIZE];
+	EntData entityData[ENT_MAX_SIZE];
 };

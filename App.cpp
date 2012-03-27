@@ -81,29 +81,8 @@ void App::CleanUp()
 			std::cout << std::endl;
 		}
 
-		std::cout << std::endl;
-		while (creature.size() != 0)
-		{
-			if (creature[0] != NULL)
-			{
-				delete creature[0];
-				creature.erase(creature.begin());
-				std::cout << "creature" << 0 << " deleted" << std::endl;
-			}
-		}
-		std::cout << std::endl;
-
-		std::cout << std::endl;
-		while (entity.size() != 0)
-		{
-			if (entity[0] != NULL)
-			{
-				delete entity[0];
-				entity.erase(entity.begin());
-				std::cout << "entity" << 0 << " deleted" << std::endl;
-			}
-		}
-		std::cout << std::endl;
+		creature.clear();
+		entity.clear();
 
 		m_clean = true;
 		std::cout << "CleanUp() ended" << std::endl;
@@ -355,11 +334,22 @@ void App::SaveGame()
 
 	save->posX = m_player->GetBox().Left;
 	save->posY = m_player->GetBox().Top;
+	
+	ZeroMemory(save->creatureData, sizeof(save->creatureData));
+	ZeroMemory(save->entityData, sizeof(save->entityData));
 
-	for (int i = 0; i < 10; ++i)
+	for (unsigned i = 0; i < creature.size(); ++i)
 	{
-		save->vals.push_back(i);
-		std::cout << "val: " << save->vals[i] << std::endl;
+		save->creatureData[i].x = creature[i]->GetBox().Left;
+		save->creatureData[i].y = creature[i]->GetBox().Top;
+		save->creatureData[i].type = creature[i]->GetType();
+	}
+
+	for (unsigned i = 0; i < entity.size(); ++i)
+	{
+		save->entityData[i].x = entity[i]->GetBox().Left;
+		save->entityData[i].y = entity[i]->GetBox().Top;
+		save->entityData[i].type = entity[i]->GetType();
 	}
 
 	std::ofstream file("save.dat", std::ios::binary);
@@ -377,9 +367,6 @@ bool App::LoadGame()
 	file.read(temp, sizeof(Save));
 	Save* save = (Save*)(temp);
 
-	creature.clear();
-	entity.clear();
-
 	std::stringstream level;
 	level << "data/maps/" << save->level << ".map";
 	if(!m_map->LoadNextLevel(level.str())) 
@@ -388,30 +375,36 @@ bool App::LoadGame()
 		std::cout << "No such level";
 		return false;
 	}
+	std::cout << "lala1" << std::endl;
+
 	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp);
 	m_gun = new Gun();
+	std::cout << "lala2" << std::endl;
 
-	for (unsigned i = 0; i < save->vals.size(); ++i)
+	for (unsigned i = 0; i < ENT_MAX_SIZE; ++i)
 	{
-		std::cout << "val" << i << ": " << save->vals[i] << std::endl;
+		if (save->creatureData[i].x == NULL) break;
+		
+			float x = save->creatureData[i].x;
+			float y = save->creatureData[i].y;
+			int type = save->creatureData[i].type;
+			creature.push_back(new Creature(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(type)));
+		
 	}
+	std::cout << "lala3" << std::endl;
 
-	for(int j = 0; j < m_map->getMapHeight(); j++)
+	for (unsigned i = 0; i < ENT_MAX_SIZE; ++i)
 	{
-		for(int i = 0; i < m_map->getMapWidth(); i++)
-		{
-			int type = m_map->getEntity(i, j);
-			if (type > 0 && type < 10)
-			{
-				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(type)));
-			}
-			else if (type >= 10 && type < 16)
-			{
-				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(2)));
-			}
-		}
+		if (save->entityData[i].x == NULL) break;
+
+			float x = save->entityData[i].x;
+			float y = save->entityData[i].y;
+			int type = save->entityData[i].type;
+			entity.push_back(new Entity(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(type)));
+		
 	}
-	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+	std::cout << "lala4" << std::endl;
+
 	m_clean = false;
 	return true;
 }
