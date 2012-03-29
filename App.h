@@ -45,6 +45,7 @@ class App
 		std::vector<Entity*> entity;
 
 		int m_currentLevel;
+		int m_hp;
 
 		Player* m_player;
 		Gun* m_gun;

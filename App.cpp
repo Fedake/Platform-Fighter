@@ -12,6 +12,8 @@ bool App::Init()
 
 	m_map = new Map(m_resMgr);
 
+	m_hp = 10;
+
 	m_currentLevel = 1;
 	m_clean = true;
 
@@ -28,13 +30,14 @@ bool App::LoadLevel()
 
 	std::stringstream level;
 	level << "data/maps/" << m_currentLevel << ".map";
-	if(!m_map->LoadNextLevel(level.str())) 
+	if(!m_map->LoadNextLevel(level.str()))
 	{
 		std::cout << "Level: " << level << std::endl;
 		std::cout << "No such level";
 		return false;
 	}
-	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture());
+
+	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture(), m_hp);
 	m_gun = new Gun();
 
 	for(int j = 0; j < m_map->getMapHeight(); j++)
@@ -184,10 +187,14 @@ void App::ProcessEvents()
 													 m_cam->GetView()), sf::Vector2f(m_player->GetBox().Left + 8, m_player->GetBox().Top + 8));
 				else m_menu->Click(m_done, m_state);
 
-				if(m_state == 1) LoadLevel();
+				if(m_state == 1) 
+				{
+					m_currentLevel = 1;
+					LoadLevel();
+				}
 				if(m_state == 2) LoadGame();
 
-				 m_state = 0;
+				m_state = 0;
 			}
 		}
 		else if(Event.Type == sf::Event::KeyPressed)
@@ -282,6 +289,7 @@ void App::Update(sf::Time dt)
 					entity.erase(entity.begin() + current);
 				else if (m_player->EntityCollision(entity[current]) == 2)
 				{
+					m_hp = m_player->GetHP();
 					m_currentLevel += 1;
 					LoadLevel();
 				}
@@ -400,7 +408,7 @@ bool App::LoadGame()
 			float x = save->entityData[i].x;
 			float y = save->entityData[i].y;
 			int type = save->entityData[i].type;
-			entity.push_back(new Entity(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(type)));
+			entity.push_back(new Entity(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(2)));
 		
 	}
 	std::cout << "lala4" << std::endl;
