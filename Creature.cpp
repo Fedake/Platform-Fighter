@@ -5,6 +5,7 @@ Creature::Creature()
 {
 	m_vel = sf::Vector2f(0, 0);
 	canJump = false;
+
 	goLeft = true;
 	goRight = false;
 
@@ -16,7 +17,7 @@ Creature::Creature()
 	m_type = 20;
 }
 
-Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex) : m_vel(0, 0), canJump(false), goLeft(true), goRight(false), isDead(false)
+Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m_vel(0, 0), canJump(false), isDead(false)
 {
 	box.Left = pos.x;
 	box.Top = pos.y;
@@ -26,6 +27,17 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex) : m_vel(0, 0),
 	m_type = type;
 
 	m_anim = new Animation(nTex, 2, 300);
+
+	if (left == true)
+	{
+		StopRight();
+		GoLeft();
+	}
+	else
+	{
+		StopLeft();
+		GoRight();
+	}
 
 
 	switch(m_type)

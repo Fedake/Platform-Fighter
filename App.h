@@ -82,6 +82,7 @@ struct EntData
 {
 	float x, y;
 	int type;
+	bool left;
 };
 
 struct Save

@@ -22,7 +22,7 @@ class Creature
 
 	public:
 		Creature();
-		Creature(sf::Vector2f pos, int type, sf::Texture* nTex);
+		Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left = true);
 		
 		//Aktualizacja danych
 		void Update(sf::Int32 dt);

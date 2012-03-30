@@ -351,6 +351,7 @@ void App::SaveGame()
 		save->creatureData[i].x = creature[i]->GetBox().Left;
 		save->creatureData[i].y = creature[i]->GetBox().Top;
 		save->creatureData[i].type = creature[i]->GetType();
+		save->creatureData[i].left = creature[i]->IsGoingLeft();
 	}
 
 	for (unsigned i = 0; i < entity.size(); ++i)
@@ -396,8 +397,9 @@ bool App::LoadGame()
 			float x = save->creatureData[i].x;
 			float y = save->creatureData[i].y;
 			int type = save->creatureData[i].type;
-			creature.push_back(new Creature(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(type)));
-		
+			bool left = save->creatureData[i].left;
+			creature.push_back(new Creature(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(type), left));
+			
 	}
 	std::cout << "lala3" << std::endl;
 
