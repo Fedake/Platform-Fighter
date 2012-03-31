@@ -14,6 +14,7 @@ class Entity
 		sf::Vector2f m_vel;
 
 		int m_type;
+		int m_animFrames;
 
 		bool isTaken;
 
@@ -23,7 +24,7 @@ class Entity
 		// To te¿
 		Entity(sf::Vector2f pos, int type, sf::Texture* nTex);
 
-		void UpdateSprite();
+		void UpdateSprite(int dt);
 
 		sf::FloatRect GetBox() { return box; }
 		sf::Sprite GetSprite() {return m_sprite;}

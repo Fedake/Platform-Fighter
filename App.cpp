@@ -51,7 +51,7 @@ bool App::LoadLevel()
 			}
 			else if (type >= 10 && type < 16)
 			{
-				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(2)));
+				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(type)));
 			}
 		}
 	}
@@ -245,7 +245,7 @@ void App::Update(sf::Time dt)
 		}
 		for (unsigned i = 0; i < entity.size(); ++i)
 		{
-			entity[i]->UpdateSprite();
+			entity[i]->UpdateSprite(dt.AsMilliseconds());
 		}
 
 		// WSZYSTKIE KOLIZJI DOTYCZ¥CE MAPY
@@ -412,7 +412,7 @@ bool App::LoadGame()
 			float x = save->entityData[i].x;
 			float y = save->entityData[i].y;
 			int type = save->entityData[i].type;
-			entity.push_back(new Entity(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(2)));
+			entity.push_back(new Entity(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(type)));
 		
 	}
 	std::cout << "lala4" << std::endl;

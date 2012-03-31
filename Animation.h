@@ -25,5 +25,6 @@ class Animation
 		void Stop(){m_prevState = m_state; m_state = 0;}
 		void PlayLeft(){m_prevState = m_state; m_state = 1;}
 		void PlayRight(){m_prevState = m_state; m_state = 2;}
+		void PlayAll() { m_prevState = m_state; m_state = 3; }
 		void Restart(){m_clock.Restart();}
 };

@@ -21,12 +21,18 @@ void Animation::Update()
 		if(m_state == m_prevState) m_frame++;
 		if(m_frame > m_frames) m_frame = 1;
 
-		if(m_state == 1)
+		if (m_state == 1)
 		{
 			m_sprite.SetTextureRect(sf::IntRect(m_frame*16, 0, 16, 16));
 		}
-		else if(m_state == 2) m_sprite.SetTextureRect(sf::IntRect((m_frame+m_frames)*16, 0, 16, 16));
-
+		else if (m_state == 2) 
+		{
+			m_sprite.SetTextureRect(sf::IntRect((m_frame+m_frames)*16, 0, 16, 16));
+		}
+		else if (m_state == 3)
+		{
+			m_sprite.SetTextureRect(sf::IntRect((m_frame-1)*16, 0, 16, 16));
+		}
 		m_clock.Restart();
 	}
 }

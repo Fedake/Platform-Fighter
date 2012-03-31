@@ -20,11 +20,18 @@ Entity::Entity(sf::Vector2f pos, int type, sf::Texture* nTex)
 
 	m_type = type;
 
-	m_anim = new Animation(nTex, 2, 300);
+	switch (type)
+	{
+		case 11: m_animFrames = 1; break;
+		case 15: m_animFrames = 5;break;
+	}
+	m_anim = new Animation(nTex, m_animFrames, 300);
 }
 
-void Entity::UpdateSprite()
+void Entity::UpdateSprite(int dt)
 {
+	m_anim->PlayAll();
+	m_anim->Update();
 	m_sprite = m_anim->GetSprite();
 	m_sprite.SetPosition(box.Left, box.Top);
 }
