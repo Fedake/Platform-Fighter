@@ -14,10 +14,12 @@ class Animation
 
 		float m_frameTime;
 
+		int m_height, m_width;
+
 		int m_state;
 		int m_prevState;
 	public:
-		Animation(sf::Texture* nTex, int nFrames, float nFTime);
+		Animation(sf::Texture* nTex, int nFrames, float nFTime, int height = 16, int width = 16);
 		void Update();
 
 		sf::Sprite GetSprite(){return m_sprite;}

@@ -21,12 +21,13 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m
 {
 	box.Left = pos.x;
 	box.Top = pos.y;
-	box.Width = 16;
-	box.Height = 16;
 
 	m_type = type;
 
-	m_anim = new Animation(nTex, 2, 300);
+	if (type == 8)
+		m_anim = new Animation(nTex, 2, 300, 32, 32);
+	else
+		m_anim = new Animation(nTex, 2, 300);
 
 	if (left == true)
 	{
@@ -43,16 +44,28 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m
 	switch(m_type)
 	{
 		case 1:
+			box.Width = 16;
+			box.Height = 16;
 			HP = 10;
 			vel = 40;
 			break;
 		case 2:
+			box.Width = 16;
+			box.Height = 16;
 			HP = 20;
 			vel = 50;
 			break;
 		case 3:
+			box.Width = 16;
+			box.Height = 16;
 			HP = 30;
 			vel = 60;
+			break;
+		case 8:
+			box.Width = 32;
+			box.Height = 32;
+			HP = 80;
+			vel = 30;
 			break;
 	}
 }
@@ -84,6 +97,14 @@ void Creature::Update(int dt)
 	{
 		m_vel.x = 0;
 		m_anim->Stop();
+	}
+
+	if (m_type == 8)
+	{
+		if (playerAround)
+			SetVel(80);
+		else
+			SetVel(30);
 	}
 
 	//Update pozycji

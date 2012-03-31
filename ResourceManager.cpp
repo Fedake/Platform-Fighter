@@ -32,6 +32,14 @@ ResourceManager::ResourceManager()
 		m_entTex[i]->LoadFromImage(sheet, sf::IntRect(0, (i-1)*16, sheet.GetWidth(), 16));
 	}
 
+	sheet.LoadFromFile("data/gfx/bossSheet.png");
+
+	for (int i = 1; i < 5; i++)
+	{
+		m_bossTex[i] = new sf::Texture();
+		m_bossTex[i]->LoadFromImage(sheet, sf::IntRect(0, (i-1)*32, sheet.GetWidth(), 32));
+	}
+
 	sheet.LoadFromFile("data/gfx/hudSheet.png");
 	m_hudTex = new sf::Texture();
 	m_hudTex->LoadFromImage(sheet);

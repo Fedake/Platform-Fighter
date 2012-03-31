@@ -10,6 +10,7 @@ class ResourceManager
 		sf::Texture* m_tileTex[TOTAL_SPRITES];
 		sf::Texture* m_playerTex;
 		sf::Texture* m_entTex[TOTAL_ENTITIES];
+		sf::Texture* m_bossTex[4];
 		sf::Texture* m_hudTex;
 		sf::Texture* m_guiTex;
 		sf::Texture* m_titleTex;
@@ -23,4 +24,5 @@ class ResourceManager
 		sf::Texture* getHudTexture(){return m_hudTex;}
 		sf::Texture* GetGuiTexture(){return m_guiTex;}
 		sf::Texture* GetTitleTexture(){return m_titleTex;}
+		sf::Texture* GetBossTexture(int nr){return m_bossTex[nr];}
 };

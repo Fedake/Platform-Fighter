@@ -75,6 +75,7 @@ void Player::CheckCreaturesAround(Creature* creature)
 {
 	if ((creature->GetBox().Top < box.Top+box.Height+10) && (creature->GetBox().Top+creature->GetBox().Height > box.Top-10))
 	{
+		creature->PlayerAround();
 		if (creature->GetBox().Left < box.Left && creature->GetBox().Left+creature->GetBox().Width+64 > box.Left)
 		{
 			creature->StopLeft();
@@ -86,7 +87,10 @@ void Player::CheckCreaturesAround(Creature* creature)
 			creature->GoLeft();
 		}
 	}
-	
+	else
+	{
+		creature->PlayerNotAround();
+	}
 }
 
 void Player::SolidCollision(sf::FloatRect A)
@@ -202,6 +206,11 @@ void Player::CreatureCollision(Creature* creature)
 		case 3:
 			Hurt(3);
 			std::cout << "Player stracil 3 serduszka" << std::endl;
+			hitTime.Restart();
+			break;
+		case 8:
+			Hurt(5);
+			std::cout << "Player stracil 5 serduszek" << std::endl;
 			hitTime.Restart();
 			break;
 		default: 

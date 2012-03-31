@@ -18,6 +18,7 @@ class Creature
 		
 		float vel;
 
+		bool playerAround;
 		bool canJump;
 		bool goLeft, goRight;
 		bool isDead;
@@ -55,6 +56,10 @@ class Creature
 
 		void SolidCollision(sf::FloatRect A);
 		void HalfSolidCollision(sf::FloatRect A);
+
+		void PlayerAround() { playerAround = true; }
+		void PlayerNotAround() { playerAround = false; }
+		void SetVel(int v) { vel = v; }
 
 		void Hurt();
 		void Die() { isDead = true; }

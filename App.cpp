@@ -45,11 +45,15 @@ bool App::LoadLevel()
 		for(int i = 0; i < m_map->getMapWidth(); i++)
 		{
 			int type = m_map->getEntity(i, j);
-			if (type > 0 && type < 10)
+			if (type > 0 && type < 7)
 			{
 				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(type)));
 			}
-			else if (type >= 10 && type < 16)
+			else if (type >=7 && type < 9)
+			{
+				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetBossTexture(1)));
+			}
+			else if (type >= 9 && type < 16)
 			{
 				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(type)));
 			}
