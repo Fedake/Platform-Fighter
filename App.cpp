@@ -36,7 +36,7 @@ bool App::LoadLevel()
 		std::cout << "No such level";
 		return false;
 	}
-
+	if (m_currentLevel == 1) m_hp = 10;
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture(), m_hp);
 	m_gun = new Gun();
 

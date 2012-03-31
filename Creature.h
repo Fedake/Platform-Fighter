@@ -13,6 +13,8 @@ class Creature
 		//Predkosc
 		sf::Vector2f m_vel;
 
+		sf::Clock PATimer;
+
 		int m_type;
 		int HP;
 		
@@ -42,6 +44,8 @@ class Creature
 		bool IsGoingLeft() { return goLeft; }
 		bool IsGoingRight() { return goRight; }
 
+		int GetPATime() { return PATimer.GetElapsedTime().AsMilliseconds(); }
+
 		bool IsDead() { return isDead; }
 
 		int GetType() { return m_type; }
@@ -59,7 +63,7 @@ class Creature
 
 		void PlayerAround() { playerAround = true; }
 		void PlayerNotAround() { playerAround = false; }
-		void SetVel(int v) { vel = v; }
+		void SetVel(float v) { vel = v; }
 
 		void Hurt();
 		void Die() { isDead = true; }

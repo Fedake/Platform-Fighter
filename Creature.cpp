@@ -99,11 +99,14 @@ void Creature::Update(int dt)
 		m_anim->Stop();
 	}
 
-	if (m_type == 8)
-	{
-		if (playerAround)
+	if (playerAround && GetPATime() > 500)
+	{		
+		if (m_type == 8)
 			SetVel(80);
-		else
+	}
+	else
+	{
+		if (m_type == 8)
 			SetVel(30);
 	}
 
@@ -222,10 +225,14 @@ void Creature::SolidCollision(sf::FloatRect A)
 				else if (xD+4 < yD)
 				{
 					box.Left = A.Left + A.Width;
-					/* std::cout << "DOL" << std::endl;
-					std::cout << "-->W LEWO<-- xD: " << xD << " ---- yD: " << yD << std::endl; */
 					StopLeft();
 					GoRight();
+
+					if (playerAround == true)
+					{
+						playerAround = false;
+						PATimer.Restart();
+					}
 				}
 
 			}

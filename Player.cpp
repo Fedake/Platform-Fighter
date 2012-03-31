@@ -73,15 +73,17 @@ void Player::Update(int dt)
 
 void Player::CheckCreaturesAround(Creature* creature)
 {
-	if ((creature->GetBox().Top < box.Top+box.Height+10) && (creature->GetBox().Top+creature->GetBox().Height > box.Top-10))
+	if ((creature->GetBox().Top < box.Top+box.Height+10) && (creature->GetBox().Top+creature->GetBox().Height > box.Top-10) &&
+			PHTime.GetElapsedTime().AsMilliseconds() > 500)
 	{
 		creature->PlayerAround();
-		if (creature->GetBox().Left < box.Left && creature->GetBox().Left+creature->GetBox().Width+64 > box.Left)
+
+		if (creature->GetBox().Left < box.Left && creature->GetBox().Left+creature->GetBox().Width+64 > box.Left && creature->GetPATime() > 500)
 		{
 			creature->StopLeft();
 			creature->GoRight();
 		}
-		if (creature->GetBox().Left > box.Left && creature->GetBox().Left < box.Left+box.Width+64)
+		if (creature->GetBox().Left > box.Left && creature->GetBox().Left < box.Left+box.Width+64 && creature->GetPATime() > 500)
 		{
 			creature->StopRight();
 			creature->GoLeft();
@@ -219,6 +221,7 @@ void Player::CreatureCollision(Creature* creature)
 		if (HP <= 0)
 			std::cout << "Player padl" << std::endl;
 	}
+	PHTime.Restart();
 }
 
 int Player::EntityCollision(Entity* entity)
