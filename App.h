@@ -89,6 +89,7 @@ struct Save
 {
 	int level, hp;
 	float posX, posY;
+	sf::Clock ht;
 
 	EntData creatureData[ENT_MAX_SIZE];
 	EntData entityData[ENT_MAX_SIZE];

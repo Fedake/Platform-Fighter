@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false),
+Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false),
 															  goDown(false), m_ghost(false)
 {
 	box.Left = pos.x;
@@ -11,8 +11,9 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp) : m_vel(0, 0), canJu
 
 	HP = hp;
 	coins = 0;
-
+	
 	hitTime.Restart();
+	hitTime = ht;
 
 	m_anim = new Animation(nTex, 2, 100);
 }

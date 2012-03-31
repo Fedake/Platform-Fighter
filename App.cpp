@@ -342,6 +342,8 @@ void App::SaveGame()
 
 	save->posX = m_player->GetBox().Left;
 	save->posY = m_player->GetBox().Top;
+
+	save->ht = m_player->GetHitTime();
 	
 	ZeroMemory(save->creatureData, sizeof(save->creatureData));
 	ZeroMemory(save->entityData, sizeof(save->entityData));
@@ -386,7 +388,7 @@ bool App::LoadGame()
 	}
 	std::cout << "lala1" << std::endl;
 
-	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp);
+	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp, save->ht);
 	m_gun = new Gun();
 	std::cout << "lala2" << std::endl;
 

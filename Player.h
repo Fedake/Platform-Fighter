@@ -30,7 +30,7 @@ class Player
 		bool m_ghost;
 
 	public:
-		Player(sf::Vector2f pos, sf::Texture* nTex, int hp = 10);
+		Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht = *new sf::Clock);
 		
 		//Aktualizacja danych
 		void Update(sf::Int32 dt);
@@ -39,6 +39,8 @@ class Player
 
 		sf::FloatRect GetBox(){return box;}
 		sf::Vector2f getVel() {return m_vel;}
+
+		sf::Clock GetHitTime() { return hitTime; }
 
 		//Poruszanie
 		void GoLeft() { goLeft = true; }
