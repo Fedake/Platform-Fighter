@@ -44,12 +44,15 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m
 	{
 		case 1:
 			HP = 10;
+			vel = 40;
 			break;
 		case 2:
 			HP = 20;
+			vel = 50;
 			break;
 		case 3:
 			HP = 30;
+			vel = 60;
 			break;
 	}
 }
@@ -69,12 +72,12 @@ void Creature::Update(int dt)
 	}
 	else if(goLeft)
 	{
-		m_vel.x = -50;
+		m_vel.x = -vel;
 		m_anim->PlayLeft();
 	}
 	else if(goRight)
 	{
-		m_vel.x = 50;
+		m_vel.x = vel;
 		m_anim->PlayRight();
 	}
 	else

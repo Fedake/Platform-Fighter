@@ -19,7 +19,7 @@ class Player
 		//Predkosc
 		sf::Vector2f m_vel;
 
-		sf::Clock hitTime;
+		sf::Clock hitTime, pausedHitTime;
 
 		int HP;
 		int coins;

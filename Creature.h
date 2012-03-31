@@ -15,6 +15,8 @@ class Creature
 
 		int m_type;
 		int HP;
+		
+		float vel;
 
 		bool canJump;
 		bool goLeft, goRight;
