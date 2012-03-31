@@ -20,6 +20,15 @@ bool Map::LoadNextLevel(std::string name)
 	if(map.eof()) return false;
 	std::cout << "Map height " << m_mapHeight << std::endl;
 
+	map >> m_startPos.x;
+	if (map.eof()) return false;
+	std::cout << "Player X: " << m_startPos.x << std::endl;
+
+	map >> m_startPos.y;
+	if (map.eof()) return false;
+	std::cout << "Player Y: " << m_startPos.y << std::endl;
+
+
 	for(int j = 0; j < m_mapHeight; j++)
 	{
 		for(int i = 0; i < m_mapWidth; i++)
