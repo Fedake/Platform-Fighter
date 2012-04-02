@@ -78,20 +78,20 @@ void Player::CheckCreaturesAround(Creature* creature)
 	{
 		creature->PlayerAround();
 
-		if (creature->GetBox().Left < box.Left && creature->GetBox().Left+creature->GetBox().Width+64 > box.Left && creature->GetPATime() > 500)
+		if (creature->GetBox().Left < box.Left && creature->GetBox().Left+creature->GetBox().Width+ (creature->GetType() == 8 ? 256 : 64) > box.Left && creature->GetPATime() > 500)
 		{
 			creature->StopLeft();
 			creature->GoRight();
 		}
-		if (creature->GetBox().Left > box.Left && creature->GetBox().Left < box.Left+box.Width+64 && creature->GetPATime() > 500)
+		else if (creature->GetBox().Left > box.Left && creature->GetBox().Left < box.Left+box.Width+ (creature->GetType() == 8 ? 256 : 64) && creature->GetPATime() > 500)
 		{
 			creature->StopRight();
 			creature->GoLeft();
 		}
-	}
-	else
-	{
-		creature->PlayerNotAround();
+		else
+		{
+			creature->PlayerNotAround();
+		}
 	}
 }
 
