@@ -2,7 +2,7 @@
 #include <iostream>
 
 Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false),
-															  goDown(false), m_ghost(true)
+															  goDown(false), m_ghost(false)
 {
 	box.Left = pos.x;
 	box.Top = pos.y;

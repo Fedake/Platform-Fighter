@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.3", sf::Style::Titlebar);
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.4", sf::Style::Titlebar);
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
