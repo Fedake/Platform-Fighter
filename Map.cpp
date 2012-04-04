@@ -7,25 +7,25 @@ Map::Map(ResourceManager* resMgr) : m_mapWidth(0), m_mapHeight(0), m_startPos(32
 
 bool Map::LoadNextLevel(std::string name)
 {
-	std::ifstream map(name);
-	if(map == NULL) return false;
+	std::ifstream file(name, std::ios::binary);
+	if(file == NULL) return false;
+
+	char* temp = new char[sizeof(MapFile)];
+	file.read(temp, sizeof(MapFile));
+	MapFile* map = (MapFile*)(temp);
 
 	std::cout << "Map loaded successfully\n";
 
-	map >> m_mapWidth;
-	if(map.eof()) return false;
+	m_mapWidth = map->w;
 	std::cout << "Map witdh " << m_mapWidth << std::endl;
 
-	map >> m_mapHeight;
-	if(map.eof()) return false;
+	m_mapHeight = map->h;
 	std::cout << "Map height " << m_mapHeight << std::endl;
 
-	map >> m_startPos.x;
-	if (map.eof()) return false;
+	m_startPos.x = map->x;
 	std::cout << "Player X: " << m_startPos.x << std::endl;
 
-	map >> m_startPos.y;
-	if (map.eof()) return false;
+	m_startPos.y = map->y;
 	std::cout << "Player Y: " << m_startPos.y << std::endl;
 
 
@@ -33,31 +33,9 @@ bool Map::LoadNextLevel(std::string name)
 	{
 		for(int i = 0; i < m_mapWidth; i++)
 		{
-			int buffer;
-			map >> buffer;
-			m_tiles[i][j] = new Tile(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), m_resMgr->getTexture(buffer));
-		}
-	}
-
-	for(int j = 0; j < m_mapHeight; j++)
-	{
-		for(int i = 0; i < m_mapWidth; i++)
-		{
-			int buffer;
-			map >> buffer;
-			if(buffer == 0) m_solidMap[i][j] = false;
-			else if(buffer == 1) m_solidMap[i][j] = true;
-			else return false;
-		}
-	}
-
-	for(int j = 0; j < m_mapHeight; j++)
-	{
-		for(int i = 0; i < m_mapWidth; i++)
-		{
-			int buffer;
-			map >> buffer;
-			m_entities[i][j] = buffer;
+			m_tiles[i][j] = new Tile(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), m_resMgr->getTexture(map->tiles[i][j]));
+			m_solidMap[i][j] = map->solid[i][j] ? true : false;
+			m_entities[i][j] = map->ents[i][j];
 		}
 	}
 	std::cout << "Map initialized successfully" <<  std::endl;

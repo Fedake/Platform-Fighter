@@ -6,8 +6,8 @@
 #include <fstream>
 #include <iostream>
 
-#define MAP_WIDTH	64
-#define MAP_HEIGHT	64
+#define MAP_WIDTH	128
+#define MAP_HEIGHT	128
 
 class Map
 {
@@ -38,4 +38,13 @@ class Map
 		sf::FloatRect getBox(float x, float y){return sf::FloatRect(x*16, y*16, 16, 16);}
 
 		Tile* getTile(int x, int y) {return m_tiles[x][y];}
+};
+
+struct MapFile
+{	
+	int w, h, x, y;
+
+	int tiles[MAP_WIDTH][MAP_HEIGHT];
+	int solid[MAP_WIDTH][MAP_HEIGHT];
+	int ents[MAP_WIDTH][MAP_HEIGHT];
 };
