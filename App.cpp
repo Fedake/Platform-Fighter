@@ -18,7 +18,7 @@ bool App::Init()
 	m_clean = true;
 
 	m_menu = new Menu(m_window.GetWidth(), m_window.GetHeight(), m_resMgr->GetTitleTexture(), m_resMgr->GetGuiTexture(), SaveExist());
-
+	
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	return true;
 }
@@ -30,9 +30,11 @@ bool App::LoadLevel()
 
 	std::stringstream level;
 	level << "data/maps/" << m_currentLevel << ".map";
+	std::cout << level.str() << std::endl;
+	std::cout << "Level: " << level.str() << std::endl;
 	if(!m_map->LoadNextLevel(level.str()))
 	{
-		std::cout << "Level: " << level << std::endl;
+		std::cout << "Level: " << level.str() << std::endl;
 		std::cout << "No such level";
 		return false;
 	}
@@ -283,7 +285,6 @@ void App::Update(sf::Time dt)
 				}
 			}
 		}
-
 		// ENTITY GRACZ
 		for (unsigned current = 0; current < entity.size(); ++current)
 		{
@@ -382,6 +383,8 @@ bool App::LoadGame()
 	file.read(temp, sizeof(Save));
 	Save* save = (Save*)(temp);
 
+	m_currentLevel = save->level;
+
 	std::stringstream level;
 	level << "data/maps/" << save->level << ".map";
 	if(!m_map->LoadNextLevel(level.str())) 
@@ -404,7 +407,14 @@ bool App::LoadGame()
 			float y = save->creatureData[i].y;
 			int type = save->creatureData[i].type;
 			bool left = save->creatureData[i].left;
-			creature.push_back(new Creature(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(type), left));
+			if (type > 0 && type < 7)
+			{
+				creature.push_back(new Creature(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(type), left));
+			}
+			else if (type >=7 && type < 9)
+			{
+				creature.push_back(new Creature(sf::Vector2f(x, y), type, m_resMgr->GetBossTexture(1), left));
+			}
 			
 	}
 	std::cout << "lala3" << std::endl;
