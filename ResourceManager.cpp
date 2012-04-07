@@ -51,4 +51,8 @@ ResourceManager::ResourceManager()
 	sheet.LoadFromFile("data/gfx/title.png");
 	m_titleTex = new sf::Texture();
 	m_titleTex->LoadFromImage(sheet);
+
+	sheet.LoadFromFile("data/gfx/bg.png");
+	m_bgTex = new sf::Texture();
+	m_bgTex->LoadFromImage(sheet);
 }

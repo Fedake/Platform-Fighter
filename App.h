@@ -47,6 +47,8 @@ class App
 		int m_currentLevel;
 		int m_hp;
 
+		sf::Sprite bg;
+
 		Player* m_player;
 		Gun* m_gun;
 		Map* m_map;

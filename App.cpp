@@ -20,6 +20,9 @@ bool App::Init()
 	m_menu = new Menu(m_window.GetWidth(), m_window.GetHeight(), m_resMgr->GetTitleTexture(), m_resMgr->GetGuiTexture(), SaveExist());
 
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+
+
+	bg.SetTexture(*m_resMgr->GetBgTexture());
 	return true;
 }
 
@@ -119,9 +122,12 @@ void App::Run()
 
 void App::Draw()
 {
+	m_window.SetView(m_window.GetDefaultView());
+	m_window.Clear(sf::Color(255, 255, 255));
+	m_window.Draw(bg);
+
     //RYSOWANIE UWZGLEDNIAJAC KAMERE
 	m_window.SetView(m_cam->GetView());
-	m_window.Clear(sf::Color(255, 255, 255));
 
 	if(!m_menu->IsActive() || m_menu->GetType() == 1)
 	{

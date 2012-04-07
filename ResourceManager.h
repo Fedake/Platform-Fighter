@@ -14,6 +14,7 @@ class ResourceManager
 		sf::Texture* m_hudTex;
 		sf::Texture* m_guiTex;
 		sf::Texture* m_titleTex;
+		sf::Texture* m_bgTex;
 
 	public:
 		ResourceManager();
@@ -25,4 +26,5 @@ class ResourceManager
 		sf::Texture* GetGuiTexture(){return m_guiTex;}
 		sf::Texture* GetTitleTexture(){return m_titleTex;}
 		sf::Texture* GetBossTexture(int nr){return m_bossTex[nr];}
+		sf::Texture* GetBgTexture(){return m_bgTex;}
 };
