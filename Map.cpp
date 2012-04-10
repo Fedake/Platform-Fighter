@@ -60,6 +60,7 @@ Map::~Map()
 		for (int i = 0; i < m_mapWidth; ++i)
 		{
 			delete m_tiles[i][j];
+			m_tiles[i][j] = NULL;
 
 			m_solidMap[i][j] = NULL;
 			m_entities[i][j] = NULL;
