@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.4", sf::Style::Titlebar);
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.5", sf::Style::Titlebar);
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
@@ -17,9 +17,12 @@ bool App::Init()
 	m_currentLevel = 1;
 	m_clean = true;
 
-	m_menu = new Menu(m_window.GetWidth(), m_window.GetHeight(), m_resMgr->GetTitleTexture(), m_resMgr->GetGuiTexture(), SaveExist());
-	
+	m_menu = new Menu(m_window.GetWidth(), m_window.GetHeight(), m_resMgr, SaveExist());
+
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+
+
+	bg.SetTexture(*m_resMgr->GetBgTexture());
 	return true;
 }
 
@@ -131,10 +134,15 @@ void App::Run()
 
 void App::Draw()
 {
+	m_window.Clear(sf::Color::White);
+	if(!m_menu->IsActive() || m_menu->GetType() == 1)
+	{
+		m_window.SetView(m_window.GetDefaultView());
+		m_window.Draw(bg);
+	}
     //RYSOWANIE UWZGLEDNIAJAC KAMERE
 	m_window.SetView(m_cam->GetView());
-	m_window.Clear(sf::Color(255, 255, 255));
-
+	//m_window.Clear(sf::Color(255, 255, 255));
 	if(!m_menu->IsActive() || m_menu->GetType() == 1)
 	{
 		for(int i = 0; i < m_gun->GetBullets(); i++)
