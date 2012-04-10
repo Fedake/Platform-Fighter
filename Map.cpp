@@ -55,9 +55,9 @@ void Map::Draw(sf::RenderWindow* win)
 
 Map::~Map()
 {
-	for (int i = 0; i < m_mapWidth; ++i)
+	for (int j = 0; j < m_mapHeight; ++j)
 	{
-		for (int j = 0; j < m_mapHeight; ++j)
+		for (int i = 0; i < m_mapWidth; ++i)
 		{
 			delete m_tiles[i][j];
 
