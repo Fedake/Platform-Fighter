@@ -16,7 +16,7 @@ Menu::Menu(int winW, int winH, ResourceManager* resMgr, bool nContinue)
 	m_buttons[RESUME] = new Button(RESUME, nTex, sf::Vector2f(280, 200), sf::Vector2f(220, 70));
 	m_buttons[MAIN_MENU] = new Button(MAIN_MENU, nTex, sf::Vector2f(280, 350), sf::Vector2f(220, 70));
 
-	m_buttons[MAIN_MENU2] = new Button(MAIN_MENU, nTex, sf::Vector2f(280, 500), sf::Vector2f(220, 70));
+	m_buttons[MAIN_MENU2] = new Button(MAIN_MENU, nTex, sf::Vector2f(535, 500), sf::Vector2f(220, 70));
 
 	m_pauseShape.SetFillColor(sf::Color(0, 0, 0, 192));
 	m_pauseShape.SetSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
