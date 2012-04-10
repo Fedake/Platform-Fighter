@@ -98,7 +98,7 @@ void App::CleanUp()
 			delete creature[i];
 		}
 
-		for (int i = 0; i < creature.size(); ++i)
+		for (int i = 0; i < entity.size(); ++i)
 		{
 			delete entity[i];
 		}
