@@ -31,6 +31,7 @@ bool App::LoadLevel()
 	creature.clear();
 	entity.clear();
 
+	m_map = new Map(m_resMgr);
 	std::stringstream level;
 	level << "data/maps/" << m_currentLevel << ".map";
 	std::cout << level.str() << std::endl;
@@ -43,6 +44,7 @@ bool App::LoadLevel()
 	}
 	if (m_currentLevel == 1) m_hp = 10;
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture(), m_hp);
+	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
 
 	for(int j = 0; j < m_map->getMapHeight(); j++)
@@ -406,6 +408,8 @@ bool App::LoadGame()
 
 	m_currentLevel = save->level;
 
+	m_map = new Map(m_resMgr);
+
 	std::stringstream level;
 	level << "data/maps/" << save->level << ".map";
 	if(!m_map->LoadNextLevel(level.str())) 
@@ -417,6 +421,7 @@ bool App::LoadGame()
 	std::cout << "lala1" << std::endl;
 
 	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp, save->ht);
+	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
 	std::cout << "lala2" << std::endl;
 

@@ -13,8 +13,3 @@ void Tile::setPos(sf::Vector2f nPos)
 	m_pos = nPos;
 	m_spr.SetPosition(nPos);
 }
-
-Tile::~Tile()
-{
-	m_tex.~Texture();
-}

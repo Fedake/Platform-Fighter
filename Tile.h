@@ -11,7 +11,6 @@ class Tile
 
 	public:
 		Tile(sf::Vector2f nPos, sf::Texture newTexture);
-		~Tile();
 
 		void Render(sf::RenderWindow* win){win->Draw(m_spr);}
 
