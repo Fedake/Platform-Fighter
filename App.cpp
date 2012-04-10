@@ -92,6 +92,12 @@ void App::CleanUp()
 			std::cout << "m_gun deleted" << std::endl;
 			std::cout << std::endl;
 		}
+
+		delete m_map;
+		m_map = NULL;
+
+		delete m_cam;
+		m_cam = NULL;
 		
 		for (int i = 0; i < creature.size(); ++i)
 		{
