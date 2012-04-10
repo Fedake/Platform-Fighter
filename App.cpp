@@ -89,7 +89,17 @@ void App::CleanUp()
 			std::cout << "m_gun deleted" << std::endl;
 			std::cout << std::endl;
 		}
+		/*
+		for (int i = 0; i < creature.size(); ++i)
+		{
+			delete creature[i];
+		}
 
+		for (int i = 0; i < creature.size(); ++i)
+		{
+			delete entity[i];
+		}
+		*/
 		creature.clear();
 		entity.clear();
 
