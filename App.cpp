@@ -64,7 +64,7 @@ bool App::LoadLevel()
 			}
 		}
 	}
-	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+	
 	m_clean = false;
 	return true;
 }
@@ -95,9 +95,6 @@ void App::CleanUp()
 
 		delete m_map;
 		m_map = NULL;
-
-		delete m_cam;
-		m_cam = NULL;
 		
 		for (int i = 0; i < creature.size(); ++i)
 		{

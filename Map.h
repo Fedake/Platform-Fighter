@@ -25,6 +25,7 @@ class Map
 
 	public:
 		Map(ResourceManager* resMgr);
+		~Map();
 
 		bool LoadNextLevel(std::string levelName);
 

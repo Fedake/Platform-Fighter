@@ -52,3 +52,17 @@ void Map::Draw(sf::RenderWindow* win)
 		}
 	}
 }
+
+Map::~Map()
+{
+	for (int i = 0; i < m_mapWidth; ++i)
+	{
+		for (int j = 0; j < m_mapHeight; ++j)
+		{
+			delete m_tiles[i][j];
+
+			m_solidMap[i][j] = NULL;
+			m_entities[i][j] = NULL;
+		}
+	}
+}
