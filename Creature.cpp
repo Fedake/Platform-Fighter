@@ -24,8 +24,10 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m
 
 	m_type = type;
 
+	playerAround = false;
+
 	if (type == 8)
-		m_anim = new Animation(nTex, 2, 300, 32, 32);
+		m_anim = new Animation(nTex, 2, 200, 32, 32);
 	else
 		m_anim = new Animation(nTex, 2, 300);
 
@@ -64,7 +66,7 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m
 		case 8:
 			box.Width = 32;
 			box.Height = 32;
-			HP = 80;
+			HP = 250;
 			vel = 30;
 			break;
 	}
@@ -102,7 +104,7 @@ void Creature::Update(int dt)
 	if (playerAround && GetPATime() > 500)
 	{		
 		if (m_type == 8)
-			SetVel(80);
+			SetVel(100);
 	}
 	else
 	{
@@ -188,6 +190,12 @@ void Creature::SolidCollision(sf::FloatRect A)
 					box.Left = A.Left - box.Width;
 					StopRight();
 					GoLeft();
+
+					if (playerAround == true)
+					{
+						playerAround = false;
+						PATimer.Restart();
+					}
 				}
 			}
 			else if(m_vel.y < 0) //GORA
