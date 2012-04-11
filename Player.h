@@ -51,6 +51,7 @@ class Player
 		bool IsGoingRight() { return goRight; }
 
 		int GetHP() { return HP; }
+		int GetScore() {return coins; }
 
 		void Hurt(int value) { HP -= value; }
 		void Heal(int value) { HP += value; }
