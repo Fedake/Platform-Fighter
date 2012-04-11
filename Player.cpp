@@ -10,7 +10,7 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_ve
 	box.Height = 16;
 
 	HP = hp;
-	coins = 1200;
+	coins = 0;
 	
 	hitTime.Restart();
 	hitTime = ht;
