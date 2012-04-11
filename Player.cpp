@@ -228,10 +228,6 @@ int Player::EntityCollision(Entity* entity)
 {
 	switch(entity->GetType())
 	{
-		case 10:
-			std::cout << "Player zdobyl pienionszka" << std::endl;
-			++coins;
-			return 0;
 		case 11:
 			if (!(GetHP() >= 10))
 			{
@@ -240,6 +236,18 @@ int Player::EntityCollision(Entity* entity)
 				return 0;
 			}
 			else return 1;
+		case 12:
+			std::cout << "Player zdobyl pienionszka" << std::endl;
+			coins += 10;
+			return 0;
+		case 13:
+			std::cout << "Player zdobyl pienionszka" << std::endl;
+			coins += 20;
+			return 0;
+		case 14:
+			std::cout << "Player zdobyl pienionszka" << std::endl;
+			coins += 50;
+			return 0;
 		case 15:
 			std::cout << "Nastepny level." << std::endl;
 			return 2;
