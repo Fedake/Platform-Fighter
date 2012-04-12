@@ -11,6 +11,7 @@
 #define RESUME		4
 #define MAIN_MENU	5
 #define MAIN_MENU2	6
+#define MAIN_MENU3	7
 
 class Menu
 {
@@ -18,8 +19,9 @@ class Menu
 		sf::Sprite m_title;
 		sf::Sprite m_credits;
 
-		Button* m_buttons[7];
+		Button* m_buttons[8];
 		sf::RectangleShape m_pauseShape;
+		sf::Text m_deadText;
 
 		sf::Vector2f m_mPos;
 		bool m_active;
@@ -33,9 +35,10 @@ class Menu
 
 		void SetMousePosition(sf::Vector2f nPos){m_mPos = nPos;}
 		void Click(bool& quit, int& state);
-		void Toggle() {if(m_type > 0)m_active = !m_active;}
+		void Toggle() {if(m_type > 0 && m_type < 3)m_active = !m_active;}
 		void OpenMenu() {if(m_type > 0)m_active = true;}
 		void SetContinue(bool n){m_continue = n;}
+		void Die(int score);
 
 		bool IsActive(){return m_active;}
 		int GetType(){return m_type;}

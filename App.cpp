@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.5", sf::Style::Titlebar);
+	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.6", sf::Style::Titlebar);
 
 	m_window.SetFramerateLimit(60);
 	m_window.EnableKeyRepeat(false);
@@ -22,6 +22,7 @@ bool App::Init()
 	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 
 
+	std::cout << "sizeof(Map): " << sizeof(Map) << std::endl;
 	bg.SetTexture(*m_resMgr->GetBgTexture());
 	return true;
 }
@@ -140,7 +141,7 @@ void App::Run()
 void App::Draw()
 {
 	m_window.Clear(sf::Color::White);
-	if(!m_menu->IsActive() || m_menu->GetType() == 1)
+	if(!m_menu->IsActive() || m_menu->GetType() == 1 || m_menu->GetType() == 3)
 	{
 		m_window.SetView(m_window.GetDefaultView());
 		m_window.Draw(bg);
@@ -148,7 +149,7 @@ void App::Draw()
     //RYSOWANIE UWZGLEDNIAJAC KAMERE
 	m_window.SetView(m_cam->GetView());
 	//m_window.Clear(sf::Color(255, 255, 255));
-	if(!m_menu->IsActive() || m_menu->GetType() == 1)
+	if(!m_menu->IsActive() || m_menu->GetType() == 1 || m_menu->GetType() == 3)
 	{
 		for(int i = 0; i < m_gun->GetBullets(); i++)
 		{
@@ -173,7 +174,7 @@ void App::Draw()
 
 	//RYSOWANIE STALYCH ELEMENTOW EKRANU
 	m_window.SetView(m_window.GetDefaultView());
-	if(!m_menu->IsActive() || m_menu->GetType() == 1)
+	if(!m_menu->IsActive() || m_menu->GetType() == 1 || m_menu->GetType() == 3)
 	{
 		m_hud->Draw(&m_window);
 	}
@@ -350,7 +351,7 @@ void App::Update(sf::Time dt)
 		m_gun->Update(dt.AsMilliseconds());
 
 		m_hud->Update(m_player->GetHP(), m_player->GetScore());
-	
+		if(m_player->GetHP() == 0) m_menu->Die(m_player->GetScore());
 		m_cam->Set(m_player->GetBox());
 	}
 }

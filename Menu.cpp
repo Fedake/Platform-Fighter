@@ -18,6 +18,8 @@ Menu::Menu(int winW, int winH, ResourceManager* resMgr, bool nContinue)
 
 	m_buttons[MAIN_MENU2] = new Button(MAIN_MENU, nTex, sf::Vector2f(535, 500), sf::Vector2f(220, 70));
 
+	m_buttons[MAIN_MENU3] = new Button(MAIN_MENU, nTex, sf::Vector2f(280, 500), sf::Vector2f(220, 70));
+
 	m_pauseShape.SetFillColor(sf::Color(0, 0, 0, 192));
 	m_pauseShape.SetSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
 }
@@ -54,6 +56,24 @@ void Menu::Click(bool& quit, int& state)
 	{
 		if(m_buttons[MAIN_MENU2]->Contains(m_mPos)) m_type = 0;
 	}
+
+	else if(m_type == 3)
+	{
+		if(m_buttons[MAIN_MENU3]->Contains(m_mPos)) m_type = 0;
+	}
+}
+
+void Menu::Die(int score)
+{
+	m_type = 3;
+	m_active = true;
+
+	char tmp[8];
+	itoa(score, tmp, 10);
+	std::string deadStr = "Score: " + (std::string)tmp;
+
+	m_deadText.SetString(deadStr);
+	m_deadText.SetPosition(290, 300);
 }
 
 void Menu::Update()
@@ -91,6 +111,15 @@ void Menu::Update()
 		}
 		else m_buttons[MAIN_MENU2]->SetState(0);
 	}
+
+	if(m_type == 3)
+	{
+		if(m_buttons[MAIN_MENU3]->Contains(m_mPos)) 
+		{
+			m_buttons[MAIN_MENU3]->SetState(1);
+		}
+		else m_buttons[MAIN_MENU3]->SetState(0);
+	}
 }
 
 void Menu::Draw(sf::RenderWindow* win)
@@ -117,5 +146,12 @@ void Menu::Draw(sf::RenderWindow* win)
 	{
 		win->Draw(m_credits);
 		win->Draw(m_buttons[MAIN_MENU2]->GetSprite());
+	}
+
+	if(m_type == 3)
+	{
+		win->Draw(m_pauseShape);
+		win->Draw(m_deadText);
+		win->Draw(m_buttons[MAIN_MENU3]->GetSprite());
 	}
 }
