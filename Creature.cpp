@@ -42,31 +42,38 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m
 		GoRight();
 	}
 
+	m_hpBar.SetPosition(pos.x, pos.y - 8);
+	m_hpBar.SetSize(sf::Vector2f(16, 4));
+	m_hpBar.SetFillColor(sf::Color::Red);
 
 	switch(m_type)
 	{
 		case 1:
 			box.Width = 16;
 			box.Height = 16;
-			HP = 10;
+			m_hpMax = 3;
+			m_hp = 3;
 			vel = 40;
 			break;
 		case 2:
 			box.Width = 16;
 			box.Height = 16;
-			HP = 20;
+			m_hpMax = 5;
+			m_hp = 5;
 			vel = 50;
 			break;
 		case 3:
 			box.Width = 16;
 			box.Height = 16;
-			HP = 30;
+			m_hpMax = 8;
+			m_hp = 8;
 			vel = 60;
 			break;
 		case 8:
 			box.Width = 32;
 			box.Height = 32;
-			HP = 250;
+			m_hpMax = 25;
+			m_hp = 25;
 			vel = 30;
 			break;
 	}
@@ -76,6 +83,7 @@ void Creature::UpdateSprite()
 {
 	m_sprite = m_anim->GetSprite();
 	m_sprite.SetPosition(box.Left, box.Top);
+	m_hpBar.SetPosition(box.Left, box.Top - 8);
 }
 
 void Creature::Update(int dt)
@@ -126,6 +134,12 @@ void Creature::Update(int dt)
 	m_anim->Update();
 
 	UpdateSprite();
+}
+
+void Creature::Render(sf::RenderWindow* win)
+{
+	win->Draw(m_sprite);
+	if(m_hp/m_hpMax != 1) win->Draw(m_hpBar);
 }
 
 void Creature::SolidCollision(sf::FloatRect A)
@@ -276,8 +290,10 @@ void Creature::Jump()
 
 void Creature::Hurt()
 {
-	HP -= 10;
+	m_hp -= 1;
+	m_hpBar.SetSize(sf::Vector2f(m_hp/m_hpMax*16, 4));
+
 	//SMIERC
-	if (HP <= 0) 
+	if (m_hp <= 0) 
 		Die();
 }
