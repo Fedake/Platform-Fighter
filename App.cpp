@@ -160,7 +160,7 @@ void App::Draw()
 
 		for (unsigned i = 0; i < creature.size(); ++i)
 		{
-			m_window.Draw(creature[i]->GetSprite());
+			creature[i]->Render(&m_window);
 		}
 
 		for (unsigned i = 0; i < entity.size(); ++i)

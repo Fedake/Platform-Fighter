@@ -9,6 +9,7 @@ class Creature
 		sf::FloatRect box;
 		Animation* m_anim;
 		sf::Sprite m_sprite;
+		sf::RectangleShape m_hpBar;
 
 		//Predkosc
 		sf::Vector2f m_vel;
@@ -16,7 +17,9 @@ class Creature
 		sf::Clock PATimer;
 
 		int m_type;
-		int HP;
+		
+		float m_hp;
+		float m_hpMax;
 		
 		float vel;
 
@@ -31,6 +34,8 @@ class Creature
 		
 		//Aktualizacja danych
 		void Update(sf::Int32 dt);
+		void Render(sf::RenderWindow* window);
+
 		void UpdateSprite();
 		sf::Sprite GetSprite() {return m_sprite;}
 
@@ -50,7 +55,7 @@ class Creature
 
 		int GetType() { return m_type; }
 
-		int GetHP() { return HP; }
+		float GetHP() { return m_hp; }
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}
