@@ -99,12 +99,12 @@ void App::CleanUp()
 		delete m_map;
 		m_map = NULL;
 		
-		for (int i = 0; i < creature.size(); ++i)
+		for (unsigned i = 0; i < creature.size(); ++i)
 		{
 			delete creature[i];
 		}
 
-		for (int i = 0; i < entity.size(); ++i)
+		for (unsigned i = 0; i < entity.size(); ++i)
 		{
 			delete entity[i];
 		}
@@ -267,7 +267,8 @@ void App::Update(sf::Time dt)
 
 	if(!m_menu->IsActive())
 	{
-		m_player->Update(dt.AsMilliseconds());
+		m_player->Update(dt.AsMilliseconds(), m_map);
+
 		for (unsigned i = 0; i < creature.size(); ++i)
 		{
 			creature[i]->Update(dt.AsMilliseconds());
@@ -285,11 +286,6 @@ void App::Update(sf::Time dt)
 			{
 				if(m_map->isSolid(i, j))
 				{
-					// MAP PLAYER
-					if(CheckCollision(m_player->GetBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
-					{
-						m_player->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
-					}
 					// MAP MOB
 					for (unsigned current = 0; current < creature.size(); ++current)
 					{

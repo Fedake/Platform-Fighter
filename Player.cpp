@@ -24,7 +24,7 @@ void Player::UpdateSprite()
 	m_sprite.SetPosition(box.Left, box.Top);
 }
 
-void Player::Update(int dt)
+void Player::Update(int dt, Map* map)
 {
 	if(goLeft && goRight)
 	{
@@ -57,7 +57,53 @@ void Player::Update(int dt)
 
 	//Update pozycji
 	box.Left += m_vel.x*(dt/1000.f);
+	for(int j = 0; j < map->getMapHeight(); j++)
+	{
+		for(int i = 0; i < map->getMapWidth(); i++)
+		{
+			if(map->isSolid(i, j))
+			{
+				if (box.Intersects(map->getBox(static_cast<float>(i), static_cast<float>(j))))
+				{
+					if (m_vel.x < 0)
+					{
+						box.Left = map->getBox(static_cast<float>(i), static_cast<float>(j)).Left + map->getBox(static_cast<float>(i), static_cast<float>(j)).Width;
+					}
+
+					if (m_vel.x > 0)
+					{
+						box.Left = map->getBox(static_cast<float>(i), static_cast<float>(j)).Left - box.Width;
+					}
+				}
+			}
+		}
+	}
+
 	box.Top += m_vel.y*(dt/1000.f);
+	for(int j = 0; j < map->getMapHeight(); j++)
+	{
+		for(int i = 0; i < map->getMapWidth(); i++)
+		{
+			if(map->isSolid(i, j))
+			{
+				if (box.Intersects(map->getBox(static_cast<float>(i), static_cast<float>(j))))
+				{
+					box.Top -= m_vel.y * (dt / 1000.f);
+					if (m_vel.y < 0)
+					{
+						box.Top = map->getBox(static_cast<float>(i), static_cast<float>(j)).Top + map->getBox(static_cast<float>(i), static_cast<float>(j)).Height;
+						m_vel.y = 0;
+					}
+					if (m_vel.y > 0)
+					{
+						box.Top = map->getBox(static_cast<float>(i), static_cast<float>(j)).Top - box.Height;
+						m_vel.y = 0;
+						canJump = true;
+					}
+				}
+			}
+		}
+	}
 
 	//Nalozenie grawitejszyn
 	if(!m_ghost)
@@ -65,7 +111,7 @@ void Player::Update(int dt)
 	//Predkosc graniczna 300pix/s
 	if(m_vel.y > 500) m_vel.y = 500;
 	//Warunek spadania by Dani hehe
-	if(m_vel.y > 10) LockJump();
+	if(m_vel.y > 15) LockJump();
 
 	m_anim->Update();
 	UpdateSprite();
@@ -97,96 +143,7 @@ void Player::CheckCreaturesAround(Creature* creature)
 
 void Player::SolidCollision(sf::FloatRect A)
 {
-	//Jesli predkosc pionowa jest zerowa
-	if(m_vel.y == 0)
-	{
-		//Jesli obiekt porusza sie w prawo
-		if(m_vel.x > 0)
-			//Resetowanie pozycji do stycznej lewostronnie
-			box.Left = A.Left - box.Width;
-		else if(m_vel.x < 0)
-			//Resetowanie pozycji do stycznej prawostronnie 
-			box.Left = A.Left + A.Width;
-	}
-	else if(m_vel.x == 0)
-	{
-		//Jesli obiekt porusza sie w dol
-		if(m_vel.y > 0)
-		{
-			//Resetowanie pozycji do stycznej od gory
-			box.Top = A.Top - box.Height;
-			m_vel.y = 0;
-			canJump = true;
-		}
-		else if(m_vel.y < 0)
-		{
-			//Resetowanie pozycji do stycznej od dolu 
-			box.Top = A.Top + A.Height;
-			m_vel.y = 0;
-		}
-	}
-	else
-	{
-		if(m_vel.x > 0)//PRAWO
-		{
-			if(m_vel.y > 0)//DOL
-			{
-				float xD = box.Left + box.Width - A.Left;
-				float yD = box.Top + box.Height - A.Top;
-
-				if(xD > yD)
-				{
-					//Resetowanie pozycji do stycznej od gory
-					box.Top = A.Top - box.Height;
-					m_vel.y = 0;
-					canJump = true;
-				}
-				else box.Left = A.Left - box.Width;
-			}
-			else if(m_vel.y < 0)//GORA
-			{
-				float xD = box.Left + box.Width - A.Left;
-				float yD = A.Top + A.Height - box.Top;
-
-				if(xD > yD+3)
-				{
-					box.Top = A.Top + A.Height;
-					m_vel.y = 0;
-				}
-				else box.Left = A.Left - box.Width;	
-			}
-		}
-		else if(m_vel.x < 0) //Lewo
-		{
-			if(m_vel.y > 0)//Dol
-			{
-				float xD = A.Left + A.Width - box.Left;
-				float yD = box.Top + box.Height - A.Top;
-
-				if(xD+3 > yD)
-				{
-					//Resetowanie pozycji do stycznej od gory
-					box.Top = A.Top - box.Height;
-					m_vel.y = 0;
-					canJump = true;
-				}
-				else box.Left = A.Left + A.Width;
-			}
-			else if(m_vel.y < 0)//Gora
-			{
-				float xD = A.Left + A.Width - box.Left;
-				float yD = A.Top + A.Height - box.Top;
-
-				if(xD > yD+5)
-				{
-					box.Top = A.Top + A.Height;
-					m_vel.y = 0;
-				}
-				else box.Left = A.Left + A.Width;
-			}
-		}
-	}
-	UpdateSprite();
+	
 }
 
 void Player::CreatureCollision(Creature* creature)

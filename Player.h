@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "Creature.h"
 #include "Entity.h"
+#include "Map.h"
 #include <iostream>
 
 class Player
@@ -33,7 +34,7 @@ class Player
 		Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht = *new sf::Clock);
 		
 		//Aktualizacja danych
-		void Update(sf::Int32 dt);
+		void Update(sf::Int32 dt, Map* map);
 		void UpdateSprite();
 		sf::Sprite GetSprite() {return m_sprite;}
 
