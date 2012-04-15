@@ -57,9 +57,9 @@ void Player::Update(int dt, Map* map)
 
 	//Update pozycji
 	box.Left += m_vel.x*(dt/1000.f);
-	for(int j = 0; j < map->getMapHeight(); j++)
+	for(int j = box.Top/16 - 1; j < box.Top/16 + 1; j++)
 	{
-		for(int i = 0; i < map->getMapWidth(); i++)
+		for(int i = box.Left/16 - 1; i < box.Left/16 + 1; i++)
 		{
 			if(map->isSolid(i, j))
 			{
@@ -80,9 +80,9 @@ void Player::Update(int dt, Map* map)
 	}
 
 	box.Top += m_vel.y*(dt/1000.f);
-	for(int j = 0; j < map->getMapHeight(); j++)
+	for(int j = box.Top/16 - 1; j < box.Top/16 + 1; j++)
 	{
-		for(int i = 0; i < map->getMapWidth(); i++)
+		for(int i = box.Left/16 - 1; i < box.Left/16 + 1; i++)
 		{
 			if(map->isSolid(i, j))
 			{
@@ -111,7 +111,7 @@ void Player::Update(int dt, Map* map)
 	//Predkosc graniczna 300pix/s
 	if(m_vel.y > 500) m_vel.y = 500;
 	//Warunek spadania by Dani hehe
-	if(m_vel.y > 15) LockJump();
+	if(m_vel.y > 20) LockJump();
 
 	m_anim->Update();
 	UpdateSprite();
