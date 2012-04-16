@@ -45,7 +45,7 @@ struct MapFile
 {	
 	int w, h, x, y;
 
-	int tiles[MAP_WIDTH][MAP_HEIGHT];
-	int solid[MAP_WIDTH][MAP_HEIGHT];
-	int ents[MAP_WIDTH][MAP_HEIGHT];
+	char tiles[MAP_WIDTH][MAP_HEIGHT];
+	bool solid[MAP_WIDTH][MAP_HEIGHT];
+	char ents[MAP_WIDTH][MAP_HEIGHT];
 };
