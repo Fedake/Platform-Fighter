@@ -26,7 +26,7 @@ class Entity
 
 		void UpdateSprite(int dt);
 
-		sf::FloatRect GetBox() { return box; }
-		sf::Sprite GetSprite() {return m_sprite;}
-		int GetType() { return m_type; }
+		sf::FloatRect getBox() { return box; }
+		sf::Sprite getSprite() {return m_sprite;}
+		int getType() { return m_type; }
 };

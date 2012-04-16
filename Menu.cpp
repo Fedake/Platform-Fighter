@@ -4,10 +4,10 @@
 Menu::Menu(int winW, int winH, ResourceManager* resMgr, bool nContinue)
 	 : m_active(true), m_type(0), m_screenWidth(winW),	m_screenHeight(winH), m_continue(nContinue)
 {
-	m_title.SetTexture(*resMgr->GetTitleTexture());
-	m_credits.SetTexture(*resMgr->GetCreditsTexture());
+	m_title.setTexture(*resMgr->getTitleTexture());
+	m_credits.setTexture(*resMgr->getCreditsTexture());
 
-	sf::Texture* nTex = resMgr->GetGuiTexture(); 
+	sf::Texture* nTex = resMgr->getGuiTexture(); 
 	m_buttons[NEW_GAME] = new Button(NEW_GAME, nTex, sf::Vector2f(280, 140), sf::Vector2f(220, 70));
 	m_buttons[CONTINUE] = new Button(CONTINUE, nTex, sf::Vector2f(280, 260), sf::Vector2f(220, 70));
 	m_buttons[CREDITS] = new Button(CREDITS, nTex, sf::Vector2f(280, 380), sf::Vector2f(220, 70));
@@ -20,8 +20,8 @@ Menu::Menu(int winW, int winH, ResourceManager* resMgr, bool nContinue)
 
 	m_buttons[MAIN_MENU3] = new Button(MAIN_MENU, nTex, sf::Vector2f(280, 500), sf::Vector2f(220, 70));
 
-	m_pauseShape.SetFillColor(sf::Color(0, 0, 0, 192));
-	m_pauseShape.SetSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
+	m_pauseShape.setFillColor(sf::Color(0, 0, 0, 192));
+	m_pauseShape.setSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
 }
 
 void Menu::Click(bool& quit, int& state)
@@ -73,8 +73,8 @@ void Menu::Die(int score)
 
 	std::string deadStr = "GAME OVER\n\nScore: " + (std::string)tmp;
 
-	m_deadText.SetString(deadStr);
-	m_deadText.SetPosition(290, 300);
+	m_deadText.setString(deadStr);
+	m_deadText.setPosition(290, 300);
 }
 
 void Menu::Update()
@@ -85,10 +85,10 @@ void Menu::Update()
 		{
 			if(m_buttons[i]->Contains(m_mPos)) 
 			{
-				if(i != CONTINUE) m_buttons[i]->SetState(1);
-				else if(m_continue) m_buttons[i]->SetState(1);
+				if(i != CONTINUE) m_buttons[i]->setState(1);
+				else if(m_continue) m_buttons[i]->setState(1);
 			}
-			else m_buttons[i]->SetState(0);
+			else m_buttons[i]->setState(0);
 		}
 	}
 
@@ -98,9 +98,9 @@ void Menu::Update()
 		{
 			if(m_buttons[i]->Contains(m_mPos)) 
 			{
-				m_buttons[i]->SetState(1);
+				m_buttons[i]->setState(1);
 			}
-			else m_buttons[i]->SetState(0);
+			else m_buttons[i]->setState(0);
 		}
 	}
 
@@ -108,51 +108,51 @@ void Menu::Update()
 	{
 		if(m_buttons[MAIN_MENU2]->Contains(m_mPos)) 
 		{
-			m_buttons[MAIN_MENU2]->SetState(1);
+			m_buttons[MAIN_MENU2]->setState(1);
 		}
-		else m_buttons[MAIN_MENU2]->SetState(0);
+		else m_buttons[MAIN_MENU2]->setState(0);
 	}
 
 	if(m_type == 3)
 	{
 		if(m_buttons[MAIN_MENU3]->Contains(m_mPos)) 
 		{
-			m_buttons[MAIN_MENU3]->SetState(1);
+			m_buttons[MAIN_MENU3]->setState(1);
 		}
-		else m_buttons[MAIN_MENU3]->SetState(0);
+		else m_buttons[MAIN_MENU3]->setState(0);
 	}
 }
 
-void Menu::Draw(sf::RenderWindow* win)
+void Menu::draw(sf::RenderWindow* win)
 {
 	if(m_type == 0)
 	{
-		win->Draw(m_title);
+		win->draw(m_title);
 		for(int i = 0; i < 4; i++)
 		{
-			win->Draw(m_buttons[i]->GetSprite());
+			win->draw(m_buttons[i]->getSprite());
 		}
 	}
 
 	if(m_type == 1)
 	{
-		win->Draw(m_pauseShape);
+		win->draw(m_pauseShape);
 		for(int i = 4; i < 6; i++)
 		{
-			win->Draw(m_buttons[i]->GetSprite());
+			win->draw(m_buttons[i]->getSprite());
 		}
 	}
 
 	if(m_type == 2)
 	{
-		win->Draw(m_credits);
-		win->Draw(m_buttons[MAIN_MENU2]->GetSprite());
+		win->draw(m_credits);
+		win->draw(m_buttons[MAIN_MENU2]->getSprite());
 	}
 
 	if(m_type == 3)
 	{
-		win->Draw(m_pauseShape);
-		win->Draw(m_deadText);
-		win->Draw(m_buttons[MAIN_MENU3]->GetSprite());
+		win->draw(m_pauseShape);
+		win->draw(m_deadText);
+		win->draw(m_buttons[MAIN_MENU3]->getSprite());
 	}
 }

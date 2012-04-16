@@ -12,8 +12,8 @@ class Button
 	public:
 		Button(int nType, sf::Texture* nTex, sf::Vector2f nPos, sf::Vector2f nSize);
 
-		void SetState(int nState){m_sprite.SetTextureRect(sf::IntRect(nState*220, m_type*70, 220, 70));}
+		void setState(int nState){m_sprite.setTextureRect(sf::IntRect(nState*220, m_type*70, 220, 70));}
 
-		bool Contains(sf::Vector2f pos){return m_box.Contains(pos);}
-		sf::Sprite GetSprite(){return m_sprite;}
+		bool Contains(sf::Vector2f pos){return m_box.contains(pos);}
+		sf::Sprite getSprite(){return m_sprite;}
 };

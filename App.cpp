@@ -1,10 +1,10 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.Create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.6", sf::Style::Titlebar);
+	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.6", sf::Style::Titlebar);
 
-	m_window.SetFramerateLimit(60);
-	m_window.EnableKeyRepeat(false);
+	m_window.setFramerateLimit(60);
+	m_window.setKeyRepeatEnabled(false);
 
 	m_resMgr = new ResourceManager();
 
@@ -17,17 +17,17 @@ bool App::Init()
 	m_currentLevel = 1;
 	m_clean = true;
 
-	m_menu = new Menu(m_window.GetWidth(), m_window.GetHeight(), m_resMgr, SaveExist());
+	m_menu = new Menu(m_window.getSize().x, m_window.getSize().y, m_resMgr, SaveExist());
 
-	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 
 
 	std::cout << "sizeof(Map): " << sizeof(Map) << std::endl;
-	bg.SetTexture(*m_resMgr->GetBgTexture());
+	bg.setTexture(*m_resMgr->getBgTexture());
 	return true;
 }
 
-bool App::LoadLevel()
+bool App::loadLevel()
 {
 	creature.clear();
 	entity.clear();
@@ -37,7 +37,7 @@ bool App::LoadLevel()
 	level << "data/maps/" << m_currentLevel << ".map";
 	std::cout << level.str() << std::endl;
 	std::cout << "Level: " << level.str() << std::endl;
-	if(!m_map->LoadNextLevel(level.str()))
+	if(!m_map->loadNextLevel(level.str()))
 	{
 		std::cout << "Level: " << level.str() << std::endl;
 		std::cout << "No such level";
@@ -45,7 +45,7 @@ bool App::LoadLevel()
 	}
 	if (m_currentLevel == 1) m_hp = 10;
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture(), m_hp);
-	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
 
 	for(int j = 0; j < m_map->getMapHeight(); j++)
@@ -55,15 +55,15 @@ bool App::LoadLevel()
 			int type = m_map->getEntity(i, j);
 			if (type > 0 && type < 7)
 			{
-				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(type)));
+				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->getEntityTexture(type)));
 			}
 			else if (type >=7 && type < 9)
 			{
-				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetBossTexture(1)));
+				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->getBossTexture(1)));
 			}
 			else if (type >= 9 && type < 16)
 			{
-				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->GetEntityTexture(type)));
+				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->getEntityTexture(type)));
 			}
 		}
 	}
@@ -122,41 +122,41 @@ void App::Run()
 	if(!Init()) m_done = true;
 	sf::Clock dt;
 
-	dt.Restart();
+	dt.restart();
 	// pêtla g³ówna
 	m_done = false;
 	while (!m_done)
 	{
 		ProcessEvents();
-		if(dt.GetElapsedTime().AsSeconds() < 0.1f)
-			Update(dt.GetElapsedTime());
+		if(dt.getElapsedTime().asSeconds() < 0.1f)
+			Update(dt.getElapsedTime());
 		
-		dt.Restart();
+		dt.restart();
 		
-		Draw();
+		draw();
 	}
-	m_window.Close();
+	m_window.close();
 }
 
-void App::Draw()
+void App::draw()
 {
-	m_window.Clear(sf::Color::White);
-	if(!m_menu->IsActive() || m_menu->GetType() == 1 || m_menu->GetType() == 3)
+	m_window.clear(sf::Color::White);
+	if(!m_menu->isActive() || m_menu->getType() == 1 || m_menu->getType() == 3)
 	{
-		m_window.SetView(m_window.GetDefaultView());
-		m_window.Draw(bg);
+		m_window.setView(m_window.getDefaultView());
+		m_window.draw(bg);
 	}
     //RYSOWANIE UWZGLEDNIAJAC KAMERE
-	m_window.SetView(m_cam->GetView());
+	m_window.setView(m_cam->getView());
 	//m_window.Clear(sf::Color(255, 255, 255));
-	if(!m_menu->IsActive() || m_menu->GetType() == 1 || m_menu->GetType() == 3)
+	if(!m_menu->isActive() || m_menu->getType() == 1 || m_menu->getType() == 3)
 	{
-		for(int i = 0; i < m_gun->GetBullets(); i++)
+		for(int i = 0; i < m_gun->getBullets(); i++)
 		{
-			m_window.Draw(m_gun->getBulletShape(i));
+			m_window.draw(m_gun->getBulletShape(i));
 		}
 
-		m_window.Draw(m_player->GetSprite());
+		m_window.draw(m_player->getSprite());
 
 		for (unsigned i = 0; i < creature.size(); ++i)
 		{
@@ -165,21 +165,21 @@ void App::Draw()
 
 		for (unsigned i = 0; i < entity.size(); ++i)
 		{
-			m_window.Draw(entity[i]->GetSprite());
+			m_window.draw(entity[i]->getSprite());
 		}
 
 		//Render mapy
-		m_map->Draw(&m_window);
+		m_map->draw(&m_window);
 	}
 
 	//RYSOWANIE STALYCH ELEMENTOW EKRANU
-	m_window.SetView(m_window.GetDefaultView());
-	if(!m_menu->IsActive() || m_menu->GetType() == 1 || m_menu->GetType() == 3)
+	m_window.setView(m_window.getDefaultView());
+	if(!m_menu->isActive() || m_menu->getType() == 1 || m_menu->getType() == 3)
 	{
-		m_hud->Draw(&m_window);
+		m_hud->draw(&m_window);
 	}
-	if(m_menu->IsActive()) m_menu->Draw(&m_window);
-	m_window.Display();
+	if(m_menu->isActive()) m_menu->draw(&m_window);
+	m_window.display();
 }
 
 void App::ProcessEvents()
@@ -191,11 +191,11 @@ void App::ProcessEvents()
  
 	// przejrzymy kolejne zdarzenia z kolejki
 	sf::Event Event;
-	while (m_window.PollEvent(Event))
+	while (m_window.pollEvent(Event))
 	{
-		if(Event.Type == sf::Event::TextEntered && !m_menu->IsActive())
+		if(Event.type == sf::Event::TextEntered && !m_menu->isActive())
 		{
-			m_textInput += Event.Text.Unicode;
+			m_textInput += Event.text.unicode;
 
 			if(m_textInput.find("ghost") != std::string::npos)
 			{
@@ -203,80 +203,80 @@ void App::ProcessEvents()
 				m_player->ToggleGhost();
 			}
 		}
-		else if(Event.Type == sf::Event::MouseMoved)
+		else if(Event.type == sf::Event::MouseMoved)
 		{
-			m_mPos = sf::Vector2f(static_cast<float>(Event.MouseMove.X), static_cast<float>(Event.MouseMove.Y));
-			m_menu->SetMousePosition(m_mPos);
+			m_mPos = sf::Vector2f(static_cast<float>(Event.mouseMove.x), static_cast<float>(Event.mouseMove.y));
+			m_menu->setMousePosition(m_mPos);
 		}
 
-		else if(Event.Type == sf::Event::MouseButtonPressed)
+		else if(Event.type == sf::Event::MouseButtonPressed)
 		{
-			if(Event.Key.Code == sf::Mouse::Left)
+			if(Event.key.code == sf::Mouse::Left)
 			{
-				if(!m_menu->IsActive())	m_gun->Shoot(m_window.ConvertCoords(static_cast<unsigned int>(m_mPos.x), static_cast<unsigned int>(m_mPos.y), 
-													 m_cam->GetView()), sf::Vector2f(m_player->GetBox().Left + 8, m_player->GetBox().Top + 8));
+				if(!m_menu->isActive())	m_gun->Shoot(m_window.convertCoords(static_cast<sf::Vector2i>(m_mPos),
+													 m_cam->getView()), sf::Vector2f(m_player->getBox().left + 8, m_player->getBox().top + 8));
 				else m_menu->Click(m_done, m_state);
 
 				if(m_state == 1) 
 				{
 					m_currentLevel = 1;
-					LoadLevel();
+					loadLevel();
 				}
-				if(m_state == 2) LoadGame();
+				if(m_state == 2) loadGame();
 
 				m_state = 0;
 			}
 		}
-		else if(Event.Type == sf::Event::KeyPressed)
+		else if(Event.type == sf::Event::KeyPressed)
 		{
-			if(Event.Key.Code == sf::Keyboard::Escape)
+			if(Event.key.code == sf::Keyboard::Escape)
 			{
 				m_menu->Toggle();
 			}
 		}
-		else if(Event.Type == sf::Event::LostFocus) m_menu->OpenMenu();
+		else if(Event.type == sf::Event::LostFocus) m_menu->OpenMenu();
 	}
 
-	if(!m_menu->IsActive())
+	if(!m_menu->isActive())
 	{
-		if(sf::Keyboard::IsKeyPressed(sf::Keyboard::W) || sf::Keyboard::IsKeyPressed(sf::Keyboard::Up)) m_player->Jump();
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) m_player->Jump();
 		else m_player->StopUp();
 
-		if(sf::Keyboard::IsKeyPressed(sf::Keyboard::A) || sf::Keyboard::IsKeyPressed(sf::Keyboard::Left)) m_player->GoLeft();
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) m_player->GoLeft();
 		else m_player->StopLeft();
 
-		if(sf::Keyboard::IsKeyPressed(sf::Keyboard::D) || sf::Keyboard::IsKeyPressed(sf::Keyboard::Right)) m_player->GoRight();
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) m_player->GoRight();
 		else m_player->StopRight();
 
-		if(sf::Keyboard::IsKeyPressed(sf::Keyboard::S) || sf::Keyboard::IsKeyPressed(sf::Keyboard::Down)) m_player->GoDown();
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) m_player->GoDown();
 		else m_player->StopDown();
 	}
 }
 
 void App::Update(sf::Time dt)
 {
-	if(m_menu->IsActive())
+	if(m_menu->isActive())
 	{
-		if (m_menu->GetType() == 0)
+		if (m_menu->getType() == 0)
 		{
-			m_menu->SetContinue(SaveExist());
+			m_menu->setContinue(SaveExist());
 			CleanUp();
 		}
 		m_menu->Update();
 	}
 
-	if(!m_menu->IsActive())
+	if(!m_menu->isActive())
 	{
-		m_player->Update(dt.AsMilliseconds(), m_map);
+		m_player->Update(dt.asMilliseconds(), m_map);
 
 		for (unsigned i = 0; i < creature.size(); ++i)
 		{
-			creature[i]->Update(dt.AsMilliseconds());
+			creature[i]->Update(dt.asMilliseconds());
 			m_player->CheckCreaturesAround(creature[i]);
 		}
 		for (unsigned i = 0; i < entity.size(); ++i)
 		{
-			entity[i]->UpdateSprite(dt.AsMilliseconds());
+			entity[i]->UpdateSprite(dt.asMilliseconds());
 		}
 
 		// WSZYSTKIE KOLIZJI DOTYCZ¥CE MAPY
@@ -289,13 +289,13 @@ void App::Update(sf::Time dt)
 					// MAP MOB
 					for (unsigned current = 0; current < creature.size(); ++current)
 					{
-						if (CheckCollision(creature[current]->GetBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
+						if (CheckCollision(creature[current]->getBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 						{
 							creature[current]->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
 						}
 					}
 					// MAP BULLET
-					for(int b = 0; b < m_gun->GetBullets(); b++)
+					for(int b = 0; b < m_gun->getBullets(); b++)
 					{
 						if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 						{
@@ -308,53 +308,53 @@ void App::Update(sf::Time dt)
 		// ENTITY GRACZ
 		for (unsigned current = 0; current < entity.size(); ++current)
 		{
-			if (CheckCollision(entity[current]->GetBox(), m_player->GetBox()))
+			if (CheckCollision(entity[current]->getBox(), m_player->getBox()))
 			{
 				if (m_player->EntityCollision(entity[current]) == 0)
 					entity.erase(entity.begin() + current);
 				else if (m_player->EntityCollision(entity[current]) == 2)
 				{
-					m_hp = m_player->GetHP();
+					m_hp = m_player->getHP();
 					m_currentLevel += 1;
-					LoadLevel();
+					loadLevel();
 				}
 			}
 		}
 		// MOB GRACZ
 		for (unsigned current = 0; current < creature.size(); ++current)
 		{
-			if (CheckCollision(creature[current]->GetBox(), m_player->GetBox()))
+			if (CheckCollision(creature[current]->getBox(), m_player->getBox()))
 			{
 				m_player->CreatureCollision(creature[current]);
 			}
 		}
 		// MOB BULLET
-		for (int b = 0; b < m_gun->GetBullets(); b++)
+		for (int b = 0; b < m_gun->getBullets(); b++)
 		{
 			for (unsigned current = 0; current < creature.size(); ++current)
 			{
-				if (CheckCollision(m_gun->getBulletBox(b), creature[current]->GetBox()))
+				if (CheckCollision(m_gun->getBulletBox(b), creature[current]->getBox()))
 				{
 					m_gun->KillBullet(b);
 					creature[current]->Hurt();
-					if (creature[current]->IsDead())
+					if (creature[current]->isDead())
 						creature.erase(creature.begin() + current);
 					break;
 				}
 			}
 		}
 
-		m_gun->Update(dt.AsMilliseconds());
+		m_gun->Update(dt.asMilliseconds());
 
-		m_hud->Update(m_player->GetHP(), m_player->GetScore());
-		if(m_player->GetHP() <= 0) m_menu->Die(m_player->GetScore());
-		m_cam->Set(m_player->GetBox());
+		m_hud->Update(m_player->getHP(), m_player->getScore());
+		if(m_player->getHP() <= 0) m_menu->Die(m_player->getScore());
+		m_cam->set(m_player->getBox());
 	}
 }
 
 bool App::CheckCollision(sf::FloatRect A, sf::FloatRect B)
 {
-	if(A.Intersects(B)) return true;
+	if(A.intersects(B)) return true;
 	else return false;
 }
 
@@ -363,29 +363,29 @@ void App::SaveGame()
 	Save* save = new Save();
 	
 	save->level = m_currentLevel;
-	save->hp = m_player->GetHP();
+	save->hp = m_player->getHP();
 
-	save->posX = m_player->GetBox().Left;
-	save->posY = m_player->GetBox().Top;
+	save->posX = m_player->getBox().left;
+	save->posY = m_player->getBox().top;
 
-	save->ht = m_player->GetHitTime();
+	save->ht = m_player->getHitTime();
 	
 	ZeroMemory(save->creatureData, sizeof(save->creatureData));
 	ZeroMemory(save->entityData, sizeof(save->entityData));
 
 	for (unsigned i = 0; i < creature.size(); ++i)
 	{
-		save->creatureData[i].x = creature[i]->GetBox().Left;
-		save->creatureData[i].y = creature[i]->GetBox().Top;
-		save->creatureData[i].type = creature[i]->GetType();
-		save->creatureData[i].left = creature[i]->IsGoingLeft();
+		save->creatureData[i].x = creature[i]->getBox().left;
+		save->creatureData[i].y = creature[i]->getBox().top;
+		save->creatureData[i].type = creature[i]->getType();
+		save->creatureData[i].left = creature[i]->isGoingLeft();
 	}
 
 	for (unsigned i = 0; i < entity.size(); ++i)
 	{
-		save->entityData[i].x = entity[i]->GetBox().Left;
-		save->entityData[i].y = entity[i]->GetBox().Top;
-		save->entityData[i].type = entity[i]->GetType();
+		save->entityData[i].x = entity[i]->getBox().left;
+		save->entityData[i].y = entity[i]->getBox().top;
+		save->entityData[i].type = entity[i]->getType();
 	}
 
 	std::ofstream file("save.dat", std::ios::binary);
@@ -395,7 +395,7 @@ void App::SaveGame()
 	delete save;
 }
 
-bool App::LoadGame()
+bool App::loadGame()
 {
 	std::ifstream file("save.dat", std::ios::binary);
 
@@ -409,7 +409,7 @@ bool App::LoadGame()
 
 	std::stringstream level;
 	level << "data/maps/" << save->level << ".map";
-	if(!m_map->LoadNextLevel(level.str())) 
+	if(!m_map->loadNextLevel(level.str())) 
 	{
 		std::cout << "Level: " << level << std::endl;
 		std::cout << "No such level";
@@ -418,7 +418,7 @@ bool App::LoadGame()
 	std::cout << "lala1" << std::endl;
 
 	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp, save->ht);
-	m_cam = new Camera(sf::Vector2i(m_window.GetWidth(), m_window.GetHeight()), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
+	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
 	std::cout << "lala2" << std::endl;
 
@@ -432,11 +432,11 @@ bool App::LoadGame()
 			bool left = save->creatureData[i].left;
 			if (type > 0 && type < 7)
 			{
-				creature.push_back(new Creature(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(type), left));
+				creature.push_back(new Creature(sf::Vector2f(x, y), type, m_resMgr->getEntityTexture(type), left));
 			}
 			else if (type >=7 && type < 9)
 			{
-				creature.push_back(new Creature(sf::Vector2f(x, y), type, m_resMgr->GetBossTexture(1), left));
+				creature.push_back(new Creature(sf::Vector2f(x, y), type, m_resMgr->getBossTexture(1), left));
 			}
 			
 	}
@@ -449,7 +449,7 @@ bool App::LoadGame()
 			float x = save->entityData[i].x;
 			float y = save->entityData[i].y;
 			int type = save->entityData[i].type;
-			entity.push_back(new Entity(sf::Vector2f(x, y), type, m_resMgr->GetEntityTexture(type)));
+			entity.push_back(new Entity(sf::Vector2f(x, y), type, m_resMgr->getEntityTexture(type)));
 		
 	}
 	std::cout << "lala4" << std::endl;

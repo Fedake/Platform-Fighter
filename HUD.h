@@ -14,5 +14,5 @@ class HUD
 
 		void Update(int hp, int score);
 
-		void Draw(sf::RenderWindow* wnd);
+		void draw(sf::RenderWindow* wnd);
 };

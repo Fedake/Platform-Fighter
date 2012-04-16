@@ -2,13 +2,13 @@
 
 Log::Log() : m_showText("")
 {
-	sf::Font fnt(sf::Font::GetDefaultFont());
-	m_showText.SetFont(fnt);
-	m_showText.SetCharacterSize(10);
-	m_showText.SetColor(sf::Color::Red);
+	sf::Font fnt(sf::Font::getDefaultFont());
+	m_showText.setFont(fnt);
+	m_showText.setCharacterSize(10);
+	m_showText.setColor(sf::Color::Red);
 }
 
 void Log::AddLine(sf::String str)
 {
-	m_showText.SetString(str);
+	m_showText.setString(str);
 }

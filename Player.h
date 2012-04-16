@@ -36,23 +36,23 @@ class Player
 		//Aktualizacja danych
 		void Update(sf::Int32 dt, Map* map);
 		void UpdateSprite();
-		sf::Sprite GetSprite() {return m_sprite;}
+		sf::Sprite getSprite() {return m_sprite;}
 
-		sf::FloatRect GetBox(){return box;}
+		sf::FloatRect getBox(){return box;}
 		sf::Vector2f getVel() {return m_vel;}
 
-		sf::Clock GetHitTime() { return hitTime; }
+		sf::Clock getHitTime() { return hitTime; }
 
 		//Poruszanie
 		void GoLeft() { goLeft = true; }
 		void GoRight() { goRight = true; }
 		void GoDown() { goDown = true; }
 
-		bool IsGoingLeft() { return goLeft; }
-		bool IsGoingRight() { return goRight; }
+		bool isGoingLeft() { return goLeft; }
+		bool isGoingRight() { return goRight; }
 
-		int GetHP() { return HP; }
-		int GetScore() {return coins; }
+		int getHP() { return HP; }
+		int getScore() {return coins; }
 
 		void Hurt(int value) { HP -= value; }
 		void Heal(int value) { HP += value; }

@@ -67,13 +67,13 @@ class App
 
 	private:
 		bool Init();
-		bool LoadLevel();
-		void Draw();                // rysowanie 
+		bool loadLevel();
+		void draw();                // rysowanie 
 		void Update(sf::Time dt);	// aktualizacja
 		void ProcessEvents();       // przetwarzanie zdarzeñ, które przysz³y	
 		void CleanUp();
 		void SaveGame();
-		bool LoadGame();
+		bool loadGame();
 		bool SaveExist();
 
 		bool CheckCollision(sf::FloatRect A, sf::FloatRect B);

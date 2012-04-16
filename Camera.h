@@ -15,8 +15,8 @@ class Camera
 	public:
 		Camera(sf::Vector2i winSize, sf::Vector2i lvlSize) : m_winSize(winSize), m_lvlSize(lvlSize){}
 
-		void Set(sf::FloatRect centerRect);
+		void set(sf::FloatRect centerRect);
 
-		sf::View GetView(){return view;}
+		sf::View getView(){return view;}
 		sf::Vector2f getPos() {return m_vPos;}
 };

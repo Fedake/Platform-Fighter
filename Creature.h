@@ -26,7 +26,7 @@ class Creature
 		bool playerAround;
 		bool canJump;
 		bool goLeft, goRight;
-		bool isDead;
+		bool m_isDead;
 
 	public:
 		Creature();
@@ -37,25 +37,25 @@ class Creature
 		void Render(sf::RenderWindow* window);
 
 		void UpdateSprite();
-		sf::Sprite GetSprite() {return m_sprite;}
+		sf::Sprite getSprite() {return m_sprite;}
 
-		sf::FloatRect GetBox(){return box;}
+		sf::FloatRect getBox(){return box;}
 		sf::Vector2f getVel() {return m_vel;}
 
 		//Poruszanie
 		void GoLeft() {goLeft = true;}
 		void GoRight() {goRight = true;}
 
-		bool IsGoingLeft() { return goLeft; }
-		bool IsGoingRight() { return goRight; }
+		bool isGoingLeft() { return goLeft; }
+		bool isGoingRight() { return goRight; }
 
-		int GetPATime() { return PATimer.GetElapsedTime().AsMilliseconds(); }
+		int getPATime() { return PATimer.getElapsedTime().asMilliseconds(); }
 
-		bool IsDead() { return isDead; }
+		bool isDead() { return m_isDead; }
 
-		int GetType() { return m_type; }
+		int getType() { return m_type; }
 
-		float GetHP() { return m_hp; }
+		float getHP() { return m_hp; }
 
 		void StopLeft() {goLeft = false;}
 		void StopRight() {goRight = false;}
@@ -68,8 +68,8 @@ class Creature
 
 		void PlayerAround() { playerAround = true; }
 		void PlayerNotAround() { playerAround = false; }
-		void SetVel(float v) { vel = v; }
+		void setVel(float v) { vel = v; }
 
 		void Hurt();
-		void Die() { isDead = true; }
+		void Die() { m_isDead = true; }
 };

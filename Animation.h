@@ -22,11 +22,11 @@ class Animation
 		Animation(sf::Texture* nTex, int nFrames, float nFTime, int height = 16, int width = 16);
 		void Update();
 
-		sf::Sprite GetSprite(){return m_sprite;}
+		sf::Sprite getSprite(){return m_sprite;}
 
 		void Stop(){m_prevState = m_state; m_state = 0;}
 		void PlayLeft(){m_prevState = m_state; m_state = 1;}
 		void PlayRight(){m_prevState = m_state; m_state = 2;}
 		void PlayAll() { m_prevState = m_state; m_state = 3; }
-		void Restart(){m_clock.Restart();}
+		void restart(){m_clock.restart();}
 };

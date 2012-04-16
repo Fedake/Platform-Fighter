@@ -5,7 +5,7 @@ Map::Map(ResourceManager* resMgr) : m_mapWidth(0), m_mapHeight(0), m_startPos(32
 	m_resMgr = resMgr;
 }
 
-bool Map::LoadNextLevel(std::string name)
+bool Map::loadNextLevel(std::string name)
 {
 	std::ifstream file(name, std::ios::binary);
 	if(file == NULL) return false;
@@ -42,7 +42,7 @@ bool Map::LoadNextLevel(std::string name)
 	return true;
 }
 
-void Map::Draw(sf::RenderWindow* win)
+void Map::draw(sf::RenderWindow* win)
 {
 	for(int j = 0; j < m_mapHeight; j++)
 	{

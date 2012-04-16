@@ -22,11 +22,11 @@ class ResourceManager
 
 		sf::Texture& getTexture(int nr){return *m_tileTex[nr];}
 		sf::Texture* getPlayerTexture(){return m_playerTex;}
-		sf::Texture* GetEntityTexture(int nr){return m_entTex[nr];} 
+		sf::Texture* getEntityTexture(int nr){return m_entTex[nr];} 
 		sf::Texture* getHudTexture(){return m_hudTex;}
-		sf::Texture* GetGuiTexture(){return m_guiTex;}
-		sf::Texture* GetTitleTexture(){return m_titleTex;}
-		sf::Texture* GetBossTexture(int nr){return m_bossTex[nr];}
-		sf::Texture* GetBgTexture(){return m_bgTex;}
-		sf::Texture* GetCreditsTexture(){return m_creditsTex;}
+		sf::Texture* getGuiTexture(){return m_guiTex;}
+		sf::Texture* getTitleTexture(){return m_titleTex;}
+		sf::Texture* getBossTexture(int nr){return m_bossTex[nr];}
+		sf::Texture* getBgTexture(){return m_bgTex;}
+		sf::Texture* getCreditsTexture(){return m_creditsTex;}
 };

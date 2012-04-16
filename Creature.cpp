@@ -9,18 +9,18 @@ Creature::Creature()
 	goLeft = true;
 	goRight = false;
 
-	box.Left = 0;
-	box.Top = 0;
-	box.Width = 16;
-	box.Height = 16;
+	box.left = 0;
+	box.top = 0;
+	box.width = 16;
+	box.height = 16;
 
 	m_type = 20;
 }
 
-Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m_vel(0, 0), canJump(false), isDead(false)
+Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m_vel(0, 0), canJump(false), m_isDead(false)
 {
-	box.Left = pos.x;
-	box.Top = pos.y;
+	box.left = pos.x;
+	box.top = pos.y;
 
 	m_type = type;
 
@@ -42,36 +42,36 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m
 		GoRight();
 	}
 
-	m_hpBar.SetPosition(pos.x, pos.y - 8);
-	m_hpBar.SetSize(sf::Vector2f(16, 4));
-	m_hpBar.SetFillColor(sf::Color::Red);
+	m_hpBar.setPosition(pos.x, pos.y - 8);
+	m_hpBar.setSize(sf::Vector2f(16, 4));
+	m_hpBar.setFillColor(sf::Color::Red);
 
 	switch(m_type)
 	{
 		case 1:
-			box.Width = 16;
-			box.Height = 16;
+			box.width = 16;
+			box.height = 16;
 			m_hpMax = 3;
 			m_hp = 3;
 			vel = 40;
 			break;
 		case 2:
-			box.Width = 16;
-			box.Height = 16;
+			box.width = 16;
+			box.height = 16;
 			m_hpMax = 5;
 			m_hp = 5;
 			vel = 50;
 			break;
 		case 3:
-			box.Width = 16;
-			box.Height = 16;
+			box.width = 16;
+			box.height = 16;
 			m_hpMax = 8;
 			m_hp = 8;
 			vel = 60;
 			break;
 		case 8:
-			box.Width = 32;
-			box.Height = 32;
+			box.width = 32;
+			box.height = 32;
 			m_hpMax = 25;
 			m_hp = 25;
 			vel = 30;
@@ -81,9 +81,9 @@ Creature::Creature(sf::Vector2f pos, int type, sf::Texture* nTex, bool left) : m
 
 void Creature::UpdateSprite()
 {
-	m_sprite = m_anim->GetSprite();
-	m_sprite.SetPosition(box.Left, box.Top);
-	m_hpBar.SetPosition(box.Left, box.Top - 8);
+	m_sprite = m_anim->getSprite();
+	m_sprite.setPosition(box.left, box.top);
+	m_hpBar.setPosition(box.left, box.top - 8);
 }
 
 void Creature::Update(int dt)
@@ -109,20 +109,20 @@ void Creature::Update(int dt)
 		m_anim->Stop();
 	}
 
-	if (playerAround && GetPATime() > 500)
+	if (playerAround && getPATime() > 500)
 	{		
 		if (m_type == 8)
-			SetVel(100);
+			setVel(100);
 	}
 	else
 	{
 		if (m_type == 8)
-			SetVel(30);
+			setVel(30);
 	}
 
 	//Update pozycji
-	box.Left += m_vel.x*(dt/1000.f);
-	box.Top += m_vel.y*(dt/1000.f);
+	box.left += m_vel.x*(dt/1000.f);
+	box.top += m_vel.y*(dt/1000.f);
 
 	//Nalozenie grawitejszyn
 	m_vel.y += 800*(dt/1000.f);
@@ -138,8 +138,8 @@ void Creature::Update(int dt)
 
 void Creature::Render(sf::RenderWindow* win)
 {
-	win->Draw(m_sprite);
-	if(m_hp/m_hpMax != 1) win->Draw(m_hpBar);
+	win->draw(m_sprite);
+	if(m_hp/m_hpMax != 1) win->draw(m_hpBar);
 }
 
 void Creature::SolidCollision(sf::FloatRect A)
@@ -151,14 +151,14 @@ void Creature::SolidCollision(sf::FloatRect A)
 		if(m_vel.x > 0)
 		{
 			//Resetowanie pozycji do stycznej lewostronnie
-			box.Left = A.Left - box.Width;
+			box.left = A.left - box.width;
 			StopRight();
 			GoLeft();
 		}
 		else if(m_vel.x < 0)
 		{
 			//Resetowanie pozycji do stycznej prawostronnie 
-			box.Left = A.Left + A.Width;
+			box.left = A.left + A.width;
 			StopLeft();
 			GoRight();
 		}
@@ -169,14 +169,14 @@ void Creature::SolidCollision(sf::FloatRect A)
 		if(m_vel.y > 0)
 		{
 			//Resetowanie pozycji do stycznej od gory
-			box.Top = A.Top - box.Height;
+			box.top = A.top - box.height;
 			m_vel.y = 0;
 			canJump = true;
 		}
 		else if(m_vel.y < 0)
 		{
 			//Resetowanie pozycji do stycznej od dolu 
-			box.Top = A.Top + A.Height;
+			box.top = A.top + A.height;
 			m_vel.y = 0;
 		}
 	}
@@ -186,8 +186,8 @@ void Creature::SolidCollision(sf::FloatRect A)
 		{
 			if(m_vel.y > 0)//DOL
 			{
-				float xD = box.Left + box.Width - A.Left;
-				float yD = box.Top + box.Height - A.Top;
+				float xD = box.left + box.width - A.left;
+				float yD = box.top + box.height - A.top;
 				
 				/* std::cout << "DOL" << std::endl;
 				std::cout << "-->W PRAWO<-- xD: " << xD << " ---- yD: " << yD << std::endl; */
@@ -195,83 +195,83 @@ void Creature::SolidCollision(sf::FloatRect A)
 				if(xD > yD)
 				{
 					//Resetowanie pozycji do stycznej od gory
-					box.Top = A.Top - box.Height;
+					box.top = A.top - box.height;
 					m_vel.y = 0;
 					canJump = true;
 				}
 				else if (xD < yD+4)
 				{
-					box.Left = A.Left - box.Width;
+					box.left = A.left - box.width;
 					StopRight();
 					GoLeft();
 
 					if (playerAround == true)
 					{
 						playerAround = false;
-						PATimer.Restart();
+						PATimer.restart();
 					}
 				}
 			}
 			else if(m_vel.y < 0) //GORA
 			{
-				float xD = box.Left + box.Width - A.Left;
-				float yD = A.Top + A.Height - box.Top;
+				float xD = box.left + box.width - A.left;
+				float yD = A.top + A.height - box.top;
 
 				/* std::cout << "GORA" << std::endl;
 				std::cout << "-->W PRAWO<-- xD: " << xD << " ---- yD: " << yD << std::endl; */
 
 				if(xD > yD+4)
 				{
-					box.Top = A.Top + A.Height;
+					box.top = A.top + A.height;
 					m_vel.y = 0;
 				}
-				else box.Left = A.Left - box.Width;	
+				else box.left = A.left - box.width;	
 			}
 		}
 		else if(m_vel.x < 0) //Lewo
 		{
 			if(m_vel.y > 0) //Dol
 			{
-				float xD = A.Left + A.Width - box.Left;
-				float yD = box.Top + box.Height - A.Top;
+				float xD = A.left + A.width - box.left;
+				float yD = box.top + box.height - A.top;
 				
 				
 
 				if(xD+4 > yD)
 				{
 					//Resetowanie pozycji do stycznej od gory
-					box.Top = A.Top - box.Height;
+					box.top = A.top - box.height;
 					m_vel.y = 0;
 					canJump = true;
 				}
 				else if (xD+4 < yD)
 				{
-					box.Left = A.Left + A.Width;
+					box.left = A.left + A.width;
 					StopLeft();
 					GoRight();
 
 					if (playerAround == true)
 					{
 						playerAround = false;
-						PATimer.Restart();
+						PATimer.restart();
 					}
 				}
 
 			}
 			else if(m_vel.y < 0)//Gora
 			{
-				float xD = A.Left + A.Width - box.Left;
-				float yD = A.Top + A.Height - box.Top;
+				float xD = A.left + A.width - box.left;
+				float yD = A.top + A.height - box.top;
 				
 				/* std::cout << "GORA" << std::endl;
 				std::cout << "-->W LEWO<-- xD: " << xD << " ---- yD: " << yD << std::endl; */
 
 				if(xD > yD+3)
 				{
-					box.Top = A.Top + A.Height;
+					box.top = A.top + A.height;
 					m_vel.y = 0;
 				}
-				else box.Left = A.Left + A.Width;
+				else box.left = A.left + A.width;
 			}
 		}
 	}
@@ -291,7 +291,7 @@ void Creature::Jump()
 void Creature::Hurt()
 {
 	m_hp -= 1;
-	m_hpBar.SetSize(sf::Vector2f(m_hp/m_hpMax*16, 4));
+	m_hpBar.setSize(sf::Vector2f(m_hp/m_hpMax*16, 4));
 
 	//SMIERC
 	if (m_hp <= 0) 

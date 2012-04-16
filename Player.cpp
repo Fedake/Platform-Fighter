@@ -4,15 +4,15 @@
 Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false),
 															  goDown(false), m_ghost(false)
 {
-	box.Left = pos.x;
-	box.Top = pos.y;
-	box.Width = 16;
-	box.Height = 16;
+	box.left = pos.x;
+	box.top = pos.y;
+	box.width = 16;
+	box.height = 16;
 
 	HP = hp;
 	coins = 0;
 	
-	hitTime.Restart();
+	hitTime.restart();
 	hitTime = ht;
 
 	m_anim = new Animation(nTex, 2, 100);
@@ -20,8 +20,8 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_ve
 
 void Player::UpdateSprite()
 {	
-	m_sprite = m_anim->GetSprite();
-	m_sprite.SetPosition(box.Left, box.Top);
+	m_sprite = m_anim->getSprite();
+	m_sprite.setPosition(box.left, box.top);
 }
 
 void Player::Update(int dt, Map* map)
@@ -56,47 +56,47 @@ void Player::Update(int dt, Map* map)
 	}
 
 	//Update pozycji
-	box.Left += m_vel.x*(dt/1000.f);
-	for(int j = box.Top/16 - 1; j < box.Top/16 + 1; j++)
+	box.left += m_vel.x*(dt/1000.f);
+	for(int j = box.top/16 - 1; j < box.top/16 + 1; j++)
 	{
-		for(int i = box.Left/16 - 1; i < box.Left/16 + 1; i++)
+		for(int i = box.left/16 - 1; i < box.left/16 + 1; i++)
 		{
 			if(map->isSolid(i, j))
 			{
-				if (box.Intersects(map->getBox(static_cast<float>(i), static_cast<float>(j))))
+				if (box.intersects(map->getBox(static_cast<float>(i), static_cast<float>(j))))
 				{
 					if (m_vel.x < 0)
 					{
-						box.Left = map->getBox(static_cast<float>(i), static_cast<float>(j)).Left + map->getBox(static_cast<float>(i), static_cast<float>(j)).Width;
+						box.left = map->getBox(static_cast<float>(i), static_cast<float>(j)).left + map->getBox(static_cast<float>(i), static_cast<float>(j)).width;
 					}
 
 					if (m_vel.x > 0)
 					{
-						box.Left = map->getBox(static_cast<float>(i), static_cast<float>(j)).Left - box.Width;
+						box.left = map->getBox(static_cast<float>(i), static_cast<float>(j)).left - box.width;
 					}
 				}
 			}
 		}
 	}
 
-	box.Top += m_vel.y*(dt/1000.f);
-	for(int j = box.Top/16 - 1; j < box.Top/16 + 1; j++)
+	box.top += m_vel.y*(dt/1000.f);
+	for(int j = box.top/16 - 1; j < box.top/16 + 1; j++)
 	{
-		for(int i = box.Left/16 - 1; i < box.Left/16 + 1; i++)
+		for(int i = box.left/16 - 1; i < box.left/16 + 1; i++)
 		{
 			if(map->isSolid(i, j))
 			{
-				if (box.Intersects(map->getBox(static_cast<float>(i), static_cast<float>(j))))
+				if (box.intersects(map->getBox(static_cast<float>(i), static_cast<float>(j))))
 				{
-					box.Top -= m_vel.y * (dt / 1000.f);
+					box.top -= m_vel.y * (dt / 1000.f);
 					if (m_vel.y < 0)
 					{
-						box.Top = map->getBox(static_cast<float>(i), static_cast<float>(j)).Top + map->getBox(static_cast<float>(i), static_cast<float>(j)).Height;
+						box.top = map->getBox(static_cast<float>(i), static_cast<float>(j)).top + map->getBox(static_cast<float>(i), static_cast<float>(j)).height;
 						m_vel.y = 0;
 					}
 					if (m_vel.y > 0)
 					{
-						box.Top = map->getBox(static_cast<float>(i), static_cast<float>(j)).Top - box.Height;
+						box.top = map->getBox(static_cast<float>(i), static_cast<float>(j)).top - box.height;
 						m_vel.y = 0;
 						canJump = true;
 					}
@@ -119,17 +119,17 @@ void Player::Update(int dt, Map* map)
 
 void Player::CheckCreaturesAround(Creature* creature)
 {
-	if ((creature->GetBox().Top < box.Top+box.Height+10) && (creature->GetBox().Top+creature->GetBox().Height > box.Top-10) &&
-			PHTime.GetElapsedTime().AsMilliseconds() > 500)
+	if ((creature->getBox().top < box.top+box.height+10) && (creature->getBox().top+creature->getBox().height > box.top-10) &&
+			PHTime.getElapsedTime().asMilliseconds() > 500)
 	{
 		creature->PlayerAround();
 
-		if (creature->GetBox().Left < box.Left && creature->GetBox().Left+creature->GetBox().Width+ (creature->GetType() == 8 ? 256 : 64) > box.Left && creature->GetPATime() > 500)
+		if (creature->getBox().left < box.left && creature->getBox().left+creature->getBox().width+ (creature->getType() == 8 ? 256 : 64) > box.left && creature->getPATime() > 500)
 		{
 			creature->StopLeft();
 			creature->GoRight();
 		}
-		else if (creature->GetBox().Left > box.Left && creature->GetBox().Left < box.Left+box.Width+ (creature->GetType() == 8 ? 256 : 64) && creature->GetPATime() > 500)
+		else if (creature->getBox().left > box.left && creature->getBox().left < box.left+box.width+ (creature->getType() == 8 ? 256 : 64) && creature->getPATime() > 500)
 		{
 			creature->StopRight();
 			creature->GoLeft();
@@ -148,29 +148,29 @@ void Player::SolidCollision(sf::FloatRect A)
 
 void Player::CreatureCollision(Creature* creature)
 {
-	if (hitTime.GetElapsedTime().AsSeconds() > 3)
+	if (hitTime.getElapsedTime().asSeconds() > 3)
 	{
-		switch(creature->GetType())
+		switch(creature->getType())
 		{
 		case 1:
 			Hurt(1);
 			std::cout << "Player stracil 1 serduszko" << std::endl;
-			hitTime.Restart();
+			hitTime.restart();
 			break;
 		case 2:
 			Hurt(2);
 			std::cout << "Player stracil 2 serduszka" << std::endl;
-			hitTime.Restart();
+			hitTime.restart();
 			break;
 		case 3:
 			Hurt(3);
 			std::cout << "Player stracil 3 serduszka" << std::endl;
-			hitTime.Restart();
+			hitTime.restart();
 			break;
 		case 8:
 			Hurt(5);
 			std::cout << "Player stracil 5 serduszek" << std::endl;
-			hitTime.Restart();
+			hitTime.restart();
 			break;
 		default: 
 			break;
@@ -178,15 +178,15 @@ void Player::CreatureCollision(Creature* creature)
 		if (HP <= 0)
 			std::cout << "Player padl" << std::endl;
 	}
-	PHTime.Restart();
+	PHTime.restart();
 }
 
 int Player::EntityCollision(Entity* entity)
 {
-	switch(entity->GetType())
+	switch(entity->getType())
 	{
 		case 11:
-			if (!(GetHP() >= 10))
+			if (!(getHP() >= 10))
 			{
 				std::cout << "Player zdobyl serduszko" << std::endl;
 				Heal(1);

@@ -27,9 +27,9 @@ class Map
 		Map(ResourceManager* resMgr);
 		~Map();
 
-		bool LoadNextLevel(std::string levelName);
+		bool loadNextLevel(std::string levelName);
 
-		void Draw(sf::RenderWindow* win);
+		void draw(sf::RenderWindow* win);
 
 		int getEntity(int i, int j) {return m_entities[i][j];}
 		int getMapWidth()	{return m_mapWidth;}

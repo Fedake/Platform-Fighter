@@ -3,13 +3,13 @@
 ResourceManager::ResourceManager()
 {
 	sf::Image sheet;
-	sheet.LoadFromFile("data/gfx/sheet.png");
+	sheet.loadFromFile("data/gfx/sheet.png");
 
 	int x = 0, y = 0;
 	for(int i = 0; i < TOTAL_SPRITES; i++)
 	{
 		m_tileTex[i] = new sf::Texture();
-		m_tileTex[i]->LoadFromImage(sheet, sf::IntRect(x, y, 16, 16));
+		m_tileTex[i]->loadFromImage(sheet, sf::IntRect(x, y, 16, 16));
 
 		x += 16;
 		
@@ -20,43 +20,43 @@ ResourceManager::ResourceManager()
 		}
 	}
 
-	sheet.LoadFromFile("data/gfx/player.png");
+	sheet.loadFromFile("data/gfx/player.png");
 	m_playerTex = new sf::Texture();
-	m_playerTex->LoadFromImage(sheet);
+	m_playerTex->loadFromImage(sheet);
 
-	sheet.LoadFromFile("data/gfx/entSheet.png");
+	sheet.loadFromFile("data/gfx/entSheet.png");
 
 	for(int i = 1; i < TOTAL_ENTITIES; i++)
 	{
 		m_entTex[i] = new sf::Texture();
-		m_entTex[i]->LoadFromImage(sheet, sf::IntRect(0, (i-1)*16, sheet.GetWidth(), 16));
+		m_entTex[i]->loadFromImage(sheet, sf::IntRect(0, (i-1)*16, sheet.getSize().x, 16));
 	}
 
-	sheet.LoadFromFile("data/gfx/bossSheet.png");
+	sheet.loadFromFile("data/gfx/bossSheet.png");
 
 	for (int i = 1; i < 2; i++)
 	{
 		m_bossTex[i] = new sf::Texture();
-		m_bossTex[i]->LoadFromImage(sheet, sf::IntRect(0, (i-1)*32, sheet.GetWidth(), 32));
+		m_bossTex[i]->loadFromImage(sheet, sf::IntRect(0, (i-1)*32, sheet.getSize().x, 32));
 	}
 
-	sheet.LoadFromFile("data/gfx/hudSheet.png");
+	sheet.loadFromFile("data/gfx/hudSheet.png");
 	m_hudTex = new sf::Texture();
-	m_hudTex->LoadFromImage(sheet);
+	m_hudTex->loadFromImage(sheet);
 
-	sheet.LoadFromFile("data/gfx/guiSheet.png");
+	sheet.loadFromFile("data/gfx/guisheet.png");
 	m_guiTex = new sf::Texture();
-	m_guiTex->LoadFromImage(sheet);
+	m_guiTex->loadFromImage(sheet);
 
-	sheet.LoadFromFile("data/gfx/title.png");
+	sheet.loadFromFile("data/gfx/title.png");
 	m_titleTex = new sf::Texture();
-	m_titleTex->LoadFromImage(sheet);
+	m_titleTex->loadFromImage(sheet);
 
-	sheet.LoadFromFile("data/gfx/bg.png");
+	sheet.loadFromFile("data/gfx/bg.png");
 	m_bgTex = new sf::Texture();
-	m_bgTex->LoadFromImage(sheet);
+	m_bgTex->loadFromImage(sheet);
 
-	sheet.LoadFromFile("data/gfx/credits.png");
+	sheet.loadFromFile("data/gfx/credits.png");
 	m_creditsTex = new sf::Texture();
-	m_creditsTex->LoadFromImage(sheet);
+	m_creditsTex->loadFromImage(sheet);
 }

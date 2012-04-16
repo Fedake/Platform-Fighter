@@ -12,7 +12,7 @@ class Tile
 	public:
 		Tile(sf::Vector2f nPos, sf::Texture newTexture);
 
-		void Render(sf::RenderWindow* win){win->Draw(m_spr);}
+		void Render(sf::RenderWindow* win){win->draw(m_spr);}
 
 		void setPos(sf::Vector2f nPos);
 };

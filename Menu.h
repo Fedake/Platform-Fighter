@@ -33,16 +33,16 @@ class Menu
 	public:
 		Menu(int winW, int winH, ResourceManager* resMgr, bool nContinue);
 
-		void SetMousePosition(sf::Vector2f nPos){m_mPos = nPos;}
+		void setMousePosition(sf::Vector2f nPos){m_mPos = nPos;}
 		void Click(bool& quit, int& state);
 		void Toggle() {if(m_type > 0 && m_type < 3)m_active = !m_active;}
 		void OpenMenu() {if(m_type > 0)m_active = true;}
-		void SetContinue(bool n){m_continue = n;}
+		void setContinue(bool n){m_continue = n;}
 		void Die(int score);
 
-		bool IsActive(){return m_active;}
-		int GetType(){return m_type;}
+		bool isActive(){return m_active;}
+		int getType(){return m_type;}
 
 		void Update();
-		void Draw(sf::RenderWindow* win);
+		void draw(sf::RenderWindow* win);
 };

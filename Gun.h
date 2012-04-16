@@ -20,5 +20,5 @@ class Gun
 		sf::CircleShape getBulletShape(int number) {return m_bulletVec[number]->getShape();}
 		sf::FloatRect getBulletBox(int number) {return m_bulletVec[number]->getBox();}
 
-		int GetBullets(){return m_bulletVec.size();}
+		int getBullets(){return m_bulletVec.size();}
 };
