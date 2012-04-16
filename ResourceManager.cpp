@@ -12,7 +12,7 @@ ResourceManager::ResourceManager()
 		m_tileTex[i]->LoadFromImage(sheet, sf::IntRect(x, y, 16, 16));
 
 		x += 16;
-
+		
 		if(x >= 128)
 		{
 			x = 0;
@@ -34,7 +34,7 @@ ResourceManager::ResourceManager()
 
 	sheet.LoadFromFile("data/gfx/bossSheet.png");
 
-	for (int i = 1; i < 5; i++)
+	for (int i = 1; i < 2; i++)
 	{
 		m_bossTex[i] = new sf::Texture();
 		m_bossTex[i]->LoadFromImage(sheet, sf::IntRect(0, (i-1)*32, sheet.GetWidth(), 32));

@@ -70,7 +70,8 @@ void Menu::Die(int score)
 
 	char tmp[8];
 	itoa(score, tmp, 10);
-	std::string deadStr = "Score: " + (std::string)tmp;
+
+	std::string deadStr = "GAME OVER\n\nScore: " + (std::string)tmp;
 
 	m_deadText.SetString(deadStr);
 	m_deadText.SetPosition(290, 300);
