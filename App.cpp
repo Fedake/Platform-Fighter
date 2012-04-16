@@ -24,6 +24,9 @@ bool App::Init()
 
 	std::cout << "sizeof(Map): " << sizeof(Map) << std::endl;
 	bg.setTexture(*m_resMgr->getBgTexture());
+
+	sf::ContextSettings settings = m_window.getSettings();
+	std::cout << settings.majorVersion << "." << settings.minorVersion << std::endl;
 	return true;
 }
 
@@ -31,7 +34,7 @@ bool App::loadLevel()
 {
 	creature.clear();
 	entity.clear();
-
+	
 	m_map = new Map(m_resMgr);
 	std::stringstream level;
 	level << "data/maps/" << m_currentLevel << ".map";
@@ -43,7 +46,8 @@ bool App::loadLevel()
 		std::cout << "No such level";
 		return false;
 	}
-	if (m_currentLevel == 1) m_hp = 10;
+
+	m_hp = 10;
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture(), m_hp);
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
@@ -67,7 +71,6 @@ bool App::loadLevel()
 			}
 		}
 	}
-	
 	m_clean = false;
 	return true;
 }
@@ -141,7 +144,7 @@ void App::Run()
 void App::draw()
 {
 	m_window.clear(sf::Color::White);
-	if(!m_menu->isActive() || m_menu->getType() == 1 || m_menu->getType() == 3)
+	if(!m_menu->isActive() || (m_menu->getType() != 2 && m_menu->getType() != 0))
 	{
 		m_window.setView(m_window.getDefaultView());
 		m_window.draw(bg);
@@ -149,7 +152,7 @@ void App::draw()
     //RYSOWANIE UWZGLEDNIAJAC KAMERE
 	m_window.setView(m_cam->getView());
 	//m_window.Clear(sf::Color(255, 255, 255));
-	if(!m_menu->isActive() || m_menu->getType() == 1 || m_menu->getType() == 3)
+	if(!m_menu->isActive() || (m_menu->getType() != 2 && m_menu->getType() != 0))
 	{
 		for(int i = 0; i < m_gun->getBullets(); i++)
 		{
@@ -174,7 +177,7 @@ void App::draw()
 
 	//RYSOWANIE STALYCH ELEMENTOW EKRANU
 	m_window.setView(m_window.getDefaultView());
-	if(!m_menu->isActive() || m_menu->getType() == 1 || m_menu->getType() == 3)
+	if(!m_menu->isActive() || (m_menu->getType() != 2 && m_menu->getType() != 0))
 	{
 		m_hud->draw(&m_window);
 	}
@@ -223,6 +226,7 @@ void App::ProcessEvents()
 					loadLevel();
 				}
 				if(m_state == 2) loadGame();
+				if(m_state == 3) loadLevel();
 
 				m_state = 0;
 			}
@@ -315,8 +319,8 @@ void App::Update(sf::Time dt)
 				else if (m_player->EntityCollision(entity[current]) == 2)
 				{
 					m_hp = m_player->getHP();
+					m_menu->Next(m_currentLevel);
 					m_currentLevel += 1;
-					loadLevel();
 				}
 			}
 		}

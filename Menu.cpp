@@ -20,6 +20,9 @@ Menu::Menu(int winW, int winH, ResourceManager* resMgr, bool nContinue)
 
 	m_buttons[MAIN_MENU3] = new Button(MAIN_MENU, nTex, sf::Vector2f(280, 500), sf::Vector2f(220, 70));
 
+	m_buttons[CONTINUE2] = new Button(CONTINUE, nTex, sf::Vector2f(280, 400), sf::Vector2f(220, 70));
+	m_buttons[MAIN_MENU4] = new Button(MAIN_MENU, nTex, sf::Vector2f(280, 500), sf::Vector2f(220, 70));
+
 	m_pauseShape.setFillColor(sf::Color(0, 0, 0, 192));
 	m_pauseShape.setSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
 }
@@ -61,6 +64,12 @@ void Menu::Click(bool& quit, int& state)
 	{
 		if(m_buttons[MAIN_MENU3]->Contains(m_mPos)) m_type = 0;
 	}
+
+	else if(m_type == 4)
+	{
+		if(m_buttons[CONTINUE2]->Contains(m_mPos)) {m_type = 1; m_active = false; state = 3;}
+		if(m_buttons[MAIN_MENU4]->Contains(m_mPos)) m_type = 0;
+	}
 }
 
 void Menu::Die(int score)
@@ -75,6 +84,20 @@ void Menu::Die(int score)
 
 	m_deadText.setString(deadStr);
 	m_deadText.setPosition(290, 300);
+}
+
+void Menu::Next(int lv)
+{
+	m_type = 4;
+	m_active = true;
+
+	char tmp[8];
+	itoa(lv, tmp, 10);
+
+	std::string endStr = "Congratulations!\nYou've just beaten level " + (std::string)tmp;
+
+	m_endText.setString(endStr);
+	m_endText.setPosition(290, 300);
 }
 
 void Menu::Update()
@@ -106,20 +129,18 @@ void Menu::Update()
 
 	if(m_type == 2)
 	{
-		if(m_buttons[MAIN_MENU2]->Contains(m_mPos)) 
-		{
-			m_buttons[MAIN_MENU2]->setState(1);
-		}
-		else m_buttons[MAIN_MENU2]->setState(0);
+		m_buttons[MAIN_MENU2]->setState(m_buttons[MAIN_MENU3]->Contains(m_mPos) ? 1 : 0);
 	}
 
 	if(m_type == 3)
 	{
-		if(m_buttons[MAIN_MENU3]->Contains(m_mPos)) 
-		{
-			m_buttons[MAIN_MENU3]->setState(1);
-		}
-		else m_buttons[MAIN_MENU3]->setState(0);
+		m_buttons[MAIN_MENU3]->setState(m_buttons[MAIN_MENU3]->Contains(m_mPos) ? 1 : 0);
+	}
+
+	if(m_type == 4)
+	{
+		m_buttons[CONTINUE2]->setState(m_buttons[CONTINUE2]->Contains(m_mPos) ? 1 : 0);
+		m_buttons[MAIN_MENU4]->setState(m_buttons[MAIN_MENU4]->Contains(m_mPos) ? 1 : 0);
 	}
 }
 
@@ -154,5 +175,13 @@ void Menu::draw(sf::RenderWindow* win)
 		win->draw(m_pauseShape);
 		win->draw(m_deadText);
 		win->draw(m_buttons[MAIN_MENU3]->getSprite());
+	}
+
+	if(m_type == 4)
+	{
+		win->draw(m_pauseShape);
+		win->draw(m_endText);
+		win->draw(m_buttons[CONTINUE2]->getSprite());
+		win->draw(m_buttons[MAIN_MENU4]->getSprite());
 	}
 }
