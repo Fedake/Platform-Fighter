@@ -48,6 +48,7 @@ bool App::loadLevel()
 	}
 
 	m_hp = 10;
+
 	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture(), m_hp);
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
@@ -319,7 +320,6 @@ void App::Update(sf::Time dt)
 					entity.erase(entity.begin() + current);
 				else if (m_player->EntityCollision(entity[current]) == 2)
 				{
-					m_hp = m_player->getHP();
 					m_menu->Next(m_currentLevel);
 					m_currentLevel += 1;
 				}

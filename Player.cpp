@@ -192,36 +192,43 @@ int Player::EntityCollision(Entity* entity)
 {
 	switch(entity->getType())
 	{
+		// Serce
 		case 11:
 			if (!(getHP() >= 10))
 			{
-				std::cout << "Player zdobyl serduszko" << std::endl;
 				Heal(1);
 				return 0;
 			}
 			else return 1;
+		// Srebrny diament
 		case 12:
-			std::cout << "Player zdobyl pienionszka" << std::endl;
 			coins += 10;
 			return 0;
+		// Niebieski diament
 		case 13:
-			std::cout << "Player zdobyl pienionszka" << std::endl;
 			coins += 20;
 			return 0;
+		// Fioletowy diament
 		case 14:
-			std::cout << "Player zdobyl pienionszka" << std::endl;
 			coins += 50;
 			return 0;
+		// Nastepny level
 		case 15:
-			std::cout << "Nastepny level." << std::endl;
 			return 2;
+		// Speed boost
 		case 16:
 			m_xVel = 300;
 			speedBoost = true;
 			SBTime.restart();
 			return 0;
+		// Kolce
+		case 17:
+			HP = 0;
+			return 1;
+		// Save
 		case 20:
 			return 3;
+		// DEFAULT
 		default: 
 			return 1;
 	}
