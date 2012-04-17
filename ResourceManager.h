@@ -2,7 +2,7 @@
 #include <SFML\Graphics.hpp>
 
 #define TOTAL_SPRITES 64
-#define TOTAL_ENTITIES 16
+#define TOTAL_ENTITIES 21
 
 class ResourceManager
 {

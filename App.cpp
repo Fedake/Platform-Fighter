@@ -57,20 +57,22 @@ bool App::loadLevel()
 		for(int i = 0; i < m_map->getMapWidth(); i++)
 		{
 			int type = m_map->getEntity(i, j);
-			if (type > 0 && type < 7)
+			std::cout << "type: " << type << std::endl;
+			if (type > 0 && type < 8)
 			{
 				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->getEntityTexture(type)));
 			}
-			else if (type >=7 && type < 9)
+			else if (type >= 8 && type < 10)
 			{
 				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->getBossTexture(1)));
 			}
-			else if (type >= 9 && type < 16)
+			else if (type >= 10 && type < 21)
 			{
 				entity.push_back(new Entity(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->getEntityTexture(type)));
 			}
 		}
 	}
+	std::cout << "over" << std::endl;
 	m_clean = false;
 	return true;
 }
@@ -80,7 +82,6 @@ void App::CleanUp()
 	if (!m_clean)
 	{
 		std::cout << "CleanUp() started" << std::endl;
-		SaveGame();
 		if (m_player != NULL)
 		{
 			std::cout << std::endl;
@@ -322,6 +323,11 @@ void App::Update(sf::Time dt)
 					m_menu->Next(m_currentLevel);
 					m_currentLevel += 1;
 				}
+				else if (m_player->EntityCollision(entity[current]) == 3)
+				{
+					SaveGame();
+					entity.erase(entity.begin() + current);
+				}
 			}
 		}
 		// MOB GRACZ
@@ -364,6 +370,8 @@ bool App::CheckCollision(sf::FloatRect A, sf::FloatRect B)
 
 void App::SaveGame()
 {
+	std::cout << "Zapis gry." << std::endl;
+
 	Save* save = new Save();
 	
 	save->level = m_currentLevel;

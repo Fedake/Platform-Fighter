@@ -8,7 +8,7 @@ Entity::Entity()
 	box.width = 16;
 	box.height = 16;
 
-	m_type = 20;
+	m_type = 25;
 }
 
 Entity::Entity(sf::Vector2f pos, int type, sf::Texture* nTex)
