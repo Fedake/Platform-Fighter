@@ -312,6 +312,7 @@ void App::Update(sf::Time dt)
 
 		for (unsigned b = 0; b < m_gun->getBullets(); b++)
 		{
+			bool killed = false;
 			for(int j = m_gun->getBulletBox(b).top/16 - 1; j < m_gun->getBulletBox(b).top/16 + 1; j++)
 			{
 				for(int i = m_gun->getBulletBox(b).left/16 - 1; i < m_gun->getBulletBox(b).left/16 + 1; i++)
@@ -322,10 +323,12 @@ void App::Update(sf::Time dt)
 						if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 						{
 							m_gun->KillBullet(b);
-							std::cout << b << std::endl;
+							killed = true;
 						}
 					}
+					if (killed) break;
 				}
+				if (killed) break;
 			}
 		}
 
