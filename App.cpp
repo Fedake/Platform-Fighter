@@ -3,7 +3,7 @@ bool App::Init()
 {
 	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.6", sf::Style::Titlebar);
 
-	m_window.setFramerateLimit(60);
+	//m_window.setFramerateLimit(60);
 	m_window.setKeyRepeatEnabled(false);
 
 	m_resMgr = new ResourceManager();
@@ -21,12 +21,11 @@ bool App::Init()
 
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 
-
 	std::cout << "sizeof(Map): " << sizeof(Map) << std::endl;
 	bg.setTexture(*m_resMgr->getBgTexture());
 
 	sf::ContextSettings settings = m_window.getSettings();
-	std::cout << settings.majorVersion << "." << settings.minorVersion << std::endl;
+	std::cout << "OpenGL v" << settings.majorVersion << "." << settings.minorVersion << std::endl;
 	return true;
 }
 
@@ -182,6 +181,7 @@ void App::draw()
 		m_hud->draw(&m_window);
 	}
 	if(m_menu->isActive()) m_menu->draw(&m_window);
+
 	m_window.display();
 }
 

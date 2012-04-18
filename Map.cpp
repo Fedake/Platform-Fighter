@@ -22,10 +22,10 @@ bool Map::loadNextLevel(std::string name)
 	m_mapHeight = map->h;
 	std::cout << "Map height " << m_mapHeight << std::endl;
 
-	m_startPos.x = map->x;
+	m_startPos.x = static_cast<float>(map->x);
 	std::cout << "Player X: " << m_startPos.x << std::endl;
 
-	m_startPos.y = map->y;
+	m_startPos.y = static_cast<float>(map->y);
 	std::cout << "Player Y: " << m_startPos.y << std::endl;
 
 

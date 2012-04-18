@@ -20,7 +20,7 @@ class ResourceManager
 	public:
 		ResourceManager();
 
-		sf::Texture& getTexture(int nr){return *m_tileTex[nr];}
+		sf::Texture* getTexture(int nr){return m_tileTex[nr];}
 		sf::Texture* getPlayerTexture(){return m_playerTex;}
 		sf::Texture* getEntityTexture(int nr){return m_entTex[nr];} 
 		sf::Texture* getHudTexture(){return m_hudTex;}
