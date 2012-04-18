@@ -16,16 +16,18 @@ class Player
 		Animation* m_anim;
 
 		int m_frame;
+		float m_xVel;
 
 		//Predkosc
 		sf::Vector2f m_vel;
 
-		sf::Clock hitTime, PHTime;
+		sf::Clock hitTime, PHTime, SBTime;
 
 		int HP;
 		int coins;
 
 		bool canJump;
+		bool speedBoost;
 		bool goLeft, goRight, goDown, goUp;
 
 		bool m_ghost;

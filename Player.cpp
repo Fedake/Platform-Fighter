@@ -12,6 +12,8 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_ve
 	HP = hp;
 	coins = 0;
 	
+	m_xVel = 150;
+
 	hitTime.restart();
 	hitTime = ht;
 
@@ -33,12 +35,12 @@ void Player::Update(int dt, Map* map)
 	}
 	else if(goLeft)
 	{
-		m_vel.x = -150;
+		m_vel.x = -m_xVel;
 		if(!m_ghost) m_anim->PlayLeft();
 	}
 	else if(goRight)
 	{
-		m_vel.x = 150;
+		m_vel.x = m_xVel;
 		if(!m_ghost) m_anim->PlayRight();
 	}
 	else
@@ -57,9 +59,9 @@ void Player::Update(int dt, Map* map)
 
 	//Update pozycji
 	box.left += m_vel.x*(dt/1000.f);
-	for(int j = box.top/16 - 1; j < box.top/16 + 1; j++)
+	for(int j = static_cast<int>(box.top)/16 - 1; j < box.top/16 + 1; j++)
 	{
-		for(int i = box.left/16 - 1; i < box.left/16 + 1; i++)
+		for(int i = static_cast<int>(box.left)/16 - 1; i < box.left/16 + 1; i++)
 		{
 			if(map->isSolid(i, j))
 			{
@@ -80,9 +82,9 @@ void Player::Update(int dt, Map* map)
 	}
 
 	box.top += m_vel.y*(dt/1000.f);
-	for(int j = box.top/16 - 1; j < box.top/16 + 1; j++)
+	for(int j = static_cast<int>(box.top)/16 - 1; j < box.top/16 + 1; j++)
 	{
-		for(int i = box.left/16 - 1; i < box.left/16 + 1; i++)
+		for(int i = static_cast<int>(box.left)/16 - 1; i < box.left/16 + 1; i++)
 		{
 			if(map->isSolid(i, j))
 			{
@@ -103,6 +105,13 @@ void Player::Update(int dt, Map* map)
 				}
 			}
 		}
+	}
+
+	// Predkosc 150pix/s
+	if (speedBoost && SBTime.getElapsedTime().asSeconds() > 15)
+	{
+		m_xVel = 150;
+		speedBoost = false;
 	}
 
 	//Nalozenie grawitejszyn
@@ -175,8 +184,6 @@ void Player::CreatureCollision(Creature* creature)
 		default: 
 			break;
 		}
-		if (HP <= 0)
-			std::cout << "Player padl" << std::endl;
 	}
 	PHTime.restart();
 }
@@ -185,29 +192,43 @@ int Player::EntityCollision(Entity* entity)
 {
 	switch(entity->getType())
 	{
+		// Serce
 		case 11:
 			if (!(getHP() >= 10))
 			{
-				std::cout << "Player zdobyl serduszko" << std::endl;
 				Heal(1);
 				return 0;
 			}
 			else return 1;
+		// Srebrny diament
 		case 12:
-			std::cout << "Player zdobyl pienionszka" << std::endl;
 			coins += 10;
 			return 0;
+		// Niebieski diament
 		case 13:
-			std::cout << "Player zdobyl pienionszka" << std::endl;
 			coins += 20;
 			return 0;
+		// Fioletowy diament
 		case 14:
-			std::cout << "Player zdobyl pienionszka" << std::endl;
 			coins += 50;
 			return 0;
+		// Nastepny level
 		case 15:
-			std::cout << "Nastepny level." << std::endl;
 			return 2;
+		// Speed boost
+		case 16:
+			m_xVel = 300;
+			speedBoost = true;
+			SBTime.restart();
+			return 0;
+		// Kolce
+		case 17:
+			HP = 0;
+			return 1;
+		// Save
+		case 20:
+			return 3;
+		// DEFAULT
 		default: 
 			return 1;
 	}
