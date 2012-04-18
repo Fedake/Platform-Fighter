@@ -19,7 +19,7 @@ class Animation
 		int m_state;
 		int m_prevState;
 	public:
-		Animation(sf::Texture* nTex, int nFrames, float nFTime, int height = 16, int width = 16);
+		Animation(sf::Texture* nTex, int nFrames, float nFTime, int width = 16, int height = 16);
 		void Update();
 
 		sf::Sprite getSprite(){return m_sprite;}

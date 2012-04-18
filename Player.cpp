@@ -17,13 +17,13 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_ve
 	hitTime.restart();
 	hitTime = ht;
 
-	m_anim = new Animation(nTex, 2, 100);
+	m_anim = new Animation(nTex, 2, 100, 16, 24);
 }
 
 void Player::UpdateSprite()
 {	
 	m_sprite = m_anim->getSprite();
-	m_sprite.setPosition(box.left, box.top);
+	m_sprite.setPosition(box.left, box.top - 8);
 }
 
 void Player::Update(int dt, Map* map)

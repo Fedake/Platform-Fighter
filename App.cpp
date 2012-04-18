@@ -56,7 +56,6 @@ bool App::loadLevel()
 		for(int i = 0; i < m_map->getMapWidth(); i++)
 		{
 			int type = m_map->getEntity(i, j);
-			std::cout << "type: " << type << std::endl;
 			if (type > 0 && type < 8)
 			{
 				creature.push_back(new Creature(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), type, m_resMgr->getEntityTexture(type)));
@@ -71,7 +70,6 @@ bool App::loadLevel()
 			}
 		}
 	}
-	std::cout << "over" << std::endl;
 	m_clean = false;
 	return true;
 }
@@ -450,12 +448,10 @@ bool App::loadGame()
 		std::cout << "No such level";
 		return false;
 	}
-	std::cout << "lala1" << std::endl;
 
 	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp, save->ht);
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
-	std::cout << "lala2" << std::endl;
 
 	for (unsigned i = 0; i < ENT_MAX_SIZE; ++i)
 	{
@@ -475,7 +471,6 @@ bool App::loadGame()
 			}
 			
 	}
-	std::cout << "lala3" << std::endl;
 
 	for (unsigned i = 0; i < ENT_MAX_SIZE; ++i)
 	{
@@ -487,7 +482,6 @@ bool App::loadGame()
 			entity.push_back(new Entity(sf::Vector2f(x, y), type, m_resMgr->getEntityTexture(type)));
 		
 	}
-	std::cout << "lala4" << std::endl;
 
 	m_clean = false;
 	return true;
