@@ -3,7 +3,6 @@ bool App::Init()
 {
 	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.6", sf::Style::Titlebar);
 
-	//m_window.setFramerateLimit(60);
 	m_window.setKeyRepeatEnabled(false);
 
 	m_resMgr = new ResourceManager();
@@ -125,12 +124,15 @@ void App::Run()
 {
 	if(!Init()) m_done = true;
 	sf::Clock dt;
+	sf::Clock fpsCap;
 
 	dt.restart();
 	// pêtla g³ówna
 	m_done = false;
 	while (!m_done)
 	{
+		fpsCap.restart();
+
 		ProcessEvents();
 		if(dt.getElapsedTime().asSeconds() < 0.1f)
 			Update(dt.getElapsedTime());
@@ -138,6 +140,14 @@ void App::Run()
 		dt.restart();
 		
 		draw();
+		if(fpsCap.getElapsedTime().asMilliseconds() != 0)
+		{
+			if(1000/fpsCap.getElapsedTime().asMilliseconds() > 40)
+			{
+				sf::Time sleepTime = sf::milliseconds((1000/40) - fpsCap.getElapsedTime().asMilliseconds());
+				sf::sleep(sleepTime);
+			}
+		}
 	}
 	m_window.close();
 }
