@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.5.6", sf::Style::Titlebar);
+	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.6.0", sf::Style::Titlebar);
 
 	m_window.setKeyRepeatEnabled(false);
 
@@ -294,33 +294,46 @@ void App::Update(sf::Time dt)
 		{
 			entity[i]->UpdateSprite(dt.asMilliseconds());
 		}
-
-		// WSZYSTKIE KOLIZJI DOTYCZ¥CE MAPY
-		for(int j = 0; j < m_map->getMapHeight(); j++)
+		// MAP MOB
+		for (unsigned curr = 0; curr < creature.size(); ++curr)
 		{
-			for(int i = 0; i < m_map->getMapWidth(); i++)
+			for(int j = creature[curr]->getBox().top/16 - 1; j < creature[curr]->getBox().top/16 + 2; j++)
 			{
-				if(m_map->isSolid(i, j))
+				for(int i = creature[curr]->getBox().left/16 - 1; i < creature[curr]->getBox().left/16 + 2; i++)
 				{
-					// MAP MOB
-					for (unsigned current = 0; current < creature.size(); ++current)
+					if(m_map->isSolid(i, j))
 					{
-						if (CheckCollision(creature[current]->getBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
+						if (CheckCollision(creature[curr]->getBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 						{
-							creature[current]->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
-						}
-					}
-					// MAP BULLET
-					for(int b = 0; b < m_gun->getBullets(); b++)
-					{
-						if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
-						{
-							m_gun->KillBullet(b);
+							creature[curr]->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
 						}
 					}
 				}
 			}
 		}
+
+		// MAP MOB
+		for (unsigned curr = 0; curr < creature.size(); ++curr)
+		{
+			for(int j = creature[curr]->getBox().top/16 - 1; j < creature[curr]->getBox().top/16 + 2; j++)
+			{
+				for(int i = creature[curr]->getBox().left/16 - 1; i < creature[curr]->getBox().left/16 + 2; i++)
+				{
+					if(m_map->isSolid(i, j))
+					{
+						// MAP BULLET
+						for(int b = 0; b < m_gun->getBullets(); b++)
+						{
+							if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
+							{
+								m_gun->KillBullet(b);
+							}
+						}
+					}
+				}
+			}
+		}
+
 		// ENTITY GRACZ
 		for (unsigned current = 0; current < entity.size(); ++current)
 		{
