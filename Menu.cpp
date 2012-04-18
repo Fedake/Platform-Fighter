@@ -129,7 +129,7 @@ void Menu::Update()
 
 	if(m_type == 2)
 	{
-		m_buttons[MAIN_MENU2]->setState(m_buttons[MAIN_MENU3]->Contains(m_mPos) ? 1 : 0);
+		m_buttons[MAIN_MENU2]->setState(m_buttons[MAIN_MENU2]->Contains(m_mPos) ? 1 : 0);
 	}
 
 	if(m_type == 3)

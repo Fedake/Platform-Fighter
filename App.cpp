@@ -295,9 +295,9 @@ void App::Update(sf::Time dt)
 		// MAP MOB
 		for (unsigned curr = 0; curr < creature.size(); ++curr)
 		{
-			for(int j = creature[curr]->getBox().top/16 - 1; j < creature[curr]->getBox().top/16 + 2; j++)
+			for(int j = creature[curr]->getBox().top/16 - 1; j < creature[curr]->getBox().top/16 + 1; j++)
 			{
-				for(int i = creature[curr]->getBox().left/16 - 1; i < creature[curr]->getBox().left/16 + 2; i++)
+				for(int i = creature[curr]->getBox().left/16 - 1; i < creature[curr]->getBox().left/16 + 1; i++)
 				{
 					if(m_map->isSolid(i, j))
 					{
@@ -310,22 +310,19 @@ void App::Update(sf::Time dt)
 			}
 		}
 
-		// MAP MOB
-		for (unsigned curr = 0; curr < creature.size(); ++curr)
+		for (unsigned b = 0; b < m_gun->getBullets(); b++)
 		{
-			for(int j = creature[curr]->getBox().top/16 - 1; j < creature[curr]->getBox().top/16 + 2; j++)
+			for(int j = m_gun->getBulletBox(b).top/16 - 1; j < m_gun->getBulletBox(b).top/16 + 1; j++)
 			{
-				for(int i = creature[curr]->getBox().left/16 - 1; i < creature[curr]->getBox().left/16 + 2; i++)
+				for(int i = m_gun->getBulletBox(b).left/16 - 1; i < m_gun->getBulletBox(b).left/16 + 1; i++)
 				{
 					if(m_map->isSolid(i, j))
 					{
 						// MAP BULLET
-						for(int b = 0; b < m_gun->getBullets(); b++)
+						if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
 						{
-							if(CheckCollision(m_gun->getBulletBox(b), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
-							{
-								m_gun->KillBullet(b);
-							}
+							m_gun->KillBullet(b);
+							std::cout << b << std::endl;
 						}
 					}
 				}
