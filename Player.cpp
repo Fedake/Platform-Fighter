@@ -17,7 +17,7 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_ve
 	hitTime.restart();
 	hitTime = ht;
 
-	m_anim = new Animation(nTex, 2, 100, 16, 24);
+	m_anim = new Animation(nTex, 4, 100, 16, 24);
 }
 
 void Player::UpdateSprite()
@@ -36,12 +36,12 @@ void Player::Update(int dt, Map* map)
 	else if(goLeft)
 	{
 		m_vel.x = -m_xVel;
-		if(!m_ghost) m_anim->PlayLeft();
+		if(!m_ghost) m_anim->PlayRight();
 	}
 	else if(goRight)
 	{
 		m_vel.x = m_xVel;
-		if(!m_ghost) m_anim->PlayRight();
+		if(!m_ghost) m_anim->PlayLeft();
 	}
 	else
 	{
@@ -120,7 +120,7 @@ void Player::Update(int dt, Map* map)
 	//Predkosc graniczna 300pix/s
 	if(m_vel.y > 500) m_vel.y = 500;
 	//Warunek spadania by Dani hehe
-	if(m_vel.y > 20) LockJump();
+	if(m_vel.y > 50) LockJump();
 
 	m_anim->Update();
 	UpdateSprite();
