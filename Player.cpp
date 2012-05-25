@@ -112,6 +112,7 @@ void Player::Update(int dt, Map* map)
 	{
 		m_xVel = 150;
 		speedBoost = false;
+		m_anim->setFrameTime(100);
 	}
 
 	//Nalozenie grawitejszyn
@@ -197,21 +198,21 @@ int Player::EntityCollision(Entity* entity)
 			if (!(getHP() >= 10))
 			{
 				Heal(1);
-				return 0;
+				return 1;
 			}
-			else return 1;
+			else return 0;
 		// Srebrny diament
 		case 12:
 			coins += 10;
-			return 0;
+			return 1;
 		// Niebieski diament
 		case 13:
 			coins += 20;
-			return 0;
+			return 1;
 		// Fioletowy diament
 		case 14:
 			coins += 50;
-			return 0;
+			return 1;
 		// Nastepny level
 		case 15:
 			return 2;
@@ -219,18 +220,19 @@ int Player::EntityCollision(Entity* entity)
 		case 16:
 			m_xVel = 300;
 			speedBoost = true;
+			m_anim->setFrameTime(50);
 			SBTime.restart();
-			return 0;
+			return 1;
 		// Kolce
 		case 17:
 			HP = 0;
-			return 1;
+			return 0;
 		// Save
 		case 20:
 			return 3;
 		// DEFAULT
 		default: 
-			return 1;
+			return 0;
 	}
 }
 void Player::ToggleGhost()

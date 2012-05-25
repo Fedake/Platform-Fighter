@@ -27,6 +27,7 @@ class Menu
 
 		Button* m_buttons[10];
 		sf::RectangleShape m_pauseShape;
+		sf::RectangleShape m_deadShape;
 
 		sf::Text m_deadText;
 		sf::Text m_endText;

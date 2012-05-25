@@ -29,4 +29,5 @@ class Animation
 		void PlayRight(){m_prevState = m_state; m_state = 2;}
 		void PlayAll() { m_prevState = m_state; m_state = 3; }
 		void restart(){m_clock.restart();}
+		void setFrameTime(int t){m_frameTime = t;}
 };

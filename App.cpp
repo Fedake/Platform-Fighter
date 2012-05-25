@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.6.0", sf::Style::Titlebar);
+	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.6.1", sf::Style::Titlebar);
 
 	m_window.setKeyRepeatEnabled(false);
 
@@ -236,7 +236,11 @@ void App::ProcessEvents()
 					loadLevel();
 				}
 				if(m_state == 2) loadGame();
-				if(m_state == 3) loadLevel();
+				if(m_state == 3)
+				{
+					loadLevel();
+					SaveGame();
+				}
 
 				m_state = 0;
 			}
@@ -337,17 +341,22 @@ void App::Update(sf::Time dt)
 		{
 			if (CheckCollision(entity[current]->getBox(), m_player->getBox()))
 			{
-				if (m_player->EntityCollision(entity[current]) == 0)
-					entity.erase(entity.begin() + current);
-				else if (m_player->EntityCollision(entity[current]) == 2)
+				switch(m_player->EntityCollision(entity[current]))
 				{
-					m_menu->Next(m_currentLevel);
-					m_currentLevel += 1;
-				}
-				else if (m_player->EntityCollision(entity[current]) == 3)
-				{
-					SaveGame();
-					entity.erase(entity.begin() + current);
+					case 1: entity.erase(entity.begin() + current); break;
+					case 2:
+					{
+						SaveGame();
+						m_menu->Next(m_currentLevel);
+						m_currentLevel += 1; 
+						break;
+					}
+					case 3:
+					{
+						SaveGame();
+						entity.erase(entity.begin() + current);
+						break;
+					}
 				}
 			}
 		}
@@ -369,7 +378,10 @@ void App::Update(sf::Time dt)
 					m_gun->KillBullet(b);
 					creature[current]->Hurt();
 					if (creature[current]->isDead())
+					{
+						entity.push_back(new Entity(creature[current]->getPos(), creature[current]->getType()+11, m_resMgr->getEntityTexture(creature[current]->getType()+11)));
 						creature.erase(creature.begin() + current);
+					}
 					break;
 				}
 			}

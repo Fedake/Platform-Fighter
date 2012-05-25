@@ -41,6 +41,7 @@ class Creature
 
 		sf::FloatRect getBox(){return box;}
 		sf::Vector2f getVel() {return m_vel;}
+		sf::Vector2f getPos() {return sf::Vector2f(box.left, box.top);}
 
 		//Poruszanie
 		void GoLeft() {goLeft = true;}
