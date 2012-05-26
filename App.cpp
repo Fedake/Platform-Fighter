@@ -314,7 +314,7 @@ void App::Update(sf::Time dt)
 			}
 		}
 
-		for (unsigned b = 0; b < m_gun->getBullets(); b++)
+		for (int b = 0; b < m_gun->getBullets(); b++)
 		{
 			bool killed = false;
 			for(int j = m_gun->getBulletBox(b).top/16 - 1; j < m_gun->getBulletBox(b).top/16 + 1; j++)

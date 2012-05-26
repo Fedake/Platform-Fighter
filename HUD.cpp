@@ -9,7 +9,7 @@ HUD::HUD(sf::Texture* hudTex)
 	{
 		m_hearthSpr[i].setTexture(*hudTex);
 		m_hearthSpr[i].setTextureRect(sf::IntRect(0, 0, 16, 16));
-		m_hearthSpr[i].setPosition(8 + i*16, 8);
+		m_hearthSpr[i].setPosition(8 + i*16.f, 8);
 	}
 }
 

@@ -1,7 +1,7 @@
 #include "Animation.h"
 #include <iostream>
 
-Animation::Animation(sf::Texture* nTex, int nFrames, float nFTime, int width, int height) : m_tex(nTex), m_frames(nFrames), m_frameTime(nFTime)
+Animation::Animation(sf::Texture* nTex, int nFrames, int nFTime, int width, int height) : m_tex(nTex), m_frames(nFrames), m_frameTime(nFTime)
 {
 	m_height = height;
 	m_width = width;
