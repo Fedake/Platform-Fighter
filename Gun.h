@@ -15,12 +15,7 @@ class Gun
 
 		void Shoot(sf::Vector2f mousePos, sf::Vector2f playerPos);
 		void Update(int dt);
-		void KillBullet(int number) 
-		{
-			std::cout << "bf" << std::endl;
-			m_bulletVec.erase(m_bulletVec.begin() + number);
-			std::cout << "af" << std::endl;
-		}
+		void KillBullet(int number) { m_bulletVec.erase(m_bulletVec.begin() + number);}
 		
 		sf::CircleShape getBulletShape(int number) {return m_bulletVec[number]->getShape();}
 		sf::FloatRect getBulletBox(int number) {return m_bulletVec[number]->getBox();}

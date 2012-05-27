@@ -25,6 +25,9 @@ Menu::Menu(int winW, int winH, ResourceManager* resMgr, bool nContinue)
 
 	m_pauseShape.setFillColor(sf::Color(0, 0, 0, 192));
 	m_pauseShape.setSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
+
+	m_deadShape.setFillColor(sf::Color(255, 0, 0, 64));
+	m_deadShape.setSize(sf::Vector2f(static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight)));
 }
 
 void Menu::Click(bool& quit, int& state)
@@ -83,7 +86,7 @@ void Menu::Die(int score)
 	std::string deadStr = "GAME OVER\n\nScore: " + (std::string)tmp;
 
 	m_deadText.setString(deadStr);
-	m_deadText.setPosition(290, 300);
+	m_deadText.setPosition(400-m_deadText.getGlobalBounds().width/2, 300);
 }
 
 void Menu::Next(int lv)
@@ -97,7 +100,7 @@ void Menu::Next(int lv)
 	std::string endStr = "Congratulations!\nYou've just beaten level " + (std::string)tmp;
 
 	m_endText.setString(endStr);
-	m_endText.setPosition(290, 300);
+	m_endText.setPosition(400-m_endText.getGlobalBounds().width/2, 300);
 }
 
 void Menu::Update()
@@ -172,7 +175,7 @@ void Menu::draw(sf::RenderWindow* win)
 
 	if(m_type == 3)
 	{
-		win->draw(m_pauseShape);
+		win->draw(m_deadShape);
 		win->draw(m_deadText);
 		win->draw(m_buttons[MAIN_MENU3]->getSprite());
 	}
