@@ -71,6 +71,7 @@ bool App::loadLevel()
 		}
 	}
 	m_clean = false;
+	SaveGame();
 	return true;
 }
 
@@ -239,7 +240,6 @@ void App::ProcessEvents()
 				if(m_state == 3)
 				{
 					loadLevel();
-					SaveGame();
 				}
 
 				m_state = 0;
