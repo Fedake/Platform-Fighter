@@ -7,7 +7,7 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_ve
 	box.left = pos.x;
 	box.top = pos.y;
 	box.width = 16;
-	box.height = 16;
+	box.height = 24;
 
 	HP = hp;
 	coins = 0;
@@ -23,7 +23,7 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_ve
 void Player::UpdateSprite()
 {	
 	m_sprite = m_anim->getSprite();
-	m_sprite.setPosition(box.left, box.top - 8);
+	m_sprite.setPosition(box.left, box.top);
 }
 
 void Player::Update(int dt, Map* map)
@@ -59,7 +59,7 @@ void Player::Update(int dt, Map* map)
 
 	//Update pozycji
 	box.left += m_vel.x*(dt/1000.f);
-	for(int j = static_cast<int>(box.top)/16 - 1; j < box.top/16 + 1; j++)
+	for(int j = static_cast<int>(box.top)/16 - 1; j < box.top/16 + 2; j++)
 	{
 		for(int i = static_cast<int>(box.left)/16 - 1; i < box.left/16 + 1; i++)
 		{
@@ -82,7 +82,7 @@ void Player::Update(int dt, Map* map)
 	}
 
 	box.top += m_vel.y*(dt/1000.f);
-	for(int j = static_cast<int>(box.top)/16 - 1; j < box.top/16 + 1; j++)
+	for(int j = static_cast<int>(box.top)/16 - 1; j < box.top/16 + 2; j++)
 	{
 		for(int i = static_cast<int>(box.left)/16 - 1; i < box.left/16 + 1; i++)
 		{
