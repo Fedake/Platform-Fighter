@@ -38,10 +38,18 @@ bool App::loadLevel()
 	level << "data/maps/" << m_currentLevel << ".map";
 	std::cout << level.str() << std::endl;
 	std::cout << "Level: " << level.str() << std::endl;
-	if(!m_map->loadNextLevel(level.str()))
+
+	int sig = m_map->loadNextLevel(level.str());
+	if(sig == 0)
 	{
 		std::cout << "Level: " << level.str() << std::endl;
 		std::cout << "No such level";
+		return false;
+	}
+	if(sig != m_currentLevel)
+	{
+		std::cout << "Level: " << level.str() << std::endl;
+		std::cout << "Level has wrong signature";
 		return false;
 	}
 

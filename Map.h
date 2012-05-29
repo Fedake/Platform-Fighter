@@ -27,7 +27,7 @@ class Map
 		Map(ResourceManager* resMgr);
 		~Map();
 
-		bool loadNextLevel(std::string levelName);
+		int loadNextLevel(std::string levelName);
 
 		void draw(sf::RenderWindow* win);
 
@@ -43,6 +43,7 @@ class Map
 
 struct MapFile
 {	
+	int nr;
 	int w, h, x, y;
 
 	char tiles[MAP_WIDTH][MAP_HEIGHT];

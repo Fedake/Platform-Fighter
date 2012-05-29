@@ -5,10 +5,10 @@ Map::Map(ResourceManager* resMgr) : m_mapWidth(0), m_mapHeight(0), m_startPos(32
 	m_resMgr = resMgr;
 }
 
-bool Map::loadNextLevel(std::string name)
+int Map::loadNextLevel(std::string name)
 {
 	std::ifstream file(name, std::ios::binary);
-	if(file == NULL) return false;
+	if(file == NULL) return 0;
 
 	char* temp = new char[sizeof(MapFile)];
 	file.read(temp, sizeof(MapFile));
@@ -28,7 +28,6 @@ bool Map::loadNextLevel(std::string name)
 	m_startPos.y = static_cast<float>(map->y);
 	std::cout << "Player Y: " << m_startPos.y << std::endl;
 
-
 	for(int j = 0; j < m_mapHeight; j++)
 	{
 		for(int i = 0; i < m_mapWidth; i++)
@@ -39,7 +38,7 @@ bool Map::loadNextLevel(std::string name)
 		}
 	}
 	std::cout << "Map initialized successfully" <<  std::endl;
-	return true;
+	return map->nr;
 }
 
 void Map::draw(sf::RenderWindow* win)
