@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.6.1", sf::Style::Titlebar);
+	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.7.0", sf::Style::Titlebar);
 
 	m_window.setKeyRepeatEnabled(false);
 
@@ -46,16 +46,16 @@ bool App::loadLevel()
 		std::cout << "No such level";
 		return false;
 	}
-	if(sig != m_currentLevel)
+	/*if(sig != m_currentLevel)
 	{
 		std::cout << "Level: " << level.str() << std::endl;
 		std::cout << "Level has wrong signature";
 		return false;
-	}
-
+	}*/
+	std::cout << sig << "  " << m_currentLevel << std::endl;
 	m_hp = 10;
 
-	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture(), m_hp);
+	m_player = new Player(m_map->getPlayerPos(), m_resMgr, m_hp);
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
 
@@ -469,7 +469,7 @@ bool App::loadGame()
 		return false;
 	}
 
-	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp, save->ht);
+	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr, save->hp, save->ht);
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
 

@@ -15,6 +15,8 @@ class Player
 		sf::Sprite m_sprite;
 		Animation* m_anim;
 
+		sf::Sound m_jumpSnd;
+
 		int m_frame;
 		float m_xVel;
 
@@ -33,7 +35,7 @@ class Player
 		bool m_ghost;
 
 	public:
-		Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht = *new sf::Clock);
+		Player(sf::Vector2f pos, ResourceManager* nRes, int hp, sf::Clock ht = *new sf::Clock);
 		
 		//Aktualizacja danych
 		void Update(sf::Int32 dt, Map* map);

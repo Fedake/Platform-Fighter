@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false),
+Player::Player(sf::Vector2f pos, ResourceManager* nRes, int hp, sf::Clock ht) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false),
 															  goDown(false), m_ghost(false)
 {
 	box.left = pos.x;
@@ -17,7 +17,9 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_ve
 	hitTime.restart();
 	hitTime = ht;
 
-	m_anim = new Animation(nTex, 4, 100, 16, 24);
+	m_anim = new Animation(nRes->getPlayerTexture(), 4, 100, 16, 24);
+
+	m_jumpSnd.setBuffer(*nRes->getJumpSnd());
 }
 
 void Player::UpdateSprite()
@@ -248,6 +250,7 @@ void Player::Jump()
 {
 	if(canJump)
 	{
+		m_jumpSnd.play();
 		m_vel.y = -350;
 		LockJump();
 	}
