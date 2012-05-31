@@ -91,7 +91,8 @@ struct Save
 {
 	int level, hp;
 	float posX, posY;
-	sf::Clock ht;
+	sf::Clock ht, SBTime;
+	bool speedBoost;
 
 	EntData creatureData[ENT_MAX_SIZE];
 	EntData entityData[ENT_MAX_SIZE];

@@ -47,7 +47,7 @@ bool App::loadLevel()
 
 	m_hp = 10;
 
-	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture(), m_hp);
+	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture(), m_hp, *new sf::Clock, false, *new sf::Clock);
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
 
@@ -414,6 +414,9 @@ void App::SaveGame()
 	save->posY = m_player->getBox().top;
 
 	save->ht = m_player->getHitTime();
+
+	save->speedBoost = m_player->getSpeedBoost();
+	save->SBTime = m_player->getSpeedBoostTime();
 	
 	ZeroMemory(save->creatureData, sizeof(save->creatureData));
 	ZeroMemory(save->entityData, sizeof(save->entityData));
@@ -432,6 +435,9 @@ void App::SaveGame()
 		save->entityData[i].y = entity[i]->getBox().top;
 		save->entityData[i].type = entity[i]->getType();
 	}
+
+	std::cout << "speedBoost: " << m_player->getSpeedBoost() << std::endl;
+	std::cout << "speedBoostTime: " << m_player->getSpeedBoostTime().getElapsedTime().asSeconds();
 
 	std::ofstream file("save.dat", std::ios::binary);
 	file.write((char*)(save), sizeof(Save));
@@ -461,7 +467,8 @@ bool App::loadGame()
 		return false;
 	}
 
-	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp, save->ht);
+	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp, save->ht,
+						  save->speedBoost, save->SBTime);
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
 

@@ -1,7 +1,8 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false),
+Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht, bool sB, sf::Clock sbtime)
+				: m_vel(0, 0), canJump(false), goLeft(false), goRight(false), goUp(false),
 															  goDown(false), m_ghost(false)
 {
 	box.left = pos.x;
@@ -11,6 +12,9 @@ Player::Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht) : m_ve
 
 	HP = hp;
 	coins = 0;
+
+	SBTime = sbtime;
+	speedBoost = sB;
 	
 	m_xVel = 150;
 

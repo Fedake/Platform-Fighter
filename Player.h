@@ -33,7 +33,7 @@ class Player
 		bool m_ghost;
 
 	public:
-		Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht = *new sf::Clock);
+		Player(sf::Vector2f pos, sf::Texture* nTex, int hp, sf::Clock ht, bool sB, sf::Clock sbtime);
 		
 		//Aktualizacja danych
 		void Update(sf::Int32 dt, Map* map);
@@ -55,6 +55,9 @@ class Player
 
 		int getHP() { return HP; }
 		int getScore() {return coins; }
+
+		sf::Clock getSpeedBoostTime() { return SBTime; }
+		bool getSpeedBoost() { return speedBoost; }
 
 		void Hurt(int value) { HP -= value; }
 		void Heal(int value) { HP += value; }
