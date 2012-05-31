@@ -20,7 +20,7 @@
 #include <SFML/Graphics.hpp>
 
 const int TILE_COUNT = 1024;
-const int ENT_MAX_SIZE = 32;
+const int ENT_MAX_SIZE = 512;
 
 class App
 {

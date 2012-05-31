@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include <SFML\Audio.hpp>
 
 #define TOTAL_SPRITES 64
 #define TOTAL_ENTITIES 21
@@ -17,6 +18,8 @@ class ResourceManager
 		sf::Texture* m_bgTex;
 		sf::Texture* m_creditsTex;
 
+		sf::SoundBuffer* m_jumpSnd;
+
 	public:
 		ResourceManager();
 
@@ -29,4 +32,6 @@ class ResourceManager
 		sf::Texture* getBossTexture(int nr){return m_bossTex[nr];}
 		sf::Texture* getBgTexture(){return m_bgTex;}
 		sf::Texture* getCreditsTexture(){return m_creditsTex;}
+
+		sf::SoundBuffer* getJumpSnd(){return m_jumpSnd;}
 };

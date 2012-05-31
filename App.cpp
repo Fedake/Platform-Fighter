@@ -1,7 +1,7 @@
 #include "App.h"
 bool App::Init()
 {
-	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.6.1", sf::Style::Titlebar);
+	m_window.create(sf::VideoMode(m_screenWidth, m_screenHeight, 32), "Platform Fighter v0.7.0", sf::Style::Titlebar);
 
 	m_window.setKeyRepeatEnabled(false);
 
@@ -38,16 +38,25 @@ bool App::loadLevel()
 	level << "data/maps/" << m_currentLevel << ".map";
 	std::cout << level.str() << std::endl;
 	std::cout << "Level: " << level.str() << std::endl;
-	if(!m_map->loadNextLevel(level.str()))
+
+	int sig = m_map->loadNextLevel(level.str());
+	if(sig == 0)
 	{
 		std::cout << "Level: " << level.str() << std::endl;
 		std::cout << "No such level";
 		return false;
 	}
-
+	/*if(sig != m_currentLevel)
+	{
+		std::cout << "Level: " << level.str() << std::endl;
+		std::cout << "Level has wrong signature";
+		return false;
+	}*/
+	std::cout << sig << "  " << m_currentLevel << std::endl;
 	m_hp = 10;
 
-	m_player = new Player(m_map->getPlayerPos(), m_resMgr->getPlayerTexture(), m_hp, *new sf::Clock, false, *new sf::Clock);
+	m_player = new Player(m_map->getPlayerPos(), m_resMgr, m_hp, *new sf::Clock, false, *new sf::Clock);
+
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();
 
@@ -71,6 +80,7 @@ bool App::loadLevel()
 		}
 	}
 	m_clean = false;
+	SaveGame();
 	return true;
 }
 
@@ -239,7 +249,6 @@ void App::ProcessEvents()
 				if(m_state == 3)
 				{
 					loadLevel();
-					SaveGame();
 				}
 
 				m_state = 0;
@@ -467,7 +476,7 @@ bool App::loadGame()
 		return false;
 	}
 
-	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr->getPlayerTexture(), save->hp, save->ht,
+	m_player = new Player(sf::Vector2f(save->posX, save->posY), m_resMgr, save->hp, save->ht,
 						  save->speedBoost, save->SBTime);
 	m_cam = new Camera(sf::Vector2i(m_window.getSize().x, m_window.getSize().y), sf::Vector2i(m_map->getMapWidth(), m_map->getMapHeight()));
 	m_gun = new Gun();

@@ -59,4 +59,7 @@ ResourceManager::ResourceManager()
 	sheet.loadFromFile("data/gfx/credits.png");
 	m_creditsTex = new sf::Texture();
 	m_creditsTex->loadFromImage(sheet);
+
+	m_jumpSnd = new sf::SoundBuffer();
+	m_jumpSnd->loadFromFile("data/sfx/jump.wav");
 }
