@@ -17,7 +17,7 @@ class Map
 		Tile* m_tiles[MAP_WIDTH][MAP_HEIGHT];
 		int m_entities[MAP_WIDTH][MAP_HEIGHT];
 
-		bool m_solidMap[MAP_WIDTH][MAP_HEIGHT];
+		int m_solidMap[MAP_WIDTH][MAP_HEIGHT];
 
 		int m_mapWidth, m_mapHeight;
 		
@@ -35,7 +35,8 @@ class Map
 		int getMapWidth()	{return m_mapWidth;}
 		int getMapHeight()	{return m_mapHeight;}
 		sf::Vector2f getPlayerPos() {return m_startPos;} 
-		bool isSolid(int x, int y) {return m_solidMap[x][y];}
+		bool isSolid(int x, int y) { if (m_solidMap[x][y] == 1) return true; else return false; }
+		bool isHalfSolid(int x, int y) { if (m_solidMap[x][y] == 2) return true; else return false; }
 		sf::FloatRect getBox(float x, float y){return sf::FloatRect(x*16, y*16, 16, 16);}
 
 		Tile* getTile(int x, int y) {return m_tiles[x][y];}
@@ -47,6 +48,6 @@ struct MapFile
 	int w, h, x, y;
 
 	char tiles[MAP_WIDTH][MAP_HEIGHT];
-	bool solid[MAP_WIDTH][MAP_HEIGHT];
+	int solid[MAP_WIDTH][MAP_HEIGHT];
 	char ents[MAP_WIDTH][MAP_HEIGHT];
 };

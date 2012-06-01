@@ -33,7 +33,7 @@ int Map::loadNextLevel(std::string name)
 		for(int i = 0; i < m_mapWidth; i++)
 		{
 			m_tiles[i][j] = new Tile(sf::Vector2f(static_cast<float>(i*16), static_cast<float>(j*16)), m_resMgr->getTexture(map->tiles[i][j]));
-			m_solidMap[i][j] = map->solid[i][j] ? true : false;
+			m_solidMap[i][j] = map->solid[i][j];
 			m_entities[i][j] = map->ents[i][j];
 		}
 	}

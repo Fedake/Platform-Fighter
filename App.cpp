@@ -319,6 +319,13 @@ void App::Update(sf::Time dt)
 							creature[curr]->SolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
 						}
 					}
+					if(m_map->isHalfSolid(i, j))
+					{
+						if (CheckCollision(creature[curr]->getBox(), m_map->getBox(static_cast<float>(i), static_cast<float>(j))))
+						{
+							creature[curr]->HalfSolidCollision(m_map->getBox(static_cast<float>(i), static_cast<float>(j)));
+						}
+					}
 				}
 			}
 		}

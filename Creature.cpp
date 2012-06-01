@@ -278,6 +278,27 @@ void Creature::SolidCollision(sf::FloatRect A)
 	UpdateSprite();
 }
 
+void Creature::HalfSolidCollision(sf::FloatRect A)
+{
+
+	//Jesli obiekt porusza sie w prawo
+	if (m_vel.x > 0)
+	{	
+		//Resetowanie pozycji do stycznej lewostronnie
+		box.left = A.left - box.width;
+		StopRight();
+		GoLeft();
+	}
+	else if(m_vel.x < 0)
+	{
+		//Resetowanie pozycji do stycznej prawostronnie 
+		box.left = A.left + A.width;
+		StopLeft();
+		GoRight();
+	}
+
+	UpdateSprite();
+}
 
 void Creature::Jump()
 {
