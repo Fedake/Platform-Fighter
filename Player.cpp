@@ -254,7 +254,7 @@ void Player::Jump()
 {
 	if(canJump)
 	{
-		m_jumpSnd.play();
+		//m_jumpSnd.play();
 		m_vel.y = -350;
 		LockJump();
 	}

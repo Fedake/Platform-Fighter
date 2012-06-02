@@ -452,9 +452,6 @@ void App::SaveGame()
 		save->entityData[i].type = entity[i]->getType();
 	}
 
-	std::cout << "speedBoost: " << m_player->getSpeedBoost() << std::endl;
-	std::cout << "speedBoostTime: " << m_player->getSpeedBoostTime().getElapsedTime().asSeconds();
-
 	std::ofstream file("save.dat", std::ios::binary);
 	file.write((char*)(save), sizeof(Save));
 	file.close();

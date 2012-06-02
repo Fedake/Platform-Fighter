@@ -23,8 +23,8 @@ Entity::Entity(sf::Vector2f pos, int type, sf::Texture* nTex)
 	switch (type)
 	{
 		case 11: m_animFrames = 5; break;
-		//case 12: m_animFrames = 2; break;
 		case 15: m_animFrames = 5; break;
+		default: m_animFrames = 1; break;
 	}
 	m_anim = new Animation(nTex, m_animFrames, 100);
 }
