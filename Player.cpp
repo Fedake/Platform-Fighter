@@ -65,22 +65,25 @@ void Player::Update(int dt, Map* map)
 
 	//Update pozycji
 	box.left += m_vel.x*(dt/1000.f);
-	for(int j = static_cast<int>(box.top)/16 - 1; j < box.top/16 + 2; j++)
+	if(!m_ghost)
 	{
-		for(int i = static_cast<int>(box.left)/16 - 1; i < box.left/16 + 1; i++)
+		for(int j = static_cast<int>(box.top)/16 - 1; j < box.top/16 + 2; j++)
 		{
-			if(map->isSolid(i, j))
+			for(int i = static_cast<int>(box.left)/16 - 1; i < box.left/16 + 1; i++)
 			{
-				if (box.intersects(map->getBox(static_cast<float>(i), static_cast<float>(j))))
+				if(map->isSolid(i, j))
 				{
-					if (m_vel.x < 0)
+					if (box.intersects(map->getBox(static_cast<float>(i), static_cast<float>(j))))
 					{
-						box.left = map->getBox(static_cast<float>(i), static_cast<float>(j)).left + map->getBox(static_cast<float>(i), static_cast<float>(j)).width;
-					}
+						if (m_vel.x < 0)
+						{
+							box.left = map->getBox(static_cast<float>(i), static_cast<float>(j)).left + map->getBox(static_cast<float>(i), static_cast<float>(j)).width;
+						}
 
-					if (m_vel.x > 0)
-					{
-						box.left = map->getBox(static_cast<float>(i), static_cast<float>(j)).left - box.width;
+						if (m_vel.x > 0)
+						{
+							box.left = map->getBox(static_cast<float>(i), static_cast<float>(j)).left - box.width;
+						}
 					}
 				}
 			}
@@ -88,31 +91,33 @@ void Player::Update(int dt, Map* map)
 	}
 
 	box.top += m_vel.y*(dt/1000.f);
-	for(int j = static_cast<int>(box.top)/16 - 1; j < box.top/16 + 2; j++)
+	if(!m_ghost)
 	{
-		for(int i = static_cast<int>(box.left)/16 - 1; i < box.left/16 + 1; i++)
+		for(int j = static_cast<int>(box.top)/16 - 1; j < box.top/16 + 2; j++)
 		{
-			if(map->isSolid(i, j))
+			for(int i = static_cast<int>(box.left)/16 - 1; i < box.left/16 + 1; i++)
 			{
-				if (box.intersects(map->getBox(static_cast<float>(i), static_cast<float>(j))))
+				if(map->isSolid(i, j))
 				{
-					box.top -= m_vel.y * (dt / 1000.f);
-					if (m_vel.y < 0)
+					if (box.intersects(map->getBox(static_cast<float>(i), static_cast<float>(j))))
 					{
-						box.top = map->getBox(static_cast<float>(i), static_cast<float>(j)).top + map->getBox(static_cast<float>(i), static_cast<float>(j)).height;
-						m_vel.y = 0;
-					}
-					if (m_vel.y > 0)
-					{
-						box.top = map->getBox(static_cast<float>(i), static_cast<float>(j)).top - box.height;
-						m_vel.y = 0;
-						canJump = true;
+						box.top -= m_vel.y * (dt / 1000.f);
+						if (m_vel.y < 0)
+						{
+							box.top = map->getBox(static_cast<float>(i), static_cast<float>(j)).top + map->getBox(static_cast<float>(i), static_cast<float>(j)).height;
+							m_vel.y = 0;
+						}
+						if (m_vel.y > 0)
+						{
+							box.top = map->getBox(static_cast<float>(i), static_cast<float>(j)).top - box.height;
+							m_vel.y = 0;
+							canJump = true;
+						}
 					}
 				}
 			}
 		}
 	}
-
 	// Predkosc 150pix/s
 	if (speedBoost && SBTime.getElapsedTime().asSeconds() > 15)
 	{
@@ -164,7 +169,7 @@ void Player::SolidCollision(sf::FloatRect A)
 
 void Player::CreatureCollision(Creature* creature)
 {
-	if (hitTime.getElapsedTime().asSeconds() > 3)
+	if (hitTime.getElapsedTime().asSeconds() > 3 && !m_ghost)
 	{
 		switch(creature->getType())
 		{

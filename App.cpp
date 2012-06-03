@@ -299,7 +299,7 @@ void App::Update(sf::Time dt)
 		for (unsigned i = 0; i < creature.size(); ++i)
 		{
 			creature[i]->Update(dt.asMilliseconds());
-			m_player->CheckCreaturesAround(creature[i]);
+			//m_player->CheckCreaturesAround(creature[i]);
 		}
 		for (unsigned i = 0; i < entity.size(); ++i)
 		{
